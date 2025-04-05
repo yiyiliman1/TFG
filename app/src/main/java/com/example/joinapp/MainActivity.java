@@ -1,5 +1,6 @@
 package com.example.joinapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -21,50 +22,52 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        ImageView iconname = findViewById(R.id.IconName);
         ImageView iconapp = findViewById(R.id.iconjoin);
+        ImageView iconname = findViewById(R.id.IconName);
 
-        // Crear una animación de desvanecimiento (fade-in) para el primer icono
-        AlphaAnimation fadeInIconApp = new AlphaAnimation(0, 1); // De invisible (0) a visible (1)
-        fadeInIconApp.setDuration(2000); // Duración de la animación para el primer icono (2 segundos)
-        iconapp.setVisibility(View.VISIBLE); // Asegurarse de que el icono sea visible
-        iconapp.startAnimation(fadeInIconApp); // Iniciar la animación para el primer icono
-
-        // Usar un Handler para retrasar la aparición del segundo icono
-        new Handler().postDelayed(new Runnable() {
+        // Listener para cambiar de actividad
+        iconname.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                // Crear una animación de desvanecimiento (fade-in) para el segundo icono
-                AlphaAnimation fadeInIconName = new AlphaAnimation(0, 1); // De invisible (0) a visible (1)
-                fadeInIconName.setDuration(2000); // Duración de la animación para el segundo icono (2 segundos)
-                iconname.setVisibility(View.VISIBLE); // Asegurarse de que el icono sea visible
-                iconname.startAnimation(fadeInIconName); // Iniciar la animación de desvanecimiento
-
-                // Usar un Handler para retrasar la animación de escala después de que el segundo icono haya aparecido
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Crear una animación de escala para el segundo icono después de que se haya desvanecido
-                        ScaleAnimation scaleAnimation = new ScaleAnimation(
-                                1f, 1.2f, // Escala de inicio y fin en el eje X
-                                1f, 1.2f, // Escala de inicio y fin en el eje Y
-                                Animation.RELATIVE_TO_SELF, 0.5f, // Centrado en el eje X
-                                Animation.RELATIVE_TO_SELF, 0.5f // Centrado en el eje Y
-                        );
-                        scaleAnimation.setDuration(600); // Duración de la animación (600 ms)
-                        scaleAnimation.setRepeatCount(Animation.INFINITE); // Repetir infinitamente
-                        scaleAnimation.setRepeatMode(Animation.REVERSE); // Efecto rebote
-
-                        iconname.startAnimation(scaleAnimation); // Iniciar la animación de escala
-                    }
-                }, 2000); // Esperar 2 segundos para que termine la animación de desvanecimiento antes de comenzar la animación de escala
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InicioSesion.class);
+                startActivity(intent);
             }
-        }, 3000); // 3000 milisegundos = 3 segundos de retraso antes de que aparezca el segundo icono
+        });
+
+        // Animación de fade-in para el icono principal
+        AlphaAnimation fadeInIconApp = new AlphaAnimation(0, 1);
+        fadeInIconApp.setDuration(2000);
+        iconapp.setVisibility(View.VISIBLE);
+        iconapp.startAnimation(fadeInIconApp);
+
+        // Espera 3 segundos para mostrar el segundo icono
+        new Handler().postDelayed(() -> {
+            AlphaAnimation fadeInIconName = new AlphaAnimation(0, 1);
+            fadeInIconName.setDuration(2000);
+            iconname.setVisibility(View.VISIBLE);
+            iconname.startAnimation(fadeInIconName);
+
+            // Espera otros 2 segundos y hace animación de rebote
+            new Handler().postDelayed(() -> {
+                ScaleAnimation scaleAnimation = new ScaleAnimation(
+                        1f, 1.2f,
+                        1f, 1.2f,
+                        Animation.RELATIVE_TO_SELF, 0.5f,
+                        Animation.RELATIVE_TO_SELF, 0.5f
+                );
+                scaleAnimation.setDuration(600);
+                scaleAnimation.setRepeatCount(Animation.INFINITE);
+                scaleAnimation.setRepeatMode(Animation.REVERSE);
+
+                iconname.startAnimation(scaleAnimation);
+            }, 2000);
+
+        }, 3000);
     }
 }
