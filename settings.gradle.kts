@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "JoinApp"
+rootProject.name = "JOIN"
 include(":app")
- 
