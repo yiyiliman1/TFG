@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dni_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".dniActivity"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="top|center_horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="180dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="40dp"
+            app:srcCompat="@drawable/joinreal" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="REGISTRO"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewDni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:text="DNI o NIE"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextDni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/edittext_custom"
+            android:inputType="text"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/buttonRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            app:backgroundTint="#147001"
+            android:text="Registrarse"
+           />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
