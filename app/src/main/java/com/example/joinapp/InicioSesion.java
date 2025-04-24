@@ -1,6 +1,9 @@
 package com.example.joinapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +23,16 @@ public class InicioSesion extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        TextView rgt = findViewById(R.id.changeToRegister);
+
+        // Listener para cambiar de actividad
+        rgt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(InicioSesion.this, Registro.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
