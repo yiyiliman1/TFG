@@ -38,8 +38,8 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
         });
         txtLat=findViewById(R.id.txtLatitud);
         txtLong=findViewById(R.id.txtLongitud);
-        MapView mapView = findViewById(R.id.mapView);
-        mapView.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
 
     }
