@@ -13,6 +13,11 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDRLgu2_fBh31occdGa5QcHxuvSFgX6CCY"
+            />
+
         <!-- Definir loginalex como la actividad de inicio -->
         <activity android:name=".loginalex"
             android:exported="true">
