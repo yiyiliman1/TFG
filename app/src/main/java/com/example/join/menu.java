@@ -18,6 +18,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -42,6 +43,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
         mapFragment.getMapAsync(this);
 
 
+
     }
 
     @Override
@@ -52,6 +54,11 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
         LatLng espana = new LatLng(40.4943143,-3.6568315);
         mMap.addMarker(new MarkerOptions().position(espana).title("España"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(espana));
+
+        //Modificar lo que muestra el google maps.
+        mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.map_style));
     }
 
     @Override
