@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.sesion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.join.R;
+
+public class Register extends AppCompatActivity {
 
     private EditText correoEditText, usuarioEditText, contrasenaEditText, repetirContrasenaEditText;
     private Button siguienteButton;
@@ -22,19 +24,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         // Inicializa el TextView que tiene el texto "¡Inicia sesión!"
         iniciarSesionTextView = findViewById(R.id.textView4);  // Este es el id de tu TextView
 
         // Añade un OnClickListener al TextView
         iniciarSesionTextView.setOnClickListener(v -> {
             // Crea un Intent para abrir la actividad de login
-            Intent intent = new Intent(MainActivity.this, loginalex.class); // Asegúrate de que loginalex sea tu actividad de login
+            Intent intent = new Intent(Register.this, Login.class); // Asegúrate de que loginalex sea tu actividad de login
             startActivity(intent);
         });
 
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             String repetir = repetirContrasenaEditText.getText().toString();
 
             if (!correo.isEmpty() && !usuario.isEmpty() && !contrasena.isEmpty() && contrasena.equals(repetir)) {
-                Intent intent = new Intent(MainActivity.this, dniActivity.class);
+                Intent intent = new Intent(Register.this, DNI.class);
                 intent.putExtra("correo", correo);
                 intent.putExtra("usuario", usuario);
                 intent.putExtra("contrasena", contrasena);

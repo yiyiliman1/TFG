@@ -13,75 +13,41 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
         <activity
-            android:name=".slide3"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".menu.chat.ChatActivity"
+            android:exported="false" />
         <activity
-            android:name=".slide2"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".menu.chat.Chat_List"
+            android:exported="false" />
         <activity
-            android:name=".slide1"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".sesion.slide3"
+            android:exported="false" />
         <activity
-            android:name=".itemplan"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".sesion.slide2"
+            android:exported="false" />
         <activity
-            android:name=".perfilpriv"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".sesion.Login"
+            android:exported="false" />
         <activity
-            android:name=".PerfilEditar"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> <!-- Definir loginalex como la actividad de inicio -->
+            android:name=".sesion.DNI"
+            android:exported="false" />
         <activity
-            android:name=".loginalex"
-            android:exported="true">
+            android:name=".sesion.Register"
+            android:exported="false" />
+        <activity
+            android:name=".sesion.slide1"
+            android:exported="false" />
+        <activity
+            android:name=".sesion.Open"
+            android:exported="true"> <!-- Definir loginalex como la actividad de inicio -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Otras actividades -->
-        <activity android:name=".menu" />
-        <activity
-            android:name=".dniActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+        <activity android:name=".menu.menu"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

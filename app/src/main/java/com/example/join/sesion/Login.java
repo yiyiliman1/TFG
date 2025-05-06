@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.sesion;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,10 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.join.R;
+import com.example.join.menu.menu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class loginalex extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private EditText correoEditText, contrasenaEditText;
     private Button loginButton;
@@ -30,17 +32,17 @@ public class loginalex extends AppCompatActivity {
     private static final String REMEMBER = "remember";
     private static final String LOGGED_IN = "loggedIn";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.loginalex);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginalex), (v, insets) -> {
+        setContentView(R.layout.activity_login);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         // Inicializar SharedPreferences
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
@@ -48,7 +50,7 @@ public class loginalex extends AppCompatActivity {
         // Verificar si el usuario ya está logueado y tiene su correo verificado
         if (isUserLoggedIn()) {
             // Si ya está logueado y verificado, redirigir a la pantalla principal
-            startActivity(new Intent(loginalex.this, menu.class));
+            startActivity(new Intent(Login.this, menu.class));
             finish();
         }
 
@@ -61,7 +63,7 @@ public class loginalex extends AppCompatActivity {
 
         // Configurar el registro de nuevos usuarios
         registroTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(loginalex.this, MainActivity.class);
+            Intent intent = new Intent(Login.this, Register.class);
             startActivity(intent);
         });
 
@@ -91,16 +93,16 @@ public class loginalex extends AppCompatActivity {
                             editor.apply();
 
                             // Redirigir al menú
-                            Intent intent = new Intent(loginalex.this, menu.class);
+                            Intent intent = new Intent(Login.this, menu.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // Si el email no está verificado
-                            Toast.makeText(loginalex.this, "Verifica tu correo electrónico antes de continuar", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Verifica tu correo electrónico antes de continuar", Toast.LENGTH_LONG).show();
                             mAuth.signOut();  // Cerrar sesión si no está verificado
                         }
                     } else {
-                        Toast.makeText(loginalex.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

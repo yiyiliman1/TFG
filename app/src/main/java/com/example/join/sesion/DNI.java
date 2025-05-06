@@ -1,4 +1,4 @@
-package com.example.joinapp;
+package com.example.join.sesion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.join.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +28,6 @@ public class DNI extends AppCompatActivity {
     private FirebaseFirestore db;
 
     private String correo, usuario, contrasena;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,8 +84,8 @@ public class DNI extends AppCompatActivity {
                                                     // Cerrar sesión para evitar que acceda sin verificar
                                                     mAuth.signOut();
 
-                                                    // Enviar al login
-                                                    Intent intent = new Intent(dniActivity.this, loginalex.class);
+                                                    // Enviar a los slides
+                                                    Intent intent = new Intent(DNI.this, slide1.class);
                                                     startActivity(intent);
                                                     finish();
                                                 })
@@ -99,5 +102,5 @@ public class DNI extends AppCompatActivity {
                     }
                 });
     }
-    }
+
 }
