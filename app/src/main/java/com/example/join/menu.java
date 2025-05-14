@@ -1,9 +1,12 @@
 package com.example.join;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -33,7 +36,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
     EditText txtLat, txtLong;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
-
+    ImageView botonMas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,24 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        // Mostrar mensaje si viene del intent
+        String mensaje = getIntent().getStringExtra("mensaje_exito");
+        if (mensaje != null) {
+            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        }
+
+        botonMas = findViewById(R.id.imageView7);
+
+        botonMas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ir a la pantalla de crear plan
+                Intent intent = new Intent(menu.this, crearNuevoPlan.class);
+                startActivity(intent);
+            }
+        });
+
         txtLat=findViewById(R.id.txtLatitud);
         txtLong=findViewById(R.id.txtLongitud);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
