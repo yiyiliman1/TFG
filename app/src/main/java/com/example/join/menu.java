@@ -82,6 +82,16 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         getCurrentLocation();
         cargarPlanesDesdeFirestore();
 
+        ImageView botonListas = findViewById(R.id.imageView10);
+
+        botonListas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(menu.this, listarPlanesCercanos.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
