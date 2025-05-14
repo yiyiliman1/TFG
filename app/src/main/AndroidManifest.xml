@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDRLgu2_fBh31occdGa5QcHxuvSFgX6CCY"
+            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw"
             />
 
         <!-- Definir loginalex como la actividad de inicio -->
