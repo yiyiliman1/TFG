@@ -28,15 +28,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 
-public class menu extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+
+public class menu extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap mMap;
     EditText txtLat, txtLong;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     ImageView botonMas;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,53 +72,39 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
             }
         });
 
-        txtLat=findViewById(R.id.txtLatitud);
-        txtLong=findViewById(R.id.txtLongitud);
+        //txtLat=findViewById(R.id.txtLatitud);
+       // txtLong=findViewById(R.id.txtLongitud);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         getCurrentLocation();
+        cargarPlanesDesdeFirestore();
+
 
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        this.mMap.setOnMapClickListener(this);
-        this.mMap.setOnMapLongClickListener(this);
-        LatLng espana = new LatLng(40.4943143,-3.6568315); //CAMBIAR AQUI LA UBICACION DEL USUARIO
-        mMap.addMarker(new MarkerOptions().position(espana).title("España"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(espana));
 
-        //Modificar lo que muestra el google maps.
+        // Activar punto azul si hay permisos
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+
+        // Estilo de mapa
         mMap.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                        this, R.raw.map_style));
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
+
+        // Mover cámara a posición inicial si quieres
+        LatLng espana = new LatLng(40.4943143, -3.6568315);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(espana, 12));
     }
 
-    @Override
-    public void onMapClick(@NonNull LatLng latLng) {
-       // txtLat.setText(""+latLng.latitude);
-       // txtLong.setText(""+latLng.longitude);
-        mMap.clear();
 
-        LatLng espana = new LatLng(latLng.latitude,latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(espana).title(""));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(espana));
-    }
-
-    @Override
-    public void onMapLongClick(@NonNull LatLng latLng) {
-       // txtLat.setText(""+latLng.latitude);
-        //txtLong.setText(""+latLng.longitude);
-        mMap.clear();
-
-        LatLng espana = new LatLng(latLng.latitude,latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(espana).title(""));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(espana));
-    }
 
     private void getCurrentLocation(){
 
@@ -127,14 +119,14 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
             return;
         }
 
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+       /* fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
             if(location != null){
                 txtLat.setText("Latitud" + location.getLatitude());
                 txtLong.setText("Longitud" + location.getLongitude());
             }else{
                 txtLat.setText("NO se pudo obtener la ubicacion");
             }
-        });
+        });*/
 
 
     }
@@ -143,15 +135,38 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback, Googl
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(requestCode== REQUEST_CODE_LOCATION_PERMISSION && grantResults.length>0){
+       /* if(requestCode== REQUEST_CODE_LOCATION_PERMISSION && grantResults.length>0){
             if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation();
             }else{
                 txtLat.setText("Permiso de Ubicación Denegado");
             }
-        }
+        }*/
 
     }
+
+    private void cargarPlanesDesdeFirestore() {
+        db.collection("planes")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        Double lat = doc.getDouble("latitud");
+                        Double lng = doc.getDouble("longitud");
+                        String nombre = doc.getString("nombre");
+
+                        if (lat != null && lng != null && nombre != null) {
+                            LatLng ubicacion = new LatLng(lat, lng);
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(ubicacion)
+                                    .title(nombre));
+                        }
+                    }
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Error cargando planes", Toast.LENGTH_SHORT).show()
+                );
+    }
+
 
 
 }
