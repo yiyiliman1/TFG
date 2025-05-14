@@ -84,7 +84,7 @@ public class dniActivity extends AppCompatActivity {
                                                     mAuth.signOut();
 
                                                     // Enviar al login
-                                                    Intent intent = new Intent(dniActivity.this, loginalex.class);
+                                                    Intent intent = new Intent(dniActivity.this, login.class);
                                                     startActivity(intent);
                                                     finish();
                                                 })

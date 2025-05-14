@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class loginalex extends AppCompatActivity {
+public class login extends AppCompatActivity {
 
     private EditText correoEditText, contrasenaEditText;
     private Button loginButton;
@@ -34,7 +34,7 @@ public class loginalex extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.loginalex);
+        setContentView(R.layout.login);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.loginalex), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -48,7 +48,7 @@ public class loginalex extends AppCompatActivity {
         // Verificar si el usuario ya está logueado y tiene su correo verificado
         if (isUserLoggedIn()) {
             // Si ya está logueado y verificado, redirigir a la pantalla principal
-            startActivity(new Intent(loginalex.this, menu.class));
+            startActivity(new Intent(login.this, menu.class));
             finish();
         }
 
@@ -61,7 +61,7 @@ public class loginalex extends AppCompatActivity {
 
         // Configurar el registro de nuevos usuarios
         registroTextView.setOnClickListener(v -> {
-            Intent intent = new Intent(loginalex.this, MainActivity.class);
+            Intent intent = new Intent(login.this, MainActivity.class);
             startActivity(intent);
         });
 
@@ -91,16 +91,16 @@ public class loginalex extends AppCompatActivity {
                             editor.apply();
 
                             // Redirigir al menú
-                            Intent intent = new Intent(loginalex.this, menu.class);
+                            Intent intent = new Intent(login.this, menu.class);
                             startActivity(intent);
                             finish();
                         } else {
                             // Si el email no está verificado
-                            Toast.makeText(loginalex.this, "Verifica tu correo electrónico antes de continuar", Toast.LENGTH_LONG).show();
+                            Toast.makeText(login.this, "Verifica tu correo electrónico antes de continuar", Toast.LENGTH_LONG).show();
                             mAuth.signOut();  // Cerrar sesión si no está verificado
                         }
                     } else {
-                        Toast.makeText(loginalex.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(login.this, "Error al iniciar sesión: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

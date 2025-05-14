@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         // Añade un OnClickListener al TextView
         iniciarSesionTextView.setOnClickListener(v -> {
             // Crea un Intent para abrir la actividad de login
-            Intent intent = new Intent(MainActivity.this, loginalex.class); // Asegúrate de que loginalex sea tu actividad de login
+            Intent intent = new Intent(MainActivity.this, login.class); // Asegúrate de que loginalex sea tu actividad de login
             startActivity(intent);
         });
 

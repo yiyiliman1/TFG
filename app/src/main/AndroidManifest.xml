@@ -22,7 +22,7 @@
             />
 
         <!-- Definir loginalex como la actividad de inicio -->
-        <activity android:name=".loginalex"
+        <activity android:name=".login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
