@@ -2,6 +2,7 @@ package com.example.join;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -75,6 +76,24 @@ public class miPerfil extends AppCompatActivity {
         // Botón back
         ImageView back = findViewById(R.id.imageView);
         back.setOnClickListener(v -> finish());
+
+        ImageView botonMenu = findViewById(R.id.imageView4);
+
+        botonMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(miPerfil.this, menu.class);
+                startActivity(intent);
+            }
+        });
+        ImageView botonPerfil = findViewById(R.id.imageView10);
+        botonPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(miPerfil.this, listarPlanesCercanos.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void cargarDatosUsuario() {

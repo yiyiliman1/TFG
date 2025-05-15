@@ -8,6 +8,7 @@
     android:background="#F0F0F0">
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:background="@drawable/linear_custom_background"
@@ -95,15 +96,17 @@
             android:layout_weight="1"
             android:padding="17dp"
             app:srcCompat="@drawable/filtro" />
+
     </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewPlanes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintTop_toBottomOf="@+id/barraSuperior"
-        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp"
         tools:listitem="@layout/activity_item_plan_cercano" />
 
 
