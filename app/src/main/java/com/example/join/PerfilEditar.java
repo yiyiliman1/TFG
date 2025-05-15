@@ -2,8 +2,10 @@ package com.example.join;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,10 +30,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PerfilEditar extends AppCompatActivity {
+
+    private final String[] todasCategorias = {"Ocio", "Deportes", "Cine", "Música", "Lectura", "Tecnología", "Viajes"};
+    private final boolean[] seleccionadas = new boolean[todasCategorias.length];
+    private final java.util.List<String> categoriasElegidas = new java.util.ArrayList<>();
+
 
     private EditText editBiografia, editUbicacion;
     private TextView textInteres;
@@ -51,7 +61,7 @@ public class PerfilEditar extends AppCompatActivity {
                     result -> {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                             imagenSeleccionadaUri = result.getData().getData();
-                            imageViewFoto.setImageURI(imagenSeleccionadaUri); // Vista previa
+                            Glide.with(this).load(imagenSeleccionadaUri).circleCrop().into(imageViewFoto);
                         }
                     });
 
@@ -59,6 +69,9 @@ public class PerfilEditar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_editar);
+
+
+
 
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
@@ -74,6 +87,7 @@ public class PerfilEditar extends AppCompatActivity {
         btnCambiarFoto = findViewById(R.id.btnCambiarFoto);
         imageViewFoto = findViewById(R.id.imageView29);
 
+        textInteres.setOnClickListener(v -> mostrarSelectorCategorias());
         cargarDatosUsuario();
 
         guardarBtn.setOnClickListener(v -> guardarDatos());
@@ -82,7 +96,7 @@ public class PerfilEditar extends AppCompatActivity {
         db.collection("usuarios").document(userId).get().addOnSuccessListener(doc -> {
             String url = doc.getString("fotoPerfil");
             if (url != null && !url.isEmpty()) {
-                Glide.with(this).load(url).into(imageViewFoto);
+                Glide.with(this).load(url).circleCrop().into(imageViewFoto);
             }
         });
     }
@@ -124,7 +138,21 @@ public class PerfilEditar extends AppCompatActivity {
                     if (doc.exists()) {
                         editBiografia.setText(doc.getString("biografia"));
                         editUbicacion.setText(doc.getString("ubicacion"));
-                        textInteres.setText(doc.getString("intereses"));
+                        Object interesesObj = doc.get("intereses");
+                        if (interesesObj instanceof java.util.List) {
+                            java.util.List<String> interesesList = (java.util.List<String>) interesesObj;
+                            categoriasElegidas.clear();
+                            categoriasElegidas.addAll(interesesList);
+                            // Resetear seleccionadas[]
+                            for (int i = 0; i < todasCategorias.length; i++) {
+                                seleccionadas[i] = interesesList.contains(todasCategorias[i]);
+                            }
+
+                            textInteres.setText(String.join(", ", interesesList));
+                        } else {
+                            textInteres.setText("");
+                        }
+
                         switchHistorial.setChecked(Boolean.TRUE.equals(doc.getBoolean("historial")));
                         switchPrivado.setChecked(Boolean.TRUE.equals(doc.getBoolean("perfilPrivado")));
                     }
@@ -143,22 +171,25 @@ public class PerfilEditar extends AppCompatActivity {
         Map<String, Object> cambios = new HashMap<>();
         cambios.put("biografia", biografia);
         cambios.put("ubicacion", ubicacion);
-        cambios.put("intereses", intereses);
+        cambios.put("intereses", new ArrayList<>(categoriasElegidas));
         cambios.put("historial", historial);
         cambios.put("perfilPrivado", perfilPrivado);
 
         if (imagenSeleccionadaUri != null) {
-            StorageReference ref = storage.getReference().child("usuarios").child(userId + ".jpg");
-            Log.d("PerfilEditar", "URI seleccionada: " + imagenSeleccionadaUri);
-
-            ref.putFile(imagenSeleccionadaUri)
-                    .addOnSuccessListener(taskSnapshot ->
-                            ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                                cambios.put("fotoPerfil", uri.toString());
-                                guardarEnFirestore(cambios);
-                            }))
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+            byte[] imagenComprimida = comprimirImagen(imagenSeleccionadaUri);
+            if (imagenComprimida != null) {
+                StorageReference ref = storage.getReference().child("usuarios").child(userId + ".jpg");
+                ref.putBytes(imagenComprimida)
+                        .addOnSuccessListener(taskSnapshot ->
+                                ref.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    cambios.put("fotoPerfil", uri.toString());
+                                    guardarEnFirestore(cambios);
+                                }))
+                        .addOnFailureListener(e ->
+                                Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+            } else {
+                Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show();
+            }
         } else {
             guardarEnFirestore(cambios);
         }
@@ -167,9 +198,66 @@ public class PerfilEditar extends AppCompatActivity {
     private void guardarEnFirestore(Map<String, Object> cambios) {
         db.collection("usuarios").document(userId)
                 .update(cambios)
-                .addOnSuccessListener(aVoid ->
-                        Toast.makeText(this, "Perfil actualizado", Toast.LENGTH_SHORT).show())
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Perfil actualizado", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(PerfilEditar.this, miPerfil.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out); // Animación
+                    finish();
+                })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al actualizar perfil", Toast.LENGTH_SHORT).show());
     }
+
+
+
+    private byte[] comprimirImagen(Uri uri) {
+        try {
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 500, 500, true);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void mostrarSelectorCategorias() {
+
+        // Reset antes de mostrar diálogo
+        categoriasElegidas.clear();
+        for (int i = 0; i < todasCategorias.length; i++) {
+            if (seleccionadas[i]) {
+                categoriasElegidas.add(todasCategorias[i]);
+            }
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecciona hasta 3 categorías");
+
+        builder.setMultiChoiceItems(todasCategorias, seleccionadas, (dialog, index, isChecked) -> {
+            if (isChecked) {
+                if (categoriasElegidas.size() < 3) {
+                    categoriasElegidas.add(todasCategorias[index]);
+                } else {
+                    ((AlertDialog) dialog).getListView().setItemChecked(index, false);
+                    Toast.makeText(this, "Solo puedes elegir 3 categorías", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                categoriasElegidas.remove(todasCategorias[index]);
+            }
+        });
+
+        builder.setPositiveButton("Aceptar", (dialog, which) -> {
+            String seleccion = String.join(", ", categoriasElegidas);
+            textInteres.setText(seleccion);
+        });
+
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+    }
+
 }

@@ -41,7 +41,8 @@
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:text="Personaliza tu Perfil" />
 
             </LinearLayout>
 
@@ -57,9 +58,14 @@
 
                     <ImageView
                         android:id="@+id/imageView29"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/edittext_borde"
+                        android:contentDescription="Foto de perfil"
                         tools:srcCompat="@tools:sample/avatars" />
+
 
                     <Button
                         android:id="@+id/btnCambiarFoto"
