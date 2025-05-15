@@ -18,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,6 +29,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,6 +41,7 @@ import android.location.Geocoder;
 import android.widget.SearchView;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -108,7 +114,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         });
 
 
-        searchView = findViewById(R.id.searchView);
+        /*searchView = findViewById(R.id.searchView);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -121,7 +127,54 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
+        });*/
+
+
+        // Inicializar Places SDK
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), "AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw");
+        }
+
+        // Fragmento de autocompletado
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        if (autocompleteFragment != null) {
+            autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+            autocompleteFragment.setCountries("ES");
+            autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                @Override
+                public void onPlaceSelected(@NonNull Place place) {
+                    LatLng latLng = place.getLatLng();
+                    if (latLng != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Status status) {
+                    String mensaje = status.getStatusMessage();
+                    if (mensaje != null && !mensaje.isEmpty()) {
+                        Toast.makeText(menu.this, "Error: " + mensaje, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            });
+
+            View fragmentView = autocompleteFragment.getView();
+            if (fragmentView != null) {
+                EditText editText = fragmentView.findViewById(
+                        com.google.android.libraries.places.R.id.places_autocomplete_search_input
+                );
+                editText.setHint("Buscar ubicación...");
+            }
+
+
+        }
+
+
+
+
 
 
     }

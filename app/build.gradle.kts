@@ -55,6 +55,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
     implementation ("com.google.firebase:firebase-storage:20.3.0")
+    implementation ("com.google.android.libraries.places:places:2.4.0")
+    implementation ("com.android.volley:volley:1.2.1")
+
+
 
 
 
