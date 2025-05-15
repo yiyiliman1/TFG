@@ -54,6 +54,10 @@ public class PerfilEditar extends AppCompatActivity {
     private String userId;
     private Uri imagenSeleccionadaUri;
 
+    private EditText editUsuario; // Para el nombre de usuario
+    private TextView textCorreo;  // Para mostrar el correo (no editable)
+
+
     private static final int REQUEST_PERMISSION_CODE = 102;
 
     private final ActivityResultLauncher<Intent> someActivityResultLauncher =
@@ -86,6 +90,13 @@ public class PerfilEditar extends AppCompatActivity {
         guardarBtn = findViewById(R.id.button4);
         btnCambiarFoto = findViewById(R.id.btnCambiarFoto);
         imageViewFoto = findViewById(R.id.imageView29);
+
+        editUsuario = findViewById(R.id.textView30);
+        textCorreo = findViewById(R.id.textView31);
+
+
+
+
 
         textInteres.setOnClickListener(v -> mostrarSelectorCategorias());
         cargarDatosUsuario();
@@ -136,6 +147,9 @@ public class PerfilEditar extends AppCompatActivity {
         db.collection("usuarios").document(userId).get()
                 .addOnSuccessListener(doc -> {
                     if (doc.exists()) {
+                        editUsuario.setText(doc.getString("usuario"));
+                        textCorreo.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+
                         editBiografia.setText(doc.getString("biografia"));
                         editUbicacion.setText(doc.getString("ubicacion"));
                         Object interesesObj = doc.get("intereses");
@@ -167,6 +181,7 @@ public class PerfilEditar extends AppCompatActivity {
         String intereses = textInteres.getText().toString().trim();
         boolean historial = switchHistorial.isChecked();
         boolean perfilPrivado = switchPrivado.isChecked();
+        String usuario = editUsuario.getText().toString().trim();
 
         Map<String, Object> cambios = new HashMap<>();
         cambios.put("biografia", biografia);
@@ -174,6 +189,8 @@ public class PerfilEditar extends AppCompatActivity {
         cambios.put("intereses", new ArrayList<>(categoriasElegidas));
         cambios.put("historial", historial);
         cambios.put("perfilPrivado", perfilPrivado);
+        cambios.put("usuario", usuario);
+
 
         if (imagenSeleccionadaUri != null) {
             byte[] imagenComprimida = comprimirImagen(imagenSeleccionadaUri);
