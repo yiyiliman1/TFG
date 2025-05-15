@@ -31,6 +31,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.widget.SearchView;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class menu extends AppCompatActivity implements OnMapReadyCallback {
@@ -43,6 +49,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,13 +108,33 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         });
 
 
+        searchView = findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                buscarUbicacion(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Activar punto azul si hay permisos
+        // Desactivar la brújula y el botón de "mi ubicación"
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.getUiSettings().setCompassEnabled(false);
+
+        // Activar el punto azul si hay permisos
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -124,6 +151,8 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
 
 
 
+
+
     private void getCurrentLocation(){
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -136,16 +165,6 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
             );
             return;
         }
-
-       /* fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
-            if(location != null){
-                txtLat.setText("Latitud" + location.getLatitude());
-                txtLong.setText("Longitud" + location.getLongitude());
-            }else{
-                txtLat.setText("NO se pudo obtener la ubicacion");
-            }
-        });*/
-
 
     }
 
@@ -183,6 +202,26 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error cargando planes", Toast.LENGTH_SHORT).show()
                 );
+    }
+
+    private void buscarUbicacion(String ubicacion) {
+        if (ubicacion == null || ubicacion.isEmpty()) return;
+
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            List<Address> direcciones = geocoder.getFromLocationName(ubicacion, 1);
+            if (direcciones != null && !direcciones.isEmpty()) {
+                Address direccion = direcciones.get(0);
+                LatLng posicion = new LatLng(direccion.getLatitude(), direccion.getLongitude());
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posicion, 15));
+            } else {
+                Toast.makeText(this, "Ubicación no encontrada", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al buscar la ubicación", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
