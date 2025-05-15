@@ -2,6 +2,8 @@ package com.example.join;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -246,9 +249,13 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
 
                         if (lat != null && lng != null && nombre != null) {
                             LatLng ubicacion = new LatLng(lat, lng);
+                            Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.marcador_verde);
+                            Bitmap resized = Bitmap.createScaledBitmap(original, 100, 100, false);
                             mMap.addMarker(new MarkerOptions()
                                     .position(ubicacion)
-                                    .title(nombre));
+                                    .title(nombre)
+                                    .icon(BitmapDescriptorFactory.fromBitmap(resized)));
+
                         }
                     }
                 })
