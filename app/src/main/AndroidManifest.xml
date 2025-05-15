@@ -2,8 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Para Android 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Para Android 12 o inferior -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -15,22 +25,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
+        <activity
+            android:name=".miPerfil"
+            android:exported="false" />
+        <activity
+            android:name=".PerfilEditar"
+            android:exported="false" />
+        <activity
+            android:name=".perfilPriv"
+            android:exported="false" />
+        <activity
+            android:name=".detallesPlan"
+            android:exported="false" />
+        <activity
+            android:name=".itemPlanCercano"
+            android:exported="false" />
+        <activity
+            android:name=".listarPlanesCercanos"
+            android:exported="false" />
+        <activity
+            android:name=".crearNuevoPlan"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw"
-            />
-
-        <!-- Definir loginalex como la actividad de inicio -->
-        <activity android:name=".login"
+            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw" /> <!-- Definir loginalex como la actividad de inicio -->
+        <activity
+            android:name=".login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Otras actividades -->
+        </activity> <!-- Otras actividades -->
         <activity android:name=".menu" />
         <activity
             android:name=".dniActivity"
