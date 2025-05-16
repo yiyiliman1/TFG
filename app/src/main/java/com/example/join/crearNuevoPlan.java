@@ -28,6 +28,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -173,6 +174,9 @@ public class crearNuevoPlan extends AppCompatActivity {
         String fecha = fechaEditText.getText().toString().trim();
         String hora = horaEditText.getText().toString().trim();
         String categoria = categoriaTextView.getText().toString().trim();
+        String creadorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
 
         if (!sinLimite && contadorParticipantes == 0) {
             Toast.makeText(this, "Debes permitir al menos un participante", Toast.LENGTH_SHORT).show();
@@ -184,6 +188,7 @@ public class crearNuevoPlan extends AppCompatActivity {
 
         // Construcción manual del mapa de datos para agregar los campos correctos
         Map<String, Object> plan = new HashMap<>();
+        plan.put("creadorId", creadorId);
         plan.put("nombre", nombre);
         plan.put("descripcion", descripcion);
         plan.put("direccion", direccion);

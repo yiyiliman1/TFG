@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -42,6 +43,13 @@ public class listarPlanesCercanos extends AppCompatActivity {
 
 
         setContentView(R.layout.activity_listar_planes_cercanos);
+
+
+        Button botonMiActividad = findViewById(R.id.botonMiActividad);
+        botonMiActividad.setOnClickListener(v -> {
+            Intent intent = new Intent(listarPlanesCercanos.this, miActividad.class);
+            startActivity(intent);
+        });
 
         ImageView botonMenu = findViewById(R.id.imageView4);
 

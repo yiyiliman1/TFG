@@ -20,7 +20,7 @@ import java.util.List;
 
 public class detallesPlan extends AppCompatActivity {
 
-    TextView nombreTxt, categoriaTxt, distanciaTxt, descripcionTxt, direccionTxt;
+    TextView nombreTxt, categoriaTxt, distanciaTxt, descripcionTxt, direccionTxt, esTuyoTxt;
     Button botonUnirse, botonSalir;
 
     @Override
@@ -35,6 +35,7 @@ public class detallesPlan extends AppCompatActivity {
         direccionTxt = findViewById(R.id.textView19);
         botonUnirse = findViewById(R.id.botonUnirse);
         botonSalir = findViewById(R.id.botonSalir);
+        esTuyoTxt = findViewById(R.id.textViewEsTuyo);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -61,9 +62,16 @@ public class detallesPlan extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference planRef = db.collection("planes").document(planId);
 
-            // Verificar si el usuario ya está unido
+            // Verificar si el plan es del usuario actual
             planRef.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
+                    String creadorId = documentSnapshot.getString("creadorId");
+                    if (creadorId != null && creadorId.equals(userId)) {
+                        esTuyoTxt.setVisibility(View.VISIBLE);
+                        botonUnirse.setVisibility(View.GONE);
+                        botonSalir.setVisibility(View.GONE);
+                    }
+
                     List<String> participantes = (List<String>) documentSnapshot.get("participantes");
                     if (participantes == null) participantes = new ArrayList<>();
 
@@ -94,7 +102,6 @@ public class detallesPlan extends AppCompatActivity {
                             Toast.makeText(this, "El plan está lleno", Toast.LENGTH_SHORT).show();
                             return;
                         }
-
 
                         planRef.update("participantes", FieldValue.arrayUnion(userId))
                                 .addOnSuccessListener(aVoid -> {
