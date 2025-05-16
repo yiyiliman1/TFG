@@ -41,6 +41,19 @@
                     android:textSize="35dp"
                     android:textStyle="bold" />
 
+                <Button
+                    android:id="@+id/botonSalir"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:background="@drawable/rounded_left_button"
+                    android:paddingStart="40dp"
+                    android:text="SALIR"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    android:visibility="gone"/>
+
+
 
             </FrameLayout>
 
