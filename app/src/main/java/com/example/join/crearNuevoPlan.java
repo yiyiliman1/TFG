@@ -31,8 +31,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class crearNuevoPlan extends AppCompatActivity {
 
@@ -171,34 +174,32 @@ public class crearNuevoPlan extends AppCompatActivity {
         String hora = horaEditText.getText().toString().trim();
         String categoria = categoriaTextView.getText().toString().trim();
 
-        // Validación de participantes
         if (!sinLimite && contadorParticipantes == 0) {
             Toast.makeText(this, "Debes permitir al menos un participante", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int participantes = sinLimite ? -1 : contadorParticipantes;
+        int limiteParticipantes = sinLimite ? -1 : contadorParticipantes;
         boolean soloAmigos = soloAmigosSwitch.isChecked();
 
-        Plan nuevoPlan = new Plan(
-                nombre,
-                descripcion,
-                direccion,
-                fecha,
-                hora,
-                categoria,
-                participantes,
-                soloAmigos,
-                userLat,
-                userLng
-        );
-
+        // Construcción manual del mapa de datos para agregar los campos correctos
+        Map<String, Object> plan = new HashMap<>();
+        plan.put("nombre", nombre);
+        plan.put("descripcion", descripcion);
+        plan.put("direccion", direccion);
+        plan.put("fecha", fecha);
+        plan.put("hora", hora);
+        plan.put("categoria", categoria);
+        plan.put("limiteParticipantes", limiteParticipantes);
+        plan.put("soloAmigos", soloAmigos);
+        plan.put("latitud", userLat);
+        plan.put("longitud", userLng);
+        plan.put("participantes", new ArrayList<String>()); // ← lista de usuarios que se unirán
 
         db.collection("planes")
-                .add(nuevoPlan)
+                .add(plan)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(this, "Plan creado correctamente", Toast.LENGTH_SHORT).show();
-
                     Intent intent = new Intent(crearNuevoPlan.this, menu.class);
                     intent.putExtra("mensaje_exito", "¡Plan creado correctamente!");
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -208,6 +209,7 @@ public class crearNuevoPlan extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al crear el plan", Toast.LENGTH_SHORT).show());
     }
+
 
 
     private void mostrarDialogoCategorias() {

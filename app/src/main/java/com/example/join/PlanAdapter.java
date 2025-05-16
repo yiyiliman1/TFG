@@ -49,13 +49,16 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, detallesPlan.class);
+
             intent.putExtra("nombre", plan.getNombre());
             intent.putExtra("categoria", plan.getCategoria());
             intent.putExtra("distancia", distancia);
             intent.putExtra("descripcion", plan.getDescripcion());
             intent.putExtra("direccion", plan.getDireccion());
+            intent.putExtra("planId", plan.getId()); // <--- añade esto
             context.startActivity(intent);
         });
+
     }
 
 

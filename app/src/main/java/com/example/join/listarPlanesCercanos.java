@@ -111,15 +111,20 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         Double lng = doc.getDouble("longitud");
 
                         if (nombre != null && categoria != null && lat != null && lng != null) {
-                            listaPlanes.add(new PlanItem(nombre, categoria, lat, lng));
+                            PlanItem planItem = new PlanItem(nombre, categoria, lat, lng);
+                            planItem.setId(doc.getId()); // ← AQUÍ SE ASIGNA EL ID CORRECTO
+                            listaPlanes.add(planItem);
                         }
                     }
+
+
                     adapter = new PlanAdapter(listaPlanes, this, userLat, userLng);
                     recyclerView.setAdapter(adapter);
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al cargar planes", Toast.LENGTH_SHORT).show()
                 );
+
     }
 
     @Override

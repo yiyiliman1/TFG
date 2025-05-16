@@ -29,18 +29,19 @@
                     android:layout_height="match_parent"
                     tools:srcCompat="@tools:sample/avatars" />
 
-                <TextView
-                    android:id="@+id/textView18"
+                <Button
+                    android:id="@+id/botonUnirse"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:background="@drawable/rounded_left_button"
-                    android:padding="5dp"
                     android:paddingStart="40dp"
                     android:text="JOIN"
                     android:textColor="@color/white"
                     android:textSize="35dp"
                     android:textStyle="bold" />
+
+
             </FrameLayout>
 
             <LinearLayout
