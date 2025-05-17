@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
-import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -69,7 +68,6 @@ public class detallesPlan extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference planRef = db.collection("planes").document(planId);
 
-            // Verificar si el plan es del usuario actual
             planRef.get().addOnSuccessListener(documentSnapshot -> {
                 if (documentSnapshot.exists()) {
                     String creadorId = documentSnapshot.getString("creadorId");
@@ -175,8 +173,17 @@ public class detallesPlan extends AppCompatActivity {
                                             imgUser.setImageResource(R.drawable.default_user);
                                         }
 
-                                        // Mostrar botón si el usuario actual es el creador del plan Y no se está mostrando a sí mismo
-                                        if (creadorId != null && creadorId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && !uid.equals(creadorId)) {
+                                        // 👉 Acción para abrir perfil al pulsar en nombre o imagen
+                                        View.OnClickListener perfilListener = view -> {
+                                            Intent intentPerfil = new Intent(this, PerfilUsuario.class);
+                                            intentPerfil.putExtra("usuarioId", uid);
+                                            startActivity(intentPerfil);
+                                        };
+                                        nombreTxt.setOnClickListener(perfilListener);
+                                        imgUser.setOnClickListener(perfilListener);
+
+                                        // Mostrar botón si el usuario actual es el creador del plan y no es él mismo
+                                        if (creadorId != null && creadorId.equals(userId) && !uid.equals(userId)) {
                                             botonEliminar.setVisibility(View.VISIBLE);
                                             botonEliminar.setOnClickListener(view -> {
                                                 new android.app.AlertDialog.Builder(this)
@@ -195,19 +202,18 @@ public class detallesPlan extends AppCompatActivity {
                                                         .setNegativeButton("Cancelar", null)
                                                         .show();
                                             });
-
+                                        } else {
+                                            botonEliminar.setVisibility(View.GONE);
                                         }
 
                                         layoutUsuarios.addView(userView);
                                     }
                                 });
                             }
-
                         }
                     });
                 }
             });
-
         }
     }
 }
