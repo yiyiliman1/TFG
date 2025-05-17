@@ -2,22 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/plan_detalle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/plan_detalle"
     android:background="#F0F0F0">
 
+    <!-- CONTENIDO PRINCIPAL -->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout3">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="100dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -34,6 +36,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
+                    android:layout_margin="16dp"
                     android:background="@drawable/rounded_left_button"
                     android:paddingStart="40dp"
                     android:text="JOIN"
@@ -46,15 +49,13 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
+                    android:layout_margin="16dp"
                     android:background="@drawable/rounded_left_button"
                     android:paddingStart="40dp"
                     android:text="SALIR"
                     android:textColor="@color/white"
                     android:textSize="30dp"
                     android:visibility="gone"/>
-
-
-
             </FrameLayout>
 
             <LinearLayout
@@ -62,6 +63,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/textViewEsTuyo"
                     android:layout_width="wrap_content"
@@ -71,7 +73,6 @@
                     android:textColor="@android:color/holo_green_dark"
                     android:layout_margin="10dp"
                     android:visibility="gone"/>
-
 
                 <TextView
                     android:id="@+id/textView15"
@@ -108,16 +109,16 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp">
 
                     <ImageView
                         android:id="@+id/imageView17"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="100dp"
-                        android:layout_marginBottom="20dp"
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <ImageView
@@ -125,9 +126,7 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="60dp"
-                        android:layout_marginBottom="20dp"
                         tools:srcCompat="@tools:sample/avatars" />
 
                     <ImageView
@@ -135,17 +134,14 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="end"
-                        android:layout_marginTop="20dp"
                         android:layout_marginEnd="20dp"
-                        android:layout_marginBottom="20dp"
                         tools:srcCompat="@tools:sample/avatars" />
                 </FrameLayout>
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:background="@color/white"
                 android:orientation="vertical">
@@ -161,7 +157,6 @@
                     android:textColor="@color/black"
                     android:textSize="16dp"
                     android:textStyle="bold" />
-
             </LinearLayout>
 
             <TextView
@@ -173,12 +168,39 @@
                 android:textSize="16dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="70dp"/>
+                android:layout_marginBottom="20dp"/>
 
+            <!-- NUEVA SECCIÓN -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Participantes"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/botonVerUsuarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ver usuarios unidos"
+                android:layout_margin="16dp"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:id="@+id/layoutUsuariosUnidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:padding="16dp"
+                android:background="@color/white" />
         </LinearLayout>
     </ScrollView>
 
-
+    <!-- BOTÓN BACK -->
     <ImageView
         android:id="@+id/imageView14"
         android:layout_width="40dp"
@@ -188,19 +210,20 @@
         android:layout_margin="20dp"
         app:srcCompat="@drawable/back" />
 
+    <!-- BARRA INFERIOR -->
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@drawable/linear_custom_background"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
             android:id="@+id/imageView4"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="14dp"
@@ -208,7 +231,7 @@
 
         <ImageView
             android:id="@+id/imageView10"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="17dp"
@@ -216,7 +239,7 @@
 
         <ImageView
             android:id="@+id/imageView7"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="1dp"
@@ -224,7 +247,7 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="16dp"
@@ -232,12 +255,10 @@
 
         <ImageView
             android:id="@+id/imageView8"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="15dp"
             app:srcCompat="@drawable/user" />
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

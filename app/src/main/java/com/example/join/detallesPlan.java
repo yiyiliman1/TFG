@@ -6,9 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -21,7 +25,8 @@ import java.util.List;
 public class detallesPlan extends AppCompatActivity {
 
     TextView nombreTxt, categoriaTxt, distanciaTxt, descripcionTxt, direccionTxt, esTuyoTxt;
-    Button botonUnirse, botonSalir;
+    Button botonUnirse, botonSalir, botonVerUsuarios;
+    LinearLayout layoutUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,8 @@ public class detallesPlan extends AppCompatActivity {
         botonUnirse = findViewById(R.id.botonUnirse);
         botonSalir = findViewById(R.id.botonSalir);
         esTuyoTxt = findViewById(R.id.textViewEsTuyo);
+        botonVerUsuarios = findViewById(R.id.botonVerUsuarios);
+        layoutUsuarios = findViewById(R.id.layoutUsuariosUnidos);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -127,6 +134,80 @@ public class detallesPlan extends AppCompatActivity {
                                 Toast.makeText(this, "Error al salir del plan", Toast.LENGTH_SHORT).show()
                         );
             });
+
+            botonVerUsuarios.setOnClickListener(v -> {
+                if (layoutUsuarios.getVisibility() == View.VISIBLE) {
+                    layoutUsuarios.setVisibility(View.GONE);
+                    botonVerUsuarios.setText("Ver usuarios unidos");
+                } else {
+                    layoutUsuarios.removeAllViews();
+                    layoutUsuarios.setVisibility(View.VISIBLE);
+                    botonVerUsuarios.setText("Ocultar usuarios");
+
+                    planRef.get().addOnSuccessListener(docSnap -> {
+                        if (docSnap.exists()) {
+                            List<String> participantes = (List<String>) docSnap.get("participantes");
+                            if (participantes == null || participantes.isEmpty()) {
+                                TextView vacio = new TextView(this);
+                                vacio.setText("No hay usuarios unidos");
+                                layoutUsuarios.addView(vacio);
+                                return;
+                            }
+
+                            String creadorId = docSnap.getString("creadorId");
+
+                            for (String uid : participantes) {
+                                db.collection("usuarios").document(uid).get().addOnSuccessListener(userSnap -> {
+                                    if (userSnap.exists()) {
+                                        String nombreUser = userSnap.getString("usuario");
+                                        String fotoUrl = userSnap.getString("fotoPerfil");
+
+                                        View userView = getLayoutInflater().inflate(R.layout.item_usuario_unido, null);
+                                        TextView nombreTxt = userView.findViewById(R.id.nombreUsuario);
+                                        ImageView imgUser = userView.findViewById(R.id.imagenUsuario);
+                                        Button botonEliminar = userView.findViewById(R.id.botonEliminarUsuario);
+
+                                        nombreTxt.setText(nombreUser != null ? nombreUser : "Sin nombre");
+
+                                        if (fotoUrl != null && !fotoUrl.isEmpty()) {
+                                            Glide.with(this).load(fotoUrl).into(imgUser);
+                                        } else {
+                                            imgUser.setImageResource(R.drawable.default_user);
+                                        }
+
+                                        // Mostrar botón si el usuario actual es el creador del plan Y no se está mostrando a sí mismo
+                                        if (creadorId != null && creadorId.equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && !uid.equals(creadorId)) {
+                                            botonEliminar.setVisibility(View.VISIBLE);
+                                            botonEliminar.setOnClickListener(view -> {
+                                                new android.app.AlertDialog.Builder(this)
+                                                        .setTitle("Confirmar eliminación")
+                                                        .setMessage("¿Seguro que deseas eliminar a este usuario del plan?")
+                                                        .setPositiveButton("Sí, eliminar", (dialog, which) -> {
+                                                            planRef.update("participantes", FieldValue.arrayRemove(uid))
+                                                                    .addOnSuccessListener(aVoid -> {
+                                                                        Toast.makeText(this, "Usuario eliminado del plan", Toast.LENGTH_SHORT).show();
+                                                                        layoutUsuarios.removeView(userView);
+                                                                    })
+                                                                    .addOnFailureListener(e -> {
+                                                                        Toast.makeText(this, "Error al eliminar usuario", Toast.LENGTH_SHORT).show();
+                                                                    });
+                                                        })
+                                                        .setNegativeButton("Cancelar", null)
+                                                        .show();
+                                            });
+
+                                        }
+
+                                        layoutUsuarios.addView(userView);
+                                    }
+                                });
+                            }
+
+                        }
+                    });
+                }
+            });
+
         }
     }
 }
