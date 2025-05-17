@@ -197,6 +197,16 @@
                 android:visibility="gone"
                 android:padding="16dp"
                 android:background="@color/white" />
+
+            <Button
+                android:id="@+id/botonAbrirChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Abrir chat del plan"
+                android:layout_margin="16dp"
+                android:textColor="@android:color/white"
+                />
+
         </LinearLayout>
     </ScrollView>
 

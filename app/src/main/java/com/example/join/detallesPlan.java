@@ -24,8 +24,11 @@ import java.util.List;
 public class detallesPlan extends AppCompatActivity {
 
     TextView nombreTxt, categoriaTxt, distanciaTxt, descripcionTxt, direccionTxt, esTuyoTxt;
-    Button botonUnirse, botonSalir, botonVerUsuarios;
+    Button botonUnirse, botonSalir, botonVerUsuarios, botonChat;
     LinearLayout layoutUsuarios;
+
+    // ✅ Variables de clase
+    private String planId, nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +45,16 @@ public class detallesPlan extends AppCompatActivity {
         esTuyoTxt = findViewById(R.id.textViewEsTuyo);
         botonVerUsuarios = findViewById(R.id.botonVerUsuarios);
         layoutUsuarios = findViewById(R.id.layoutUsuariosUnidos);
+        botonChat = findViewById(R.id.botonAbrirChat);
 
         Intent intent = getIntent();
         if (intent != null) {
-            String nombre = intent.getStringExtra("nombre");
+            nombre = intent.getStringExtra("nombre");
             String categoria = intent.getStringExtra("categoria");
             String distancia = intent.getStringExtra("distancia");
             String descripcion = intent.getStringExtra("descripcion");
             String direccion = intent.getStringExtra("direccion");
-            String planId = intent.getStringExtra("planId");
+            planId = intent.getStringExtra("planId");
 
             nombreTxt.setText(nombre);
             categoriaTxt.setText(categoria);
@@ -173,7 +177,6 @@ public class detallesPlan extends AppCompatActivity {
                                             imgUser.setImageResource(R.drawable.default_user);
                                         }
 
-                                        // 👉 Acción para abrir perfil al pulsar en nombre o imagen
                                         View.OnClickListener perfilListener = view -> {
                                             Intent intentPerfil = new Intent(this, PerfilUsuario.class);
                                             intentPerfil.putExtra("usuarioId", uid);
@@ -182,7 +185,6 @@ public class detallesPlan extends AppCompatActivity {
                                         nombreTxt.setOnClickListener(perfilListener);
                                         imgUser.setOnClickListener(perfilListener);
 
-                                        // Mostrar botón si el usuario actual es el creador del plan y no es él mismo
                                         if (creadorId != null && creadorId.equals(userId) && !uid.equals(userId)) {
                                             botonEliminar.setVisibility(View.VISIBLE);
                                             botonEliminar.setOnClickListener(view -> {
@@ -212,6 +214,18 @@ public class detallesPlan extends AppCompatActivity {
                             }
                         }
                     });
+                }
+            });
+
+            // ✅ Botón de chat ahora funciona correctamente
+            botonChat.setOnClickListener(view -> {
+                if (planId != null && nombre != null) {
+                    Intent intentChat = new Intent(this, ChatPlan.class);
+                    intentChat.putExtra("planId", planId);
+                    intentChat.putExtra("nombre", nombre);
+                    startActivity(intentChat);
+                } else {
+                    Toast.makeText(this, "No se pudo abrir el chat: información incompleta", Toast.LENGTH_SHORT).show();
                 }
             });
         }
