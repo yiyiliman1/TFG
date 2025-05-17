@@ -107,6 +107,18 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                 startActivity(intent);
             }
         });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(menu.this, BuscarUsuario.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         ImageView botonPerfil = findViewById(R.id.imageView8);
         botonPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
