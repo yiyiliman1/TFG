@@ -7,16 +7,18 @@ public class MensajeChat {
     private String autorId;
     private String autorNombre;
     private Timestamp timestamp;
+    private String tipo;  // ✅ Nuevo campo
 
     public MensajeChat() {
         // Constructor vacío requerido por Firestore
     }
 
-    public MensajeChat(String texto, String autorId, String autorNombre, Timestamp timestamp) {
+    public MensajeChat(String texto, String autorId, String autorNombre, Timestamp timestamp, String tipo) {
         this.texto = texto;
         this.autorId = autorId;
         this.autorNombre = autorNombre;
         this.timestamp = timestamp;
+        this.tipo = tipo;
     }
 
     public String getTexto() {
@@ -33,5 +35,9 @@ public class MensajeChat {
 
     public Timestamp getTimestamp() {
         return timestamp;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 }

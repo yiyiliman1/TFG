@@ -34,6 +34,10 @@
         <activity
             android:name=".miPerfil"
             android:exported="false" />
+
+        <activity android:name=".ChatPrivado"
+            android:exported="false"/>
+
         <activity
             android:name=".PerfilEditar"
             android:exported="false" />
