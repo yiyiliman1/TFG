@@ -293,11 +293,27 @@ public class crearNuevoPlan extends AppCompatActivity {
                     googleMap.addMarker(new MarkerOptions().position(miUbicacion).title("Tu ubicación"));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15));
                 }
+
+                // Obtener dirección a partir de lat/lng
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                try {
+                    List<Address> direcciones = geocoder.getFromLocation(userLat, userLng, 1);
+                    if (direcciones != null && !direcciones.isEmpty()) {
+                        Address direccionEncontrada = direcciones.get(0);
+                        String direccionTexto = direccionEncontrada.getAddressLine(0);
+                        direccionEditText.setText(direccionTexto);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "No se pudo obtener la dirección exacta", Toast.LENGTH_SHORT).show();
+                }
+
             } else {
                 Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     private void buscarDireccion(String direccion) {
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
