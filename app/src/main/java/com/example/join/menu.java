@@ -29,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -190,8 +191,8 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         db.collection("planes")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    mMap.clear(); // Limpia los marcadores anteriores
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-
 
                         String estado = doc.getString("estado");
                         if ("cancelado".equals(estado)) continue;
@@ -205,18 +206,41 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                             Bitmap original = BitmapFactory.decodeResource(getResources(), R.drawable.marcador_verde);
                             Bitmap resized = Bitmap.createScaledBitmap(original, 100, 100, false);
                             mMap.addMarker(new MarkerOptions()
-                                    .position(ubicacion)
-                                    .title(nombre)
-                                    .icon(BitmapDescriptorFactory.fromBitmap(resized)));
+                                            .position(ubicacion)
+                                            .title(nombre)
+                                            .icon(BitmapDescriptorFactory.fromBitmap(resized)))
+                                    .setTag(doc.getId()); // ← Aquí guardamos el ID del plan
                         }
                     }
+
+                    // Escuchar clics en marcadores
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        Marker lastClickedMarker = null;
+
+                        @Override
+                        public boolean onMarkerClick(@NonNull com.google.android.gms.maps.model.Marker marker) {
+                            if (marker.equals(lastClickedMarker)) {
+                                // Obtener planId desde el tag del marcador
+                                String planId = (String) marker.getTag();
+                                if (planId != null) {
+                                    abrirDetallesDelPlan(planId);
+                                }
+                                return true; // Consumimos el evento
+                            } else {
+                                lastClickedMarker = marker;
+                                marker.showInfoWindow(); // Primer clic: solo mostrar nombre
+                                return true;
+                            }
+                        }
+                    });
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error cargando planes", Toast.LENGTH_SHORT).show()
                 );
     }
 
-    private void buscarUbicacion(String ubicacion) {
+
+    /*private void buscarUbicacion(String ubicacion) {
         if (ubicacion == null || ubicacion.isEmpty()) return;
 
         Geocoder geocoder = new Geocoder(this);
@@ -233,10 +257,29 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
             e.printStackTrace();
             Toast.makeText(this, "Error al buscar la ubicación", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    private void abrirDetallesDelPlan(String planId) {
+        db.collection("planes").document(planId).get().addOnSuccessListener(doc -> {
+            if (doc.exists()) {
+                Intent intent = new Intent(this, detallesPlan.class);
+                intent.putExtra("planId", planId);
+                intent.putExtra("nombre", doc.getString("nombre"));
+                intent.putExtra("categoria", doc.getString("categoria"));
+                intent.putExtra("descripcion", doc.getString("descripcion"));
+                intent.putExtra("direccion", doc.getString("direccion"));
+                // No calculamos distancia aquí
+                intent.putExtra("distancia", ""); // Se puede recalcular en detallesPlan si quieres
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "No se encontró el plan", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
