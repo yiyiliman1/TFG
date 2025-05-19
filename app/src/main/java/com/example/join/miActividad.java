@@ -71,6 +71,10 @@ public class miActividad extends AppCompatActivity {
         db.collection("planes").get().addOnSuccessListener(queryDocumentSnapshots -> {
             listaMisPlanes.clear();
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                String estado = doc.getString("estado");
+                if ("cancelado".equals(estado)) continue;
+
                 String creadorId = doc.getString("creadorId");
                 List<String> participantes = (List<String>) doc.get("participantes");
 
@@ -97,6 +101,7 @@ public class miActividad extends AppCompatActivity {
                 Toast.makeText(this, "Error al cargar tus planes", Toast.LENGTH_SHORT).show()
         );
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

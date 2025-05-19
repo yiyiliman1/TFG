@@ -19,7 +19,9 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class detallesPlan extends AppCompatActivity {
 
@@ -100,9 +102,13 @@ public class detallesPlan extends AppCompatActivity {
                         .setTitle("¿Cancelar plan?")
                         .setMessage("Esta acción no se puede deshacer. ¿Deseas cancelar este plan?")
                         .setPositiveButton("Sí, cancelar", (dialog, which) -> {
-                            planRef.update("estado", "cancelado")
+                            Map<String, Object> actualizaciones = new HashMap<>();
+                            actualizaciones.put("estado", "cancelado");
+                            actualizaciones.put("participantes", new ArrayList<String>());
+
+                            planRef.update(actualizaciones)
                                     .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(this, "Plan cancelado", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, "Plan cancelado y participantes eliminados", Toast.LENGTH_SHORT).show();
                                         finish();
                                     })
                                     .addOnFailureListener(e ->
@@ -112,6 +118,7 @@ public class detallesPlan extends AppCompatActivity {
                         .setNegativeButton("No", null)
                         .show();
             });
+
 
             botonUnirse.setOnClickListener(v -> {
                 planRef.get().addOnSuccessListener(documentSnapshot -> {
