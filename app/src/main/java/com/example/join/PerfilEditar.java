@@ -54,8 +54,8 @@ public class PerfilEditar extends AppCompatActivity {
     private String userId;
     private Uri imagenSeleccionadaUri;
 
-    private EditText editUsuario; // Para el nombre de usuario
-    private TextView textCorreo;  // Para mostrar el correo (no editable)
+    private EditText editUsuario;
+    private TextView textCorreo;
 
 
     private static final int REQUEST_PERMISSION_CODE = 102;

@@ -30,7 +30,7 @@ public class ChatPrivado extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_plan); // Reutiliza este layout
+        setContentView(R.layout.activity_chat_plan); // Reutilizar este layout del plan grupal
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();

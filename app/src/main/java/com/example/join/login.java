@@ -105,7 +105,7 @@ public class login extends AppCompatActivity {
                 });
     }
 
-    // Método para verificar si el usuario ya está logueado
+    // recuerdame
     private boolean isUserLoggedIn() {
         FirebaseUser user = mAuth.getCurrentUser();
         boolean remember = sharedPreferences.getBoolean(REMEMBER, false);

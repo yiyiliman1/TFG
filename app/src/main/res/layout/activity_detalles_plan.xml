@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#F0F0F0">
 
-    <!-- CONTENIDO PRINCIPAL -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -170,7 +170,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"/>
 
-            <!-- NUEVA SECCIÓN -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,7 +210,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- BOTÓN BACK -->
+
     <ImageView
         android:id="@+id/imageView14"
         android:layout_width="40dp"
@@ -220,7 +220,7 @@
         android:layout_margin="20dp"
         app:srcCompat="@drawable/back" />
 
-    <!-- BARRA INFERIOR -->
+
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"

@@ -27,7 +27,6 @@ public class detallesPlan extends AppCompatActivity {
     Button botonUnirse, botonSalir, botonVerUsuarios, botonChat;
     LinearLayout layoutUsuarios;
 
-    // ✅ Variables de clase
     private String planId, nombre;
 
     @Override
@@ -217,7 +216,7 @@ public class detallesPlan extends AppCompatActivity {
                 }
             });
 
-            // ✅ Botón de chat ahora funciona correctamente
+            // Botón de chat grupal
             botonChat.setOnClickListener(view -> {
                 if (planId != null && nombre != null) {
                     Intent intentChat = new Intent(this, ChatPlan.class);

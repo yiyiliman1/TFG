@@ -71,7 +71,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
             return insets;
         });
 
-        // Mostrar mensaje si viene del intent
+
         String mensaje = getIntent().getStringExtra("mensaje_exito");
         if (mensaje != null) {
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
@@ -129,23 +129,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         });
 
 
-        /*searchView = findViewById(R.id.searchView);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                buscarUbicacion(query);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });*/
-
-
-        // Inicializar Places SDK
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), "AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw");
         }
@@ -222,7 +206,6 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Desactivar la brújula y el botón de "mi ubicación"
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         mMap.getUiSettings().setCompassEnabled(false);
 
@@ -237,7 +220,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                 MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style));
 
         // Mover cámara a posición inicial si quieres
-        LatLng espana = new LatLng(40.4943143, -3.6568315);
+        LatLng espana = new LatLng(40.4943143, -3.6568315); //AQUI POSISCION INICIAL
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(espana, 12));
     }
 

@@ -41,12 +41,11 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
         holder.textTitulo.setText(plan.getNombre());
         holder.textTipo.setText(plan.getCategoria());
 
-        // Calculamos distancia aquí
+        // Calculo distancia
         String distancia = calcularDistancia(plan.getLatitud(), plan.getLongitud()) + " km de ti";
         holder.textDistancia.setText(distancia);
 
-        holder.imagePlan.setImageResource(R.drawable.personalogo); // imagen fija por ahora
-
+        holder.imagePlan.setImageResource(R.drawable.personalogo);
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, detallesPlan.class);
 
@@ -55,7 +54,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             intent.putExtra("distancia", distancia);
             intent.putExtra("descripcion", plan.getDescripcion());
             intent.putExtra("direccion", plan.getDireccion());
-            intent.putExtra("planId", plan.getId()); // <--- añade esto
+            intent.putExtra("planId", plan.getId());
             context.startActivity(intent);
         });
 

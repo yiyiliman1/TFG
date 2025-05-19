@@ -1,7 +1,7 @@
 package com.example.join;
 
 public class PlanItem {
-    private String id; // <-- Añadido
+    private String id;
     private String nombre;
     private String categoria;
     private double latitud;

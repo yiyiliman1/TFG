@@ -56,7 +56,7 @@ public class ChatAdapter extends BaseAdapter {
 
         String tipo = mensaje.getTipo() != null ? mensaje.getTipo() : "";
 
-        // 💬 Si es solicitud de amistad y no es tuya
+        // En caso de ser solicitud de amistad y no es tuya
         if ("solicitud_amistad".equals(tipo) && !mensaje.getAutorId().equals(currentUserId)) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_solicitud_amistad, parent, false);
 
@@ -70,7 +70,7 @@ public class ChatAdapter extends BaseAdapter {
             return convertView;
         }
 
-        // ℹ️ Mensaje informativo (tipo "info")
+        //  Mensaje informativo (tipo "info")
         if ("info".equals(tipo)) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_mensaje_info, parent, false);
             TextView texto = convertView.findViewById(R.id.textMensajeInfo);
@@ -78,7 +78,7 @@ public class ChatAdapter extends BaseAdapter {
             return convertView;
         }
 
-        // 🗨️ Mensaje normal
+        // Mensaje normal
         boolean esMio = mensaje.getAutorId().equals(currentUserId);
         int layoutId = esMio ? R.layout.item_mensaje_derecha : R.layout.item_mensaje_izquierda;
 

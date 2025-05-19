@@ -1,19 +1,15 @@
 package com.example.join;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
-
 import java.util.*;
 
 public class BuscarUsuario extends AppCompatActivity {
@@ -22,10 +18,8 @@ public class BuscarUsuario extends AppCompatActivity {
     private RecyclerView recyclerUsuarios, recyclerChatsPrivados;
     private UsuarioAdapter usuarioAdapter;
     private ChatPrivadoAdapter chatAdapter;
-
     private List<UsuarioModelo> listaUsuarios;
     private List<ChatPrivadoModelo> listaChats;
-
     private FirebaseFirestore db;
     private String currentUserId;
 

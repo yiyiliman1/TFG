@@ -38,7 +38,7 @@ public class miPerfil extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Referencias UI
+
         textUsuario = findViewById(R.id.textView30);
         textCorreo = findViewById(R.id.textView31);
         editBiografia = findViewById(R.id.editTextText4);

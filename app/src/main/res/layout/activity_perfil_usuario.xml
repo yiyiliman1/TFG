@@ -16,7 +16,7 @@
             android:orientation="vertical"
             android:paddingBottom="20dp">
 
-            <!-- Barra superior -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
@@ -43,7 +43,7 @@
                     android:gravity="center"/>
             </LinearLayout>
 
-            <!-- Foto -->
+
             <ImageView
                 android:id="@+id/imageView29"
                 android:layout_width="120dp"
@@ -55,7 +55,7 @@
                 android:contentDescription="Foto de perfil"
                 android:scaleType="centerCrop" />
 
-            <!-- Nombre -->
+
             <TextView
                 android:id="@+id/textView30"
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:textStyle="bold"
                 android:layout_marginTop="5dp"/>
 
-            <!-- Correo -->
+
             <TextView
                 android:id="@+id/textView31"
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                 android:textSize="14sp"
                 android:layout_marginTop="3dp"/>
 
-            <!-- Sobre mí -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
-            <!-- Ubicación -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
-            <!-- Intereses -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

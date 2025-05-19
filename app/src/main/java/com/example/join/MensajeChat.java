@@ -7,10 +7,10 @@ public class MensajeChat {
     private String autorId;
     private String autorNombre;
     private Timestamp timestamp;
-    private String tipo;  // ✅ Nuevo campo
+    private String tipo;
 
     public MensajeChat() {
-        // Constructor vacío requerido por Firestore
+
     }
 
     public MensajeChat(String texto, String autorId, String autorNombre, Timestamp timestamp, String tipo) {
