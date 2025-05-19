@@ -32,6 +32,8 @@ public class miActividad extends AppCompatActivity {
     FusedLocationProviderClient fusedLocationProviderClient;
 
     private static final int REQUEST_CODE_LOCATION = 1001;
+    private double lastLat = 0.0;
+    private double lastLng = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,9 @@ public class miActividad extends AppCompatActivity {
 
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
-                double userLat = location.getLatitude();
-                double userLng = location.getLongitude();
-                cargarMisPlanes(userLat, userLng);
+                lastLat = location.getLatitude();
+                lastLng = location.getLongitude();
+                cargarMisPlanes(lastLat, lastLng);
             } else {
                 Toast.makeText(this, "No se pudo obtener ubicación", Toast.LENGTH_SHORT).show();
             }
@@ -102,6 +104,16 @@ public class miActividad extends AppCompatActivity {
         );
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Recargar lista al volver a la actividad
+        if (lastLat != 0.0 && lastLng != 0.0) {
+            cargarMisPlanes(lastLat, lastLng);
+        } else {
+            pedirUbicacionYListar();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

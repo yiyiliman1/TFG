@@ -109,7 +109,11 @@ public class detallesPlan extends AppCompatActivity {
                             planRef.update(actualizaciones)
                                     .addOnSuccessListener(aVoid -> {
                                         Toast.makeText(this, "Plan cancelado y participantes eliminados", Toast.LENGTH_SHORT).show();
+
+                                        // Recargar la actividad para reflejar los cambios
+                                        Intent restartintent = getIntent();
                                         finish();
+                                        startActivity(restartintent);
                                     })
                                     .addOnFailureListener(e ->
                                             Toast.makeText(this, "Error al cancelar el plan", Toast.LENGTH_SHORT).show()
@@ -118,6 +122,7 @@ public class detallesPlan extends AppCompatActivity {
                         .setNegativeButton("No", null)
                         .show();
             });
+
 
 
             botonUnirse.setOnClickListener(v -> {
