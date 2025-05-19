@@ -1,20 +1,15 @@
 package com.example.join;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import android.Manifest;
-import android.content.pm.PackageManager;
-import androidx.core.app.ActivityCompat;
-
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,21 +17,15 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class crearNuevoPlan extends AppCompatActivity {
 
@@ -59,6 +48,8 @@ public class crearNuevoPlan extends AppCompatActivity {
     private double userLat = 0.0;
     private double userLng = 0.0;
 
+    Calendar fechaHoraSeleccionada = Calendar.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +57,6 @@ public class crearNuevoPlan extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Vincular vistas
         nombreEditText = findViewById(R.id.editTextText);
         descripcionEditText = findViewById(R.id.editTextText2);
         direccionEditText = findViewById(R.id.editTextText3);
@@ -77,84 +67,52 @@ public class crearNuevoPlan extends AppCompatActivity {
         soloAmigosSwitch = findViewById(R.id.switch1);
         crearBtn = findViewById(R.id.button3);
 
+        fechaEditText.setFocusable(false);
+        horaEditText.setFocusable(false);
+
         mapView = findViewById(R.id.mapView2);
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap gMap) {
-                googleMap = gMap;
-            }
-        });
+        mapView.getMapAsync(gMap -> googleMap = gMap);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         Button usarUbicacionBtn = findViewById(R.id.button2);
-        usarUbicacionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                obtenerUbicacionUsuario();
+        usarUbicacionBtn.setOnClickListener(v -> obtenerUbicacionUsuario());
+
+        crearBtn.setOnClickListener(v -> crearPlan());
+
+        btnSumar = findViewById(R.id.textView25);
+        btnRestar = findViewById(R.id.textView23);
+        txtParticipantes = findViewById(R.id.textView24);
+        btnSinLimite = findViewById(R.id.textView26);
+
+        btnSumar.setOnClickListener(v -> {
+            if (!sinLimite) {
+                contadorParticipantes++;
+                txtParticipantes.setText(String.valueOf(contadorParticipantes));
             }
         });
 
-
-
-        crearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                crearPlan();
+        btnRestar.setOnClickListener(v -> {
+            if (!sinLimite && contadorParticipantes > 0) {
+                contadorParticipantes--;
+                txtParticipantes.setText(String.valueOf(contadorParticipantes));
             }
         });
 
-        btnSumar = findViewById(R.id.textView25);       // "+"
-        btnRestar = findViewById(R.id.textView23);      // "-"
-        txtParticipantes = findViewById(R.id.textView24); // número
-        btnSinLimite = findViewById(R.id.textView26);   // "Sin límite"
-
-        btnSumar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sinLimite) {
-                    contadorParticipantes++;
-                    txtParticipantes.setText(String.valueOf(contadorParticipantes));
-                }
+        btnSinLimite.setOnClickListener(v -> {
+            sinLimite = !sinLimite;
+            if (sinLimite) {
+                txtParticipantes.setText("∞");
+            } else {
+                contadorParticipantes = 0;
+                txtParticipantes.setText(String.valueOf(contadorParticipantes));
             }
         });
 
-        btnRestar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!sinLimite && contadorParticipantes > 0) {
-                    contadorParticipantes--;
-                    txtParticipantes.setText(String.valueOf(contadorParticipantes));
-                }
-            }
-        });
-
-        btnSinLimite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sinLimite = !sinLimite;
-
-                if (sinLimite) {
-                    txtParticipantes.setText("∞");
-                } else {
-                    contadorParticipantes = 0;
-                    txtParticipantes.setText(String.valueOf(contadorParticipantes));
-                }
-            }
-        });
-
-
-        categoriaTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarDialogoCategorias();
-            }
-        });
+        categoriaTextView.setOnClickListener(v -> mostrarDialogoCategorias());
 
         Button buscarDireccionBtn = findViewById(R.id.buttonBuscarDireccion);
-        EditText direccionEditText = findViewById(R.id.editTextText3);
-
         buscarDireccionBtn.setOnClickListener(v -> {
             String direccionTexto = direccionEditText.getText().toString().trim();
             if (!direccionTexto.isEmpty()) {
@@ -164,42 +122,69 @@ public class crearNuevoPlan extends AppCompatActivity {
             }
         });
 
+        fechaEditText.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int año = c.get(Calendar.YEAR);
+            int mes = c.get(Calendar.MONTH);
+            int dia = c.get(Calendar.DAY_OF_MONTH);
 
+            DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+                fechaHoraSeleccionada.set(Calendar.YEAR, year);
+                fechaHoraSeleccionada.set(Calendar.MONTH, month);
+                fechaHoraSeleccionada.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                fechaEditText.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year));
+            }, año, mes, dia);
+            datePicker.show();
+        });
+
+        horaEditText.setOnClickListener(v -> {
+            final Calendar c = Calendar.getInstance();
+            int hora = c.get(Calendar.HOUR_OF_DAY);
+            int minuto = c.get(Calendar.MINUTE);
+
+            TimePickerDialog timePicker = new TimePickerDialog(this, (view, hourOfDay, minute1) -> {
+                fechaHoraSeleccionada.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                fechaHoraSeleccionada.set(Calendar.MINUTE, minute1);
+                horaEditText.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1));
+            }, hora, minuto, true);
+            timePicker.show();
+        });
     }
 
     private void crearPlan() {
         String nombre = nombreEditText.getText().toString().trim();
         String descripcion = descripcionEditText.getText().toString().trim();
         String direccion = direccionEditText.getText().toString().trim();
-        String fecha = fechaEditText.getText().toString().trim();
-        String hora = horaEditText.getText().toString().trim();
         String categoria = categoriaTextView.getText().toString().trim();
         String creadorId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-
 
         if (!sinLimite && contadorParticipantes == 0) {
             Toast.makeText(this, "Debes permitir al menos un participante", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (fechaEditText.getText().toString().isEmpty() || horaEditText.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Selecciona una fecha y una hora", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Timestamp fechaHoraTimestamp = new Timestamp(fechaHoraSeleccionada.getTime());
+
         int limiteParticipantes = sinLimite ? -1 : contadorParticipantes;
         boolean soloAmigos = soloAmigosSwitch.isChecked();
 
-        // Construcción manual del mapa de datos para agregar los campos correctos
         Map<String, Object> plan = new HashMap<>();
         plan.put("creadorId", creadorId);
         plan.put("nombre", nombre);
         plan.put("descripcion", descripcion);
         plan.put("direccion", direccion);
-        plan.put("fecha", fecha);
-        plan.put("hora", hora);
         plan.put("categoria", categoria);
         plan.put("limiteParticipantes", limiteParticipantes);
         plan.put("soloAmigos", soloAmigos);
         plan.put("latitud", userLat);
         plan.put("longitud", userLng);
-        plan.put("participantes", new ArrayList<String>()); // ← lista de usuarios que se unirán
+        plan.put("participantes", new ArrayList<String>());
+        plan.put("fechaHora", fechaHoraTimestamp); // Guardado como Timestamp
 
         db.collection("planes")
                 .add(plan)
@@ -215,8 +200,6 @@ public class crearNuevoPlan extends AppCompatActivity {
                         Toast.makeText(this, "Error al crear el plan", Toast.LENGTH_SHORT).show());
     }
 
-
-
     private void mostrarDialogoCategorias() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("Elige una categoría");
@@ -225,26 +208,13 @@ public class crearNuevoPlan extends AppCompatActivity {
         });
         builder.show();
     }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                obtenerUbicacionUsuario();
-            } else {
-                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 
     private void obtenerUbicacionUsuario() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                    this,
+            ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    REQUEST_CODE_LOCATION_PERMISSION
-            );
+                    REQUEST_CODE_LOCATION_PERMISSION);
             return;
         }
 
@@ -263,6 +233,32 @@ public class crearNuevoPlan extends AppCompatActivity {
                 Toast.makeText(this, "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void buscarDireccion(String direccion) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> direcciones = geocoder.getFromLocationName(direccion, 1);
+            if (direcciones != null && !direcciones.isEmpty()) {
+                Address direccionEncontrada = direcciones.get(0);
+                userLat = direccionEncontrada.getLatitude();
+                userLng = direccionEncontrada.getLongitude();
+
+                LatLng posicion = new LatLng(userLat, userLng);
+                if (googleMap != null) {
+                    googleMap.clear();
+                    googleMap.addMarker(new MarkerOptions().position(posicion).title("Ubicación encontrada"));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicion, 15));
+                }
+
+                Toast.makeText(this, "Dirección encontrada", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No se pudo encontrar esa dirección", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error al buscar dirección", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -289,34 +285,15 @@ public class crearNuevoPlan extends AppCompatActivity {
         mapView.onLowMemory();
     }
 
-    private void buscarDireccion(String direccion) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-        try {
-            List<Address> direcciones = geocoder.getFromLocationName(direccion, 1);
-            if (direcciones != null && !direcciones.isEmpty()) {
-                Address direccionEncontrada = direcciones.get(0);
-                userLat = direccionEncontrada.getLatitude();
-                userLng = direccionEncontrada.getLongitude();
-
-                LatLng posicion = new LatLng(userLat, userLng);
-                if (googleMap != null) {
-                    googleMap.clear();
-                    googleMap.addMarker(new MarkerOptions().position(posicion).title("Ubicación encontrada"));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicion, 15));
-                }
-
-                Toast.makeText(this, "Dirección encontrada", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_LOCATION_PERMISSION && grantResults.length > 0) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                obtenerUbicacionUsuario();
             } else {
-                Toast.makeText(this, "No se pudo encontrar esa dirección", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al buscar dirección", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-
 }
