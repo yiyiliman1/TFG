@@ -188,6 +188,30 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         }
 
 
+        ImageView btnCentrar = findViewById(R.id.btn_centrar_ubicacion);
+
+        btnCentrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(menu.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(menu.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(menu.this,
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_CODE_LOCATION_PERMISSION);
+                    return;
+                }
+
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+                    if (location != null && mMap != null) {
+                        LatLng ubicacionActual = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ubicacionActual, 16));
+                    } else {
+                        Toast.makeText(menu.this, "Ubicación no disponible", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
 
 
@@ -235,6 +259,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
         }
 
     }
+
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
 
