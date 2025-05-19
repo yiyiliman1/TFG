@@ -1,16 +1,22 @@
 package com.example.join;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.*;
-import android.Manifest;
 
+import android.Manifest;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -22,9 +28,12 @@ import com.google.android.gms.maps.model.*;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.io.InputStream;
 import java.util.*;
 
 public class crearNuevoPlan extends AppCompatActivity {
@@ -35,6 +44,7 @@ public class crearNuevoPlan extends AppCompatActivity {
     Button crearBtn;
 
     FirebaseFirestore db;
+    StorageReference storageReference;
 
     String[] categorias = {"Cena", "Fiesta", "Deporte", "Cultura", "Excursión", "Videojuegos"};
 
@@ -43,6 +53,9 @@ public class crearNuevoPlan extends AppCompatActivity {
     boolean sinLimite = false;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE_LOCATION_PERMISSION = 100;
+    private Uri selectedImageUri;
+    private Uri defaultImageUri;
+    private ImageView previewImagenPlan;
     private MapView mapView;
     private GoogleMap googleMap;
     private double userLat = 0.0;
@@ -50,12 +63,15 @@ public class crearNuevoPlan extends AppCompatActivity {
 
     Calendar fechaHoraSeleccionada = Calendar.getInstance();
 
+    private ActivityResultLauncher<Intent> galleryLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_nuevo_plan);
 
         db = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference("fotos_planes");
 
         nombreEditText = findViewById(R.id.editTextText);
         descripcionEditText = findViewById(R.id.editTextText2);
@@ -66,6 +82,11 @@ public class crearNuevoPlan extends AppCompatActivity {
         participantesTextView = findViewById(R.id.textView24);
         soloAmigosSwitch = findViewById(R.id.switch1);
         crearBtn = findViewById(R.id.button3);
+        previewImagenPlan = findViewById(R.id.previewImagenPlan);
+
+        defaultImageUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.drawable.personalogo);
+        previewImagenPlan.setImageURI(defaultImageUri);
+        previewImagenPlan.setVisibility(View.VISIBLE);
 
         fechaEditText.setFocusable(false);
         horaEditText.setFocusable(false);
@@ -76,8 +97,22 @@ public class crearNuevoPlan extends AppCompatActivity {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
+        galleryLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                        selectedImageUri = result.getData().getData();
+                        previewImagenPlan.setImageURI(selectedImageUri);
+                        previewImagenPlan.setVisibility(View.VISIBLE);
+                        Toast.makeText(this, "Imagen seleccionada", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
         Button usarUbicacionBtn = findViewById(R.id.button2);
         usarUbicacionBtn.setOnClickListener(v -> obtenerUbicacionUsuario());
+
+        Button btnSubirFoto = findViewById(R.id.btnSubirFoto);
+        btnSubirFoto.setOnClickListener(v -> mostrarOpcionesImagen());
 
         crearBtn.setOnClickListener(v -> crearPlan());
 
@@ -102,12 +137,8 @@ public class crearNuevoPlan extends AppCompatActivity {
 
         btnSinLimite.setOnClickListener(v -> {
             sinLimite = !sinLimite;
-            if (sinLimite) {
-                txtParticipantes.setText("∞");
-            } else {
-                contadorParticipantes = 0;
-                txtParticipantes.setText(String.valueOf(contadorParticipantes));
-            }
+            txtParticipantes.setText(sinLimite ? "∞" : String.valueOf(0));
+            contadorParticipantes = sinLimite ? contadorParticipantes : 0;
         });
 
         categoriaTextView.setOnClickListener(v -> mostrarDialogoCategorias());
@@ -122,33 +153,13 @@ public class crearNuevoPlan extends AppCompatActivity {
             }
         });
 
-        fechaEditText.setOnClickListener(v -> {
-            final Calendar c = Calendar.getInstance();
-            int año = c.get(Calendar.YEAR);
-            int mes = c.get(Calendar.MONTH);
-            int dia = c.get(Calendar.DAY_OF_MONTH);
+        fechaEditText.setOnClickListener(v -> mostrarDatePicker());
+        horaEditText.setOnClickListener(v -> mostrarTimePicker());
+    }
 
-            DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-                fechaHoraSeleccionada.set(Calendar.YEAR, year);
-                fechaHoraSeleccionada.set(Calendar.MONTH, month);
-                fechaHoraSeleccionada.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                fechaEditText.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year));
-            }, año, mes, dia);
-            datePicker.show();
-        });
-
-        horaEditText.setOnClickListener(v -> {
-            final Calendar c = Calendar.getInstance();
-            int hora = c.get(Calendar.HOUR_OF_DAY);
-            int minuto = c.get(Calendar.MINUTE);
-
-            TimePickerDialog timePicker = new TimePickerDialog(this, (view, hourOfDay, minute1) -> {
-                fechaHoraSeleccionada.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                fechaHoraSeleccionada.set(Calendar.MINUTE, minute1);
-                horaEditText.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1));
-            }, hora, minuto, true);
-            timePicker.show();
-        });
+    private void mostrarOpcionesImagen() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryLauncher.launch(galleryIntent);
     }
 
     private void crearPlan() {
@@ -184,10 +195,35 @@ public class crearNuevoPlan extends AppCompatActivity {
         plan.put("latitud", userLat);
         plan.put("longitud", userLng);
         plan.put("participantes", new ArrayList<String>());
-        plan.put("fechaHora", fechaHoraTimestamp); // Guardado como Timestamp
+        plan.put("fechaHora", fechaHoraTimestamp);
         plan.put("estado", "activo");
 
+        Uri imagenParaSubir = (selectedImageUri != null) ? selectedImageUri : defaultImageUri;
 
+        try {
+            Bitmap originalBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagenParaSubir);
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 800, 800, true);
+
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 90, baos);
+            byte[] imageData = baos.toByteArray();
+
+            StorageReference fotoRef = storageReference.child(UUID.randomUUID().toString() + ".jpg");
+            fotoRef.putBytes(imageData)
+                    .addOnSuccessListener(taskSnapshot -> fotoRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        plan.put("fotoUrl", uri.toString());
+                        guardarPlanEnFirestore(plan);
+                    }))
+                    .addOnFailureListener(e -> Toast.makeText(this, "Error al subir la imagen", Toast.LENGTH_SHORT).show());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No se pudo procesar la imagen", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void guardarPlanEnFirestore(Map<String, Object> plan) {
         db.collection("planes")
                 .add(plan)
                 .addOnSuccessListener(documentReference -> {
@@ -203,12 +239,38 @@ public class crearNuevoPlan extends AppCompatActivity {
     }
 
     private void mostrarDialogoCategorias() {
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Elige una categoría");
-        builder.setItems(categorias, (dialog, which) -> {
-            categoriaTextView.setText(categorias[which]);
-        });
+        builder.setItems(categorias, (dialog, which) -> categoriaTextView.setText(categorias[which]));
         builder.show();
+    }
+
+    private void mostrarDatePicker() {
+        final Calendar c = Calendar.getInstance();
+        int año = c.get(Calendar.YEAR);
+        int mes = c.get(Calendar.MONTH);
+        int dia = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePicker = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            fechaHoraSeleccionada.set(Calendar.YEAR, year);
+            fechaHoraSeleccionada.set(Calendar.MONTH, month);
+            fechaHoraSeleccionada.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            fechaEditText.setText(String.format(Locale.getDefault(), "%02d/%02d/%04d", dayOfMonth, month + 1, year));
+        }, año, mes, dia);
+        datePicker.show();
+    }
+
+    private void mostrarTimePicker() {
+        final Calendar c = Calendar.getInstance();
+        int hora = c.get(Calendar.HOUR_OF_DAY);
+        int minuto = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePicker = new TimePickerDialog(this, (view, hourOfDay, minute1) -> {
+            fechaHoraSeleccionada.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            fechaHoraSeleccionada.set(Calendar.MINUTE, minute1);
+            horaEditText.setText(String.format(Locale.getDefault(), "%02d:%02d", hourOfDay, minute1));
+        }, hora, minuto, true);
+        timePicker.show();
     }
 
     private void obtenerUbicacionUsuario() {

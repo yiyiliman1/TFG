@@ -130,6 +130,28 @@
                     android:scrollbars="vertical"
                     android:overScrollMode="always" />
 
+                <Button
+                    android:id="@+id/btnSubirFoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Subir imagen del plan"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/btnverde"
+                    android:backgroundTint="@null"
+                    android:textSize="16dp"/>
+
+                <ImageView
+                    android:id="@+id/previewImagenPlan"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="16dp"
+                    android:scaleType="centerCrop"
+                     />
+
+
+
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
