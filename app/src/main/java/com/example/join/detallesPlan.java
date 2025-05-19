@@ -24,7 +24,7 @@ import java.util.List;
 public class detallesPlan extends AppCompatActivity {
 
     TextView nombreTxt, categoriaTxt, distanciaTxt, descripcionTxt, direccionTxt, esTuyoTxt;
-    Button botonUnirse, botonSalir, botonVerUsuarios, botonChat;
+    Button botonUnirse, botonSalir, botonVerUsuarios, botonChat, botonCancelarPlan;
     LinearLayout layoutUsuarios;
 
     private String planId, nombre;
@@ -45,6 +45,7 @@ public class detallesPlan extends AppCompatActivity {
         botonVerUsuarios = findViewById(R.id.botonVerUsuarios);
         layoutUsuarios = findViewById(R.id.layoutUsuariosUnidos);
         botonChat = findViewById(R.id.botonAbrirChat);
+        botonCancelarPlan = findViewById(R.id.botonCancelarPlan);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -78,6 +79,7 @@ public class detallesPlan extends AppCompatActivity {
                         esTuyoTxt.setVisibility(View.VISIBLE);
                         botonUnirse.setVisibility(View.GONE);
                         botonSalir.setVisibility(View.GONE);
+                        botonCancelarPlan.setVisibility(View.VISIBLE);
                     }
 
                     List<String> participantes = (List<String>) documentSnapshot.get("participantes");
@@ -91,6 +93,24 @@ public class detallesPlan extends AppCompatActivity {
                         botonSalir.setVisibility(View.GONE);
                     }
                 }
+            });
+
+            botonCancelarPlan.setOnClickListener(v -> {
+                new android.app.AlertDialog.Builder(this)
+                        .setTitle("¿Cancelar plan?")
+                        .setMessage("Esta acción no se puede deshacer. ¿Deseas cancelar este plan?")
+                        .setPositiveButton("Sí, cancelar", (dialog, which) -> {
+                            planRef.update("estado", "cancelado")
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(this, "Plan cancelado", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    })
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(this, "Error al cancelar el plan", Toast.LENGTH_SHORT).show()
+                                    );
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
             });
 
             botonUnirse.setOnClickListener(v -> {
@@ -216,7 +236,6 @@ public class detallesPlan extends AppCompatActivity {
                 }
             });
 
-            // Botón de chat grupal
             botonChat.setOnClickListener(view -> {
                 if (planId != null && nombre != null) {
                     Intent intentChat = new Intent(this, ChatPlan.class);

@@ -185,6 +185,8 @@ public class crearNuevoPlan extends AppCompatActivity {
         plan.put("longitud", userLng);
         plan.put("participantes", new ArrayList<String>());
         plan.put("fechaHora", fechaHoraTimestamp); // Guardado como Timestamp
+        plan.put("estado", "activo");
+
 
         db.collection("planes")
                 .add(plan)

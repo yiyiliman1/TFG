@@ -113,6 +113,12 @@ public class listarPlanesCercanos extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaPlanes.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+
+                        String estado = doc.getString("estado");
+                        if (estado != null && estado.equals("cancelado")) {
+                            continue;
+                        }
+
                         String nombre = doc.getString("nombre");
                         String categoria = doc.getString("categoria");
                         Double lat = doc.getDouble("latitud");
@@ -120,11 +126,10 @@ public class listarPlanesCercanos extends AppCompatActivity {
 
                         if (nombre != null && categoria != null && lat != null && lng != null) {
                             PlanItem planItem = new PlanItem(nombre, categoria, lat, lng);
-                            planItem.setId(doc.getId()); // ← AQUÍ SE ASIGNA EL ID CORRECTO
+                            planItem.setId(doc.getId());
                             listaPlanes.add(planItem);
                         }
                     }
-
 
                     adapter = new PlanAdapter(listaPlanes, this, userLat, userLng);
                     recyclerView.setAdapter(adapter);
@@ -132,8 +137,8 @@ public class listarPlanesCercanos extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al cargar planes", Toast.LENGTH_SHORT).show()
                 );
-
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
