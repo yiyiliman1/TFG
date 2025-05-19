@@ -331,6 +331,10 @@ public class crearNuevoPlan extends AppCompatActivity {
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(posicion, 15));
                 }
 
+
+                String direccionCompleta = direccionEncontrada.getAddressLine(0);
+                direccionEditText.setText(direccionCompleta);
+
                 Toast.makeText(this, "Dirección encontrada", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "No se pudo encontrar esa dirección", Toast.LENGTH_SHORT).show();
@@ -340,6 +344,7 @@ public class crearNuevoPlan extends AppCompatActivity {
             Toast.makeText(this, "Error al buscar dirección", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     @Override
     protected void onResume() {
