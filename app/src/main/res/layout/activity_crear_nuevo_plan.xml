@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crearNuevoPlan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0">
@@ -57,12 +58,12 @@
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="Organiza un plan y deja que otros se unan."
                     android:textColor="@color/white"
                     android:textSize="14dp"
                     android:textStyle="italic" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -87,16 +88,16 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Ej: Cena en el centro"
+                    android:hint="Ej: Cena en el centro"
                     android:background="@drawable/edittext_borde"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="@color/black"
+                    android:textColor="#808080"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:layout_marginEnd="30dp" />
 
                 <TextView
                     android:id="@+id/textView12"
@@ -118,17 +119,16 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/edittext_borde"
                     android:padding="8dp"
-                    android:text="Ej: Vamos a probar un nuevo restaurante de hamburguesas 🍔"
+                    android:hint="Ej: Vamos a probar un nuevo restaurante de hamburguesas 🍔"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="@color/black"
+                    android:textColor="#808080"
                     android:inputType="textMultiLine"
                     android:gravity="top|start"
                     android:minLines="4"
                     android:maxLines="6"
                     android:scrollbars="vertical"
                     android:overScrollMode="always" />
-
 
                 <TextView
                     android:id="@+id/textView13"
@@ -148,22 +148,19 @@
                     android:background="@drawable/btnverde"
                     android:backgroundTint="@null"
                     app:backgroundTint="#147001"
-                    android:textColor="@color/white"
                     android:textSize="16dp"
                     android:layout_marginStart="60dp"
                     android:layout_marginEnd="60dp"
-                    android:layout_marginTop="5dp"/>
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    />
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mapView2"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
-                    android:background="@drawable/btnverde"
-                    android:backgroundTint="@null"
-                    app:backgroundTint="#147001"
-                    android:textColor="@color/white"
                     android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:layout_marginEnd="30dp" />
 
                 <EditText
                     android:id="@+id/editTextText3"
@@ -171,16 +168,30 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="Ej: Calle XXXX"
+                    android:hint="Ej: Calle XXXX"
                     android:background="@drawable/edittext_borde"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="@color/black"
+                    android:textColor="#808080"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:layout_marginEnd="30dp" />
+
+                <Button
+                    android:id="@+id/buttonBuscarDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Buscar dirección"
+                    android:layout_marginStart="60dp"
+                    android:layout_marginEnd="60dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/btnverde"
+                    android:backgroundTint="@null"
+                    android:textSize="16dp" />
+
 
                 <TextView
                     android:id="@+id/textView14"
@@ -190,7 +201,7 @@
                     android:layout_marginStart="30dp"
                     android:textColor="@color/black"
                     android:textSize="18dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -201,25 +212,26 @@
                         android:id="@+id/editTextDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="dd/mm/aaaa"
+                        android:hint="dd/mm/aaaa"
                         android:inputType="date"
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
+                        android:focusable="false"
+                        android:clickable="true"
                         android:textStyle="italic"
-                        android:textColor="@color/black"
+                        android:textColor="#808080"
                         android:ems="19"
                         android:padding="8dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginEnd="10dp"/>
+                        android:layout_marginEnd="10dp" />
 
                     <ImageView
                         android:id="@+id/imageView6"
                         android:layout_width="20dp"
                         android:layout_height="52dp"
                         tools:srcCompat="@drawable/date" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -232,24 +244,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:inputType="time"
-                        android:text="hh:mm"
+                        android:hint="hh:mm"
                         android:ems="19"
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="@color/black"
+                        android:textColor="#808080"
+                        android:focusable="false"
+                        android:clickable="true"
                         android:padding="8dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginEnd="10dp"/>
+                        android:layout_marginEnd="10dp" />
 
                     <ImageView
                         android:id="@+id/imageView9"
                         android:layout_width="24dp"
                         android:layout_height="52dp"
                         tools:srcCompat="@drawable/time" />
-
                 </LinearLayout>
 
                 <TextView
@@ -397,8 +410,6 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/btnverde"
                     android:backgroundTint="@null"
-                    app:backgroundTint="#147001"
-                    android:textColor="@color/white"
                     android:text="CREAR"
                     android:layout_marginBottom="80dp"
                     android:layout_marginStart="30dp"

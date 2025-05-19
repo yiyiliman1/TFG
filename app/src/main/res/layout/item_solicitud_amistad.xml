@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF3CD">
+
+    <TextView
+        android:id="@+id/textSolicitudMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Solicitud de amistad"
+        android:textStyle="bold"
+        android:textColor="#856404" />
+
+    <Button
+        android:id="@+id/botonAceptarAmistad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aceptar amistad"
+        android:layout_gravity="end"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

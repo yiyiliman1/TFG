@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F0F0"
-    tools:context=".PerfilEditar">
+    tools:context=".miPerfil">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,9 +40,9 @@
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"
+                    android:text="Tu Perfil"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Personaliza tu Perfil" />
+                    android:layout_weight="1" />
 
             </LinearLayout>
 
@@ -58,32 +58,23 @@
 
                     <ImageView
                         android:id="@+id/imageView29"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"
+                        android:layout_marginTop="20dp"
                         android:background="@drawable/edittext_borde"
                         android:contentDescription="Foto de perfil"
+                        android:scaleType="centerCrop"
+                        android:layout_marginBottom="10dp"
                         tools:srcCompat="@tools:sample/avatars" />
 
 
-                    <Button
-                        android:id="@+id/btnCambiarFoto"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:text="Cambiar Foto" />
-
-
-
-                    <EditText
+                    <TextView
                         android:id="@+id/textView30"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:gravity="center"
-                        android:text="example_01"
                         android:textColor="@color/black"
                         android:textSize="16dp"
                         android:textStyle="bold" />
@@ -94,7 +85,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:gravity="center"
-                        android:text="example@gmail.com"
                         android:textColor="@color/black"
                         android:textSize="16dp" />
 
@@ -113,6 +103,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="Información Personal"
+                            android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="18dp"
                             android:textStyle="bold" />
@@ -125,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="15dp"
-                        android:text="Biografía"
+                        android:text="Sobre Mí"
                         android:textColor="@color/black"
                         android:textSize="16dp"
                         android:textStyle="bold" />
@@ -146,8 +137,7 @@
                         android:overScrollMode="always"
                         android:padding="8dp"
                         android:scrollbars="vertical"
-                        android:text="ej. bla"
-                        android:textColor="#808080"
+                        android:textColor="#000000"
                         android:textSize="14sp"
                         android:textStyle="italic" />
 
@@ -173,8 +163,7 @@
                         android:ems="10"
                         android:inputType="text"
                         android:padding="8dp"
-                        android:text="ej: Madrid, España"
-                        android:textColor="#808080"
+                        android:textColor="#000000"
                         android:textSize="14sp"
                         android:textStyle="italic" />
 
@@ -199,19 +188,47 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView21"
+                                android:id="@+id/textCategoria1"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="30dp"
                                 android:layout_marginTop="10dp"
                                 android:layout_marginEnd="30dp"
-                                android:layout_marginBottom="10dp"
                                 android:background="@drawable/edittext_borde"
                                 android:padding="8dp"
-                                android:text="Categoria1"
+                                android:text="Categoría 1"
                                 android:textColor="#808080"
                                 android:textSize="14sp"
                                 android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/textCategoria2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/edittext_borde"
+                                android:padding="8dp"
+                                android:text="Categoría 2"
+                                android:textColor="#808080"
+                                android:textSize="14sp"
+                                android:textStyle="italic" />
+
+                            <TextView
+                                android:id="@+id/textCategoria3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@drawable/edittext_borde"
+                                android:padding="8dp"
+                                android:text="Categoría 3"
+                                android:textColor="#808080"
+                                android:textSize="14sp"
+                                android:textStyle="italic" />
+
                         </LinearLayout>
                     </HorizontalScrollView>
 
@@ -234,10 +251,7 @@
                             android:textSize="18dp"
                             android:textStyle="bold" />
 
-                        <Switch
-                            android:id="@+id/switch2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+
 
                     </LinearLayout>
 
@@ -312,6 +326,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15dp"
+                            android:gravity="center"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="Privacidad"
@@ -346,6 +361,18 @@
                     </LinearLayout>
 
                     <Button
+                        android:id="@+id/button5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="70dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="70dp"
+
+                        android:text="Modificar Perfil"
+                        app:backgroundTint="#147001"
+                        android:textSize="16dp"/>
+
+                    <Button
                         android:id="@+id/button4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -353,9 +380,11 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginEnd="70dp"
                         android:layout_marginBottom="70dp"
-                        android:text="GUARDAR"
+                        android:text="Cerrar Sesión"
                         app:backgroundTint="#147001"
                         android:textSize="16dp"/>
+
+
 
                 </LinearLayout>
 
