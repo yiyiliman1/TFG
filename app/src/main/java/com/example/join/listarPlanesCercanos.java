@@ -104,7 +104,8 @@ public class listarPlanesCercanos extends AppCompatActivity {
                             break;
                         case 3:
                             textoFiltroActivo.setVisibility(View.GONE);
-                            adapter = new PlanAdapter(listaPlanes, this, userLat, userLng);
+                            adapter = new PlanAdapter(listaPlanes, this, userLat, userLng, R.layout.activity_item_plan_cercano);
+
                             recyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                             break;
@@ -154,7 +155,7 @@ public class listarPlanesCercanos extends AppCompatActivity {
                 planesFiltrados.add(plan);
             }
         }
-        adapter = new PlanAdapter(planesFiltrados, this, userLat, userLng);
+        adapter = new PlanAdapter(planesFiltrados, this, userLat, userLng, R.layout.activity_item_plan_cercano);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -217,7 +218,8 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         }
                     }
 
-                    adapter = new PlanAdapter(listaPlanes, this, userLat, userLng);
+                    adapter = new PlanAdapter(listaPlanes, this, userLat, userLng, R.layout.activity_item_plan_cercano);
+
                     recyclerView.setAdapter(adapter);
                 })
                 .addOnFailureListener(e ->

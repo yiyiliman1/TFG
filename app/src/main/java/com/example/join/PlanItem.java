@@ -21,21 +21,13 @@ public class PlanItem {
     }
 
     public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion) {
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.latitud = latitud;
-        this.longitud = longitud;
+        this(nombre, categoria, latitud, longitud);
         this.descripcion = descripcion;
         this.direccion = direccion;
     }
 
     public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion, String fotoUrl, Date fechaHora) {
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.descripcion = descripcion;
-        this.direccion = direccion;
+        this(nombre, categoria, latitud, longitud, descripcion, direccion);
         this.fotoUrl = fotoUrl;
         this.fechaHora = fechaHora;
     }
@@ -68,8 +60,16 @@ public class PlanItem {
         return descripcion;
     }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getDireccion() {
         return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getFotoUrl() {

@@ -111,7 +111,8 @@ public class miActividad extends AppCompatActivity {
                     }
                 }
             }
-            adapter = new PlanAdapter(listaMisPlanes, this, userLat, userLng);
+            adapter = new PlanAdapter(listaMisPlanes, this, userLat, userLng, R.layout.activity_item_plan_cercano);
+
             recyclerView.setAdapter(adapter);
         }).addOnFailureListener(e ->
                 Toast.makeText(this, "Error al cargar tus planes", Toast.LENGTH_SHORT).show()

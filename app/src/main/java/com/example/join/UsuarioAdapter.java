@@ -15,16 +15,18 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
 
     private List<UsuarioModelo> listaUsuarios;
     private Context context;
+    private int layoutId;
 
-    public UsuarioAdapter(Context context, List<UsuarioModelo> listaUsuarios) {
+    public UsuarioAdapter(Context context, List<UsuarioModelo> listaUsuarios, int layoutId) {
         this.context = context;
         this.listaUsuarios = listaUsuarios;
+        this.layoutId = layoutId;
     }
 
     @NonNull
     @Override
     public UsuarioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_usuario_busqueda, parent, false);
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return new UsuarioViewHolder(view);
     }
 
