@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,11 @@ public class listarPlanesCercanos extends AppCompatActivity {
     RecyclerView recyclerView;
     List<PlanItem> listaPlanes = new ArrayList<>();
     PlanAdapter adapter;
+    TextView textoFiltroActivo;
+
+
+    private double userLat = 0.0;
+    private double userLng = 0.0;
 
     FirebaseFirestore db;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -44,24 +50,27 @@ public class listarPlanesCercanos extends AppCompatActivity {
 
         Button botonMiActividad = findViewById(R.id.botonMiActividad);
         botonMiActividad.setOnClickListener(v -> {
-            Intent intent = new Intent(listarPlanesCercanos.this, miActividad.class);
+            Intent intent = new Intent(this, miActividad.class);
             startActivity(intent);
         });
 
         ImageView botonMenu = findViewById(R.id.imageView4);
         botonMenu.setOnClickListener(v -> {
-            Intent intent = new Intent(listarPlanesCercanos.this, menu.class);
-            startActivity(intent);
+            startActivity(new Intent(this, menu.class));
         });
 
         ImageView botonPerfil = findViewById(R.id.imageView8);
         botonPerfil.setOnClickListener(v -> {
-            Intent intent = new Intent(listarPlanesCercanos.this, miPerfil.class);
-            startActivity(intent);
+            startActivity(new Intent(this, miPerfil.class));
         });
+
+        ImageView filtroBtn = findViewById(R.id.imageView5);
+        filtroBtn.setOnClickListener(v -> mostrarDialogoFiltros());
 
         recyclerView = findViewById(R.id.recyclerViewPlanes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        textoFiltroActivo = findViewById(R.id.textoFiltroActivo);
 
         db = FirebaseFirestore.getInstance();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -70,12 +79,84 @@ public class listarPlanesCercanos extends AppCompatActivity {
 
         ImageView backButton = findViewById(R.id.imageView);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(listarPlanesCercanos.this, menu.class);
+            Intent intent = new Intent(this, menu.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
+    }
+
+    private void mostrarDialogoFiltros() {
+        String[] opciones = {"Cercanía Distancia", "Cercanía Fecha", "Categoría", "Limpiar Filtro"};
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Ordenar/filtrar planes")
+                .setItems(opciones, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            ordenarPorDistancia();
+                            break;
+                        case 1:
+                            ordenarPorFecha();
+                            break;
+                        case 2:
+                            mostrarDialogoCategorias();
+                            break;
+                        case 3:
+                            textoFiltroActivo.setVisibility(View.GONE);
+                            adapter = new PlanAdapter(listaPlanes, this, userLat, userLng);
+                            recyclerView.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+                            break;
+                    }
+                }).show();
+    }
+
+
+    private void ordenarPorDistancia() {
+        textoFiltroActivo.setText("Filtrando por cercanía...");
+        textoFiltroActivo.setVisibility(View.VISIBLE);
+        listaPlanes.sort((a, b) -> {
+            float[] resultsA = new float[1];
+            float[] resultsB = new float[1];
+            Location.distanceBetween(userLat, userLng, a.getLatitud(), a.getLongitud(), resultsA);
+            Location.distanceBetween(userLat, userLng, b.getLatitud(), b.getLongitud(), resultsB);
+            return Float.compare(resultsA[0], resultsB[0]);
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    private void ordenarPorFecha() {
+        textoFiltroActivo.setText("Filtrando por fecha próxima...");
+        textoFiltroActivo.setVisibility(View.VISIBLE);
+        listaPlanes.sort((a, b) -> {
+            if (a.getFechaHora() == null || b.getFechaHora() == null) return 0;
+            return a.getFechaHora().compareTo(b.getFechaHora());
+        });
+        adapter.notifyDataSetChanged();
+    }
+
+    private void mostrarDialogoCategorias() {
+        String[] categorias = {"Cena", "Fiesta", "Deporte", "Cultura", "Excursión", "Videojuegos"};
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("Elige una categoría")
+                .setItems(categorias, (dialog, which) -> {
+                    filtrarPorCategoria(categorias[which]);
+                }).show();
+    }
+
+    private void filtrarPorCategoria(String categoriaSeleccionada) {
+        textoFiltroActivo.setText("Filtrando por categoría '" + categoriaSeleccionada + "'...");
+        textoFiltroActivo.setVisibility(View.VISIBLE);
+        List<PlanItem> planesFiltrados = new ArrayList<>();
+        for (PlanItem plan : listaPlanes) {
+            if (plan.getCategoria().equalsIgnoreCase(categoriaSeleccionada)) {
+                planesFiltrados.add(plan);
+            }
+        }
+        adapter = new PlanAdapter(planesFiltrados, this, userLat, userLng);
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     private void pedirUbicacionYListar() {
@@ -88,8 +169,8 @@ public class listarPlanesCercanos extends AppCompatActivity {
 
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
             if (location != null) {
-                double userLat = location.getLatitude();
-                double userLng = location.getLongitude();
+                userLat = location.getLatitude();
+                userLng = location.getLongitude();
                 cargarPlanes(userLat, userLng);
             } else {
                 Toast.makeText(this, "No se pudo obtener ubicación", Toast.LENGTH_SHORT).show();
@@ -143,7 +224,6 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         Toast.makeText(this, "Error al cargar planes", Toast.LENGTH_SHORT).show()
                 );
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
