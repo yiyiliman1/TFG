@@ -93,7 +93,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             textTitulo = itemView.findViewById(R.id.textTitulo);
             textTipo = itemView.findViewById(R.id.textTipo);
             textDistancia = itemView.findViewById(R.id.textDistancia);
-            textFechaHora = itemView.findViewById(R.id.textFechaHora);  // Este debe estar en el XML
+            textFechaHora = itemView.findViewById(R.id.textFechaHora);
             imagePlan = itemView.findViewById(R.id.imagePlan);
         }
     }

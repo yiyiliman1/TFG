@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -274,21 +275,49 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private void abrirDetallesDelPlan(String planId) {
-        db.collection("planes").document(planId).get().addOnSuccessListener(doc -> {
-            if (doc.exists()) {
-                Intent intent = new Intent(this, detallesPlan.class);
-                intent.putExtra("planId", planId);
-                intent.putExtra("nombre", doc.getString("nombre"));
-                intent.putExtra("categoria", doc.getString("categoria"));
-                intent.putExtra("descripcion", doc.getString("descripcion"));
-                intent.putExtra("direccion", doc.getString("direccion"));
-                // No calculamos distancia aquí
-                intent.putExtra("distancia", ""); // Se puede recalcular en detallesPlan si quieres
-                startActivity(intent);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permiso de ubicación no concedido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                double userLat = location.getLatitude();
+                double userLng = location.getLongitude();
+
+                db.collection("planes").document(planId).get().addOnSuccessListener(doc -> {
+                    if (doc.exists()) {
+                        Double planLat = doc.getDouble("latitud");
+                        Double planLng = doc.getDouble("longitud");
+
+                        String distanciaStr = "";
+                        if (planLat != null && planLng != null) {
+                            float[] results = new float[1];
+                            Location.distanceBetween(userLat, userLng, planLat, planLng, results);
+                            float km = results[0] / 1000;
+                            distanciaStr = String.format("%.2f km de ti", km);
+                        }
+
+                        Intent intent = new Intent(this, detallesPlan.class);
+                        intent.putExtra("planId", planId);
+                        intent.putExtra("nombre", doc.getString("nombre"));
+                        intent.putExtra("categoria", doc.getString("categoria"));
+                        intent.putExtra("descripcion", doc.getString("descripcion"));
+                        intent.putExtra("direccion", doc.getString("direccion"));
+                        intent.putExtra("distancia", distanciaStr);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(this, "No se encontró el plan", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             } else {
-                Toast.makeText(this, "No se encontró el plan", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No se pudo obtener tu ubicación", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
 
 }
