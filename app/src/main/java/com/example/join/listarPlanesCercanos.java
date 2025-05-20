@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class listarPlanesCercanos extends AppCompatActivity {
@@ -38,12 +40,7 @@ public class listarPlanesCercanos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-
         setContentView(R.layout.activity_listar_planes_cercanos);
-
 
         Button botonMiActividad = findViewById(R.id.botonMiActividad);
         botonMiActividad.setOnClickListener(v -> {
@@ -52,21 +49,15 @@ public class listarPlanesCercanos extends AppCompatActivity {
         });
 
         ImageView botonMenu = findViewById(R.id.imageView4);
-
-        botonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(listarPlanesCercanos.this, menu.class);
-                startActivity(intent);
-            }
+        botonMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(listarPlanesCercanos.this, menu.class);
+            startActivity(intent);
         });
+
         ImageView botonPerfil = findViewById(R.id.imageView8);
-        botonPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(listarPlanesCercanos.this, miPerfil.class);
-                startActivity(intent);
-            }
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(listarPlanesCercanos.this, miPerfil.class);
+            startActivity(intent);
         });
 
         recyclerView = findViewById(R.id.recyclerViewPlanes);
@@ -85,7 +76,6 @@ public class listarPlanesCercanos extends AppCompatActivity {
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             finish();
         });
-
     }
 
     private void pedirUbicacionYListar() {
@@ -113,9 +103,17 @@ public class listarPlanesCercanos extends AppCompatActivity {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaPlanes.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-
+                        Timestamp fechaHora = doc.getTimestamp("fechaHora");
                         String estado = doc.getString("estado");
-                        if (estado != null && estado.equals("cancelado")) {
+
+                        if (fechaHora != null && "activo".equals(estado)) {
+                            if (fechaHora.toDate().before(new Date())) {
+                                doc.getReference().update("estado", "finalizado");
+                                continue;
+                            }
+                        }
+
+                        if ("cancelado".equals(estado) || "finalizado".equals(estado)) {
                             continue;
                         }
 
@@ -138,7 +136,6 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         Toast.makeText(this, "Error al cargar planes", Toast.LENGTH_SHORT).show()
                 );
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

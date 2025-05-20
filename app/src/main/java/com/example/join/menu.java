@@ -192,10 +192,19 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     mMap.clear(); // Limpia los marcadores anteriores
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
 
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         String estado = doc.getString("estado");
-                        if ("cancelado".equals(estado)) continue;
+                        com.google.firebase.Timestamp fechaHora = doc.getTimestamp("fechaHora");
+
+                        if (fechaHora != null && "activo".equals(estado)) {
+                            if (fechaHora.toDate().before(new java.util.Date())) {
+                                doc.getReference().update("estado", "finalizado");
+                                continue;
+                            }
+                        }
+
+                        if ("cancelado".equals(estado) || "finalizado".equals(estado)) continue;
 
                         Double lat = doc.getDouble("latitud");
                         Double lng = doc.getDouble("longitud");
@@ -209,7 +218,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                                             .position(ubicacion)
                                             .title(nombre)
                                             .icon(BitmapDescriptorFactory.fromBitmap(resized)))
-                                    .setTag(doc.getId()); // ← Aquí guardamos el ID del plan
+                                    .setTag(doc.getId());
                         }
                     }
 
@@ -218,17 +227,16 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                         Marker lastClickedMarker = null;
 
                         @Override
-                        public boolean onMarkerClick(@NonNull com.google.android.gms.maps.model.Marker marker) {
+                        public boolean onMarkerClick(@NonNull Marker marker) {
                             if (marker.equals(lastClickedMarker)) {
-                                // Obtener planId desde el tag del marcador
                                 String planId = (String) marker.getTag();
                                 if (planId != null) {
                                     abrirDetallesDelPlan(planId);
                                 }
-                                return true; // Consumimos el evento
+                                return true;
                             } else {
                                 lastClickedMarker = marker;
-                                marker.showInfoWindow(); // Primer clic: solo mostrar nombre
+                                marker.showInfoWindow();
                                 return true;
                             }
                         }
@@ -238,6 +246,7 @@ public class menu extends AppCompatActivity implements OnMapReadyCallback {
                         Toast.makeText(this, "Error cargando planes", Toast.LENGTH_SHORT).show()
                 );
     }
+
 
 
     /*private void buscarUbicacion(String ubicacion) {

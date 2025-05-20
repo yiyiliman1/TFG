@@ -75,7 +75,18 @@ public class miActividad extends AppCompatActivity {
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
 
                 String estado = doc.getString("estado");
-                if ("cancelado".equals(estado)) continue;
+                com.google.firebase.Timestamp fechaHora = doc.getTimestamp("fechaHora");
+
+                // Si el plan ya pasó y está activo, actualízalo a finalizado
+                if (fechaHora != null && "activo".equals(estado)) {
+                    if (fechaHora.toDate().before(new java.util.Date())) {
+                        doc.getReference().update("estado", "finalizado");
+                        continue;
+                    }
+                }
+
+                // Saltar cancelados y finalizados
+                if ("cancelado".equals(estado) || "finalizado".equals(estado)) continue;
 
                 String creadorId = doc.getString("creadorId");
                 List<String> participantes = (List<String>) doc.get("participantes");
@@ -103,6 +114,7 @@ public class miActividad extends AppCompatActivity {
                 Toast.makeText(this, "Error al cargar tus planes", Toast.LENGTH_SHORT).show()
         );
     }
+
 
     @Override
     public void onResume() {

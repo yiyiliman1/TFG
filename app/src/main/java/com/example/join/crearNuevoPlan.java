@@ -180,6 +180,11 @@ public class crearNuevoPlan extends AppCompatActivity {
         }
 
         Timestamp fechaHoraTimestamp = new Timestamp(fechaHoraSeleccionada.getTime());
+        Calendar ahora = Calendar.getInstance();
+        if (fechaHoraSeleccionada.before(ahora)) {
+            Toast.makeText(this, "No puedes crear un plan en el pasado", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         int limiteParticipantes = sinLimite ? -1 : contadorParticipantes;
         boolean soloAmigos = soloAmigosSwitch.isChecked();
