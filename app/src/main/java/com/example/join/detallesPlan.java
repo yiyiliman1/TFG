@@ -123,7 +123,7 @@ public class detallesPlan extends AppCompatActivity {
                         .setPositiveButton("Sí, cancelar", (dialog, which) -> {
                             Map<String, Object> actualizaciones = new HashMap<>();
                             actualizaciones.put("estado", "cancelado");
-                            actualizaciones.put("participantes", new ArrayList<String>());
+                            //actualizaciones.put("participantes", new ArrayList<String>());
 
                             db.collection("planes").document(planId).update(actualizaciones)
                                     .addOnSuccessListener(aVoid -> {

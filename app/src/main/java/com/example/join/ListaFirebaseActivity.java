@@ -113,6 +113,8 @@ public class ListaFirebaseActivity extends AppCompatActivity {
             plan.setDescripcion(doc.getString("descripcion"));
             plan.setDireccion(doc.getString("direccion"));
             plan.setFotoUrl(doc.getString("fotoUrl"));
+            plan.setEstado(doc.getString("estado"));
+
 
             Date fecha = doc.getDate("fechaHora");
             if (fecha != null) plan.setFechaHora(fecha);
@@ -120,7 +122,8 @@ public class ListaFirebaseActivity extends AppCompatActivity {
             planes.add(plan);
         }
 
-        planAdapter = new PlanAdapter(planes, this, 0, 0, layoutId);
+        planAdapter = new PlanAdapter(planes, this, 0, 0, layoutId, false);
+
         recyclerView.setAdapter(planAdapter);
     }
 

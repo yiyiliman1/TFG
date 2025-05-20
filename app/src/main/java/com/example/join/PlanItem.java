@@ -12,6 +12,9 @@ public class PlanItem {
     private String direccion;
     private String fotoUrl;
     private Date fechaHora;
+    private String estado;
+
+
 
     public PlanItem(String nombre, String categoria, double latitud, double longitud) {
         this.nombre = nombre;
@@ -86,5 +89,13 @@ public class PlanItem {
 
     public void setFechaHora(Date fechaHora) {
         this.fechaHora = fechaHora;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

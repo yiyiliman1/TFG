@@ -111,7 +111,7 @@ public class miActividad extends AppCompatActivity {
                     }
                 }
             }
-            adapter = new PlanAdapter(listaMisPlanes, this, userLat, userLng, R.layout.activity_item_plan_cercano);
+            adapter = new PlanAdapter(listaMisPlanes, this, userLat, userLng, R.layout.activity_item_plan_cercano, true);
 
             recyclerView.setAdapter(adapter);
         }).addOnFailureListener(e ->

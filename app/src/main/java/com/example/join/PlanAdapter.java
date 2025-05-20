@@ -25,13 +25,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     private Context context;
     private double userLat, userLng;
     private int layoutId;
+    private boolean clickActivo;
 
-    public PlanAdapter(List<PlanItem> listaPlanes, Context context, double userLat, double userLng, int layoutId) {
+    public PlanAdapter(List<PlanItem> listaPlanes, Context context, double userLat, double userLng, int layoutId, boolean clickActivo) {
         this.listaPlanes = listaPlanes;
         this.context = context;
         this.userLat = userLat;
         this.userLng = userLng;
         this.layoutId = layoutId;
+        this.clickActivo = clickActivo;
     }
 
     @NonNull
@@ -45,30 +47,29 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     public void onBindViewHolder(@NonNull PlanViewHolder holder, int position) {
         PlanItem plan = listaPlanes.get(position);
 
-        // Título
         if (holder.textTitulo != null) {
             holder.textTitulo.setText(plan.getNombre());
         }
 
-        // Categoría
         if (holder.textTipo != null) {
             holder.textTipo.setText(plan.getCategoria());
         }
 
-        // Fecha y hora
         if (holder.textFechaHora != null && plan.getFechaHora() != null) {
             Date fecha = plan.getFechaHora();
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy - HH:mm", new Locale("es", "ES"));
             holder.textFechaHora.setText(sdf.format(fecha));
         }
 
-        // Distancia
         if (holder.textDistancia != null) {
             String distancia = calcularDistancia(plan.getLatitud(), plan.getLongitud()) + " km de ti";
             holder.textDistancia.setText(distancia);
         }
 
-        // Imagen
+        if (holder.textEstado != null && plan.getEstado() != null) {
+            holder.textEstado.setText("Estado: " + plan.getEstado());
+        }
+
         if (holder.imagePlan != null) {
             if (plan.getFotoUrl() != null && !plan.getFotoUrl().isEmpty()) {
                 Glide.with(context).load(plan.getFotoUrl()).into(holder.imagePlan);
@@ -77,16 +78,19 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             }
         }
 
-        // Click a detalles
-        holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, detallesPlan.class);
-            intent.putExtra("nombre", plan.getNombre());
-            intent.putExtra("categoria", plan.getCategoria());
-            intent.putExtra("descripcion", plan.getDescripcion());
-            intent.putExtra("direccion", plan.getDireccion());
-            intent.putExtra("planId", plan.getId());
-            context.startActivity(intent);
-        });
+        if (clickActivo) {
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, detallesPlan.class);
+                intent.putExtra("nombre", plan.getNombre());
+                intent.putExtra("categoria", plan.getCategoria());
+                intent.putExtra("descripcion", plan.getDescripcion());
+                intent.putExtra("direccion", plan.getDireccion());
+                intent.putExtra("planId", plan.getId());
+                context.startActivity(intent);
+            });
+        } else {
+            holder.itemView.setOnClickListener(null); // Desactiva el clic
+        }
     }
 
     @Override
@@ -95,17 +99,16 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
     }
 
     public class PlanViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitulo, textTipo, textDistancia, textFechaHora;
+        TextView textTitulo, textTipo, textDistancia, textFechaHora, textEstado;
         ImageView imagePlan;
 
         public PlanViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            // Intenta cargar según distintos IDs posibles
             textTitulo = safeFindText(itemView, R.id.textTitulo, R.id.nombrePlan);
             textTipo = safeFindText(itemView, R.id.textTipo);
             textDistancia = safeFindText(itemView, R.id.textDistancia);
             textFechaHora = safeFindText(itemView, R.id.textFechaHora, R.id.fechaPlan);
+            textEstado = safeFindText(itemView, R.id.textEstado);
             imagePlan = itemView.findViewById(R.id.imagePlan);
         }
 
