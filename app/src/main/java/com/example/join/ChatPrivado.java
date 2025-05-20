@@ -63,8 +63,11 @@ public class ChatPrivado extends AppCompatActivity {
                     mensajes.clear();
                     for (DocumentSnapshot doc : snapshots) {
                         MensajeChat msg = doc.toObject(MensajeChat.class);
-                        mensajes.add(msg);
+                        if (msg != null && doc.contains("timestamp")) {
+                            mensajes.add(msg);
+                        }
                     }
+
                     chatAdapter.notifyDataSetChanged();
                     listaMensajes.setSelection(mensajes.size() - 1);
                 });
@@ -83,7 +86,7 @@ public class ChatPrivado extends AppCompatActivity {
             mensaje.put("texto", texto);
             mensaje.put("autorId", userId);
             mensaje.put("autorNombre", nombre);
-            mensaje.put("timestamp", Timestamp.now());
+            mensaje.put("timestamp", FieldValue.serverTimestamp());
             mensaje.put("tipo", "normal");
 
             db.collection("chats").document(chatId).collection("mensajes")

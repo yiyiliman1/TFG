@@ -116,7 +116,8 @@ public class PerfilUsuario extends AppCompatActivity {
                 mensaje.put("texto", "¡Hola! ¿Quieres ser mi amigo?");
                 mensaje.put("autorId", currentUserId);
                 mensaje.put("autorNombre", autorNombre);
-                mensaje.put("timestamp", Timestamp.now());
+                mensaje.put("timestamp", FieldValue.serverTimestamp());
+
                 mensaje.put("tipo", "solicitud_amistad");
 
                 chatRef.collection("mensajes")
