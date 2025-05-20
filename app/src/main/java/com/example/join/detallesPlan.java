@@ -141,28 +141,29 @@ public class detallesPlan extends AppCompatActivity {
             // Botón unirse
             botonUnirse.setOnClickListener(v -> {
                 planRef.get().addOnSuccessListener(documentSnapshot -> {
-                    List<String> participantes = (List<String>) documentSnapshot.get("participantes");
-                    Long limite = documentSnapshot.getLong("limiteParticipantes");
-                    if (participantes == null) participantes = new ArrayList<>();
+                    if (!documentSnapshot.exists()) return;
 
-                    if (participantes.contains(userId)) {
-                        Toast.makeText(this, "Ya estás en el plan", Toast.LENGTH_SHORT).show();
-                        return;
+                    boolean soloAmigos = Boolean.TRUE.equals(documentSnapshot.getBoolean("soloAmigos"));
+                    String creadorId = documentSnapshot.getString("creadorId");
+
+                    if (soloAmigos && creadorId != null && !creadorId.equals(userId)) {
+                        // Comprobar si el usuario es amigo del creador
+                        db.collection("usuarios").document(creadorId).get().addOnSuccessListener(creadorSnap -> {
+                            List<String> amigos = (List<String>) creadorSnap.get("amigos");
+                            if (amigos != null && amigos.contains(userId)) {
+                                // Es amigo: permitir unirse
+                                intentarUnirse(planRef, userId, documentSnapshot);
+                            } else {
+                                Toast.makeText(this, "Este plan es solo para amigos del creador", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        // No es solo para amigos, permitir unirse
+                        intentarUnirse(planRef, userId, documentSnapshot);
                     }
-
-                    if (limite != null && limite != -1 && participantes.size() >= limite) {
-                        Toast.makeText(this, "El plan está lleno", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    planRef.update("participantes", FieldValue.arrayUnion(userId))
-                            .addOnSuccessListener(aVoid -> {
-                                Toast.makeText(this, "Te has unido al plan", Toast.LENGTH_SHORT).show();
-                                botonUnirse.setEnabled(false);
-                                botonSalir.setVisibility(View.VISIBLE);
-                            });
                 });
             });
+
 
             // Botón salir
             botonSalir.setOnClickListener(v -> {
@@ -185,15 +186,47 @@ public class detallesPlan extends AppCompatActivity {
                     layoutUsuarios.removeAllViews();
 
                     planRef.get().addOnSuccessListener(docSnap -> {
+                        if (!docSnap.exists()) return;
+
+                        String creadorId = docSnap.getString("creadorId");
+
+                        // Mostrar al creador
+                        if (creadorId != null) {
+                            db.collection("usuarios").document(creadorId).get().addOnSuccessListener(creadorSnap -> {
+                                if (creadorSnap.exists()) {
+                                    String nombreCreador = creadorSnap.getString("usuario");
+                                    String fotoCreador = creadorSnap.getString("fotoPerfil");
+
+                                    View creadorView = getLayoutInflater().inflate(R.layout.item_usuario_unido, null);
+                                    TextView nombreTxt = creadorView.findViewById(R.id.nombreUsuario);
+                                    ImageView imgUser = creadorView.findViewById(R.id.imagenUsuario);
+                                    Button botonEliminar = creadorView.findViewById(R.id.botonEliminarUsuario);
+
+                                    nombreTxt.setText((nombreCreador != null ? nombreCreador : "Sin nombre") + " (Creador)");
+                                    if (fotoCreador != null && !fotoCreador.isEmpty()) {
+                                        Glide.with(this).load(fotoCreador).into(imgUser);
+                                    } else {
+                                        imgUser.setImageResource(R.drawable.default_user);
+                                    }
+
+                                    botonEliminar.setVisibility(View.GONE); // No eliminar al creador
+                                    layoutUsuarios.addView(creadorView);
+                                }
+                            });
+                        }
+
+                        // Mostrar participantes
                         List<String> participantes = (List<String>) docSnap.get("participantes");
                         if (participantes == null || participantes.isEmpty()) {
                             TextView vacio = new TextView(this);
-                            vacio.setText("No hay usuarios unidos");
+                            vacio.setText("No hay participantes unidos");
                             layoutUsuarios.addView(vacio);
                             return;
                         }
 
                         for (String uid : participantes) {
+                            if (uid.equals(creadorId)) continue; // Ya mostrado
+
                             db.collection("usuarios").document(uid).get().addOnSuccessListener(userSnap -> {
                                 if (userSnap.exists()) {
                                     String nombreUser = userSnap.getString("usuario");
@@ -219,6 +252,7 @@ public class detallesPlan extends AppCompatActivity {
                 }
             });
 
+
             // Botón chat
             botonChat.setOnClickListener(view -> {
                 if (planId != null && nombre != null) {
@@ -230,4 +264,28 @@ public class detallesPlan extends AppCompatActivity {
             });
         }
     }
+    private void intentarUnirse(DocumentReference planRef, String userId, com.google.firebase.firestore.DocumentSnapshot documentSnapshot) {
+        List<String> participantes = (List<String>) documentSnapshot.get("participantes");
+        Long limite = documentSnapshot.getLong("limiteParticipantes");
+
+        if (participantes == null) participantes = new ArrayList<>();
+
+        if (participantes.contains(userId)) {
+            Toast.makeText(this, "Ya estás en el plan", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (limite != null && limite != -1 && participantes.size() >= limite) {
+            Toast.makeText(this, "El plan está lleno", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        planRef.update("participantes", FieldValue.arrayUnion(userId))
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Te has unido al plan", Toast.LENGTH_SHORT).show();
+                    botonUnirse.setEnabled(false);
+                    botonSalir.setVisibility(View.VISIBLE);
+                });
+    }
+
 }
