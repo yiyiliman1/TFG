@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Para Android 13+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" /> <!-- Para Android 12 o inferior -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,41 +20,62 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
         <activity
-            android:name=".menu.chat.ChatActivity"
+            android:name=".ListaFirebaseActivity"
             android:exported="false" />
         <activity
-            android:name=".menu.chat.Chat_List"
+            android:name=".BuscarUsuario"
             android:exported="false" />
         <activity
-            android:name=".sesion.slide3"
+            android:name=".ChatPlan"
             android:exported="false" />
         <activity
-            android:name=".sesion.slide2"
+            android:name=".PerfilUsuario"
             android:exported="false" />
         <activity
-            android:name=".sesion.Login"
+            android:name=".miActividad"
             android:exported="false" />
         <activity
-            android:name=".sesion.DNI"
+            android:name=".miPerfil"
             android:exported="false" />
         <activity
-            android:name=".sesion.Register"
+            android:name=".ChatPrivado"
             android:exported="false" />
         <activity
-            android:name=".sesion.slide1"
+            android:name=".PerfilEditar"
+            android:exported="false" />
+
+        <activity
+            android:name=".detallesPlan"
             android:exported="false" />
         <activity
-            android:name=".sesion.Open"
-            android:exported="true"> <!-- Definir loginalex como la actividad de inicio -->
+            android:name=".itemPlanCercano"
+            android:exported="false" />
+        <activity
+            android:name=".listarPlanesCercanos"
+            android:exported="false" />
+        <activity
+            android:name=".crearNuevoPlan"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw" />
+        <activity
+            android:name=".login"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Otras actividades -->
-        <activity android:name=".menu.menu"
-            android:exported="false"
-            />
+        </activity>
+        <activity android:name=".menu" />
+        <activity
+            android:name=".dniActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

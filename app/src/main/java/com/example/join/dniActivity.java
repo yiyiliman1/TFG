@@ -2,6 +2,7 @@ package com.example.join;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -84,7 +85,7 @@ public class dniActivity extends AppCompatActivity {
                                                     mAuth.signOut();
 
                                                     // Enviar al login
-                                                    Intent intent = new Intent(dniActivity.this, loginalex.class);
+                                                    Intent intent = new Intent(dniActivity.this, login.class);
                                                     startActivity(intent);
                                                     finish();
                                                 })
@@ -100,6 +101,11 @@ public class dniActivity extends AppCompatActivity {
                         Toast.makeText(this, "Error al crear la cuenta: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void irAOtraPantalla(View view) {
+        Intent intent = new Intent(this, login.class);
+        startActivity(intent);
     }
 
 }

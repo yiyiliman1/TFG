@@ -28,13 +28,13 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        // Inicializa el TextView que tiene el texto "¡Inicia sesión!"
-        iniciarSesionTextView = findViewById(R.id.textView4);  // Este es el id de tu TextView
 
-        // Añade un OnClickListener al TextView
+        iniciarSesionTextView = findViewById(R.id.textView4);
+
+
         iniciarSesionTextView.setOnClickListener(v -> {
-            // Crea un Intent para abrir la actividad de login
-            Intent intent = new Intent(MainActivity.this, loginalex.class); // Asegúrate de que loginalex sea tu actividad de login
+            //  Intent para abrir la actividad de login
+            Intent intent = new Intent(MainActivity.this, login.class);
             startActivity(intent);
         });
 
