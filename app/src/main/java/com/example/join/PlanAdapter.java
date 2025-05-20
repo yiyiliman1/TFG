@@ -55,6 +55,8 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             holder.textTipo.setText(plan.getCategoria());
         }
 
+        String distancia = calcularDistancia(plan.getLatitud(), plan.getLongitud()) + " km de ti";
+
         if (holder.textFechaHora != null && plan.getFechaHora() != null) {
             Date fecha = plan.getFechaHora();
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy - HH:mm", new Locale("es", "ES"));
@@ -62,7 +64,6 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
         }
 
         if (holder.textDistancia != null) {
-            String distancia = calcularDistancia(plan.getLatitud(), plan.getLongitud()) + " km de ti";
             holder.textDistancia.setText(distancia);
         }
 
@@ -86,10 +87,11 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
                 intent.putExtra("descripcion", plan.getDescripcion());
                 intent.putExtra("direccion", plan.getDireccion());
                 intent.putExtra("planId", plan.getId());
+                intent.putExtra("distancia", distancia);
                 context.startActivity(intent);
             });
         } else {
-            holder.itemView.setOnClickListener(null); // Desactiva el clic
+            holder.itemView.setOnClickListener(null);
         }
     }
 
