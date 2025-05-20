@@ -121,10 +121,17 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         String categoria = doc.getString("categoria");
                         Double lat = doc.getDouble("latitud");
                         Double lng = doc.getDouble("longitud");
+                        String descripcion = doc.getString("descripcion");
+                        String direccion = doc.getString("direccion");
+                        String fotoUrl = doc.getString("fotoUrl");
 
                         if (nombre != null && categoria != null && lat != null && lng != null) {
-                            PlanItem planItem = new PlanItem(nombre, categoria, lat, lng);
+                            PlanItem planItem = new PlanItem(nombre, categoria, lat, lng, descripcion, direccion);
                             planItem.setId(doc.getId());
+                            planItem.setFotoUrl(fotoUrl);
+                            if (fechaHora != null) {
+                                planItem.setFechaHora(fechaHora.toDate());
+                            }
                             listaPlanes.add(planItem);
                         }
                     }
@@ -136,6 +143,7 @@ public class listarPlanesCercanos extends AppCompatActivity {
                         Toast.makeText(this, "Error al cargar planes", Toast.LENGTH_SHORT).show()
                 );
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

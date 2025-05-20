@@ -12,7 +12,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder> {
 
@@ -41,14 +46,29 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
         holder.textTitulo.setText(plan.getNombre());
         holder.textTipo.setText(plan.getCategoria());
 
-        // Calculo distancia
+        // Calcular y mostrar distancia
         String distancia = calcularDistancia(plan.getLatitud(), plan.getLongitud()) + " km de ti";
         holder.textDistancia.setText(distancia);
 
-        holder.imagePlan.setImageResource(R.drawable.personalogo);
+        // Mostrar imagen del plan desde Firebase o imagen por defecto
+        if (plan.getFotoUrl() != null && !plan.getFotoUrl().isEmpty()) {
+            Glide.with(context).load(plan.getFotoUrl()).into(holder.imagePlan);
+        } else {
+            holder.imagePlan.setImageResource(R.drawable.personalogo);
+        }
+
+        // Mostrar fecha y hora si está disponible
+        if (plan.getFechaHora() != null) {
+            Date fecha = plan.getFechaHora();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM yyyy - HH:mm", new Locale("es", "ES"));
+            holder.textFechaHora.setText(sdf.format(fecha));
+        } else {
+            holder.textFechaHora.setText("");
+        }
+
+        // Click para abrir detalles del plan
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, detallesPlan.class);
-
             intent.putExtra("nombre", plan.getNombre());
             intent.putExtra("categoria", plan.getCategoria());
             intent.putExtra("distancia", distancia);
@@ -57,17 +77,15 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             intent.putExtra("planId", plan.getId());
             context.startActivity(intent);
         });
-
     }
-
 
     @Override
     public int getItemCount() {
         return listaPlanes.size();
     }
 
-    public class PlanViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitulo, textTipo, textDistancia;
+    public static class PlanViewHolder extends RecyclerView.ViewHolder {
+        TextView textTitulo, textTipo, textDistancia, textFechaHora;
         ImageView imagePlan;
 
         public PlanViewHolder(@NonNull View itemView) {
@@ -75,6 +93,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.PlanViewHolder
             textTitulo = itemView.findViewById(R.id.textTitulo);
             textTipo = itemView.findViewById(R.id.textTipo);
             textDistancia = itemView.findViewById(R.id.textDistancia);
+            textFechaHora = itemView.findViewById(R.id.textFechaHora);  // Este debe estar en el XML
             imagePlan = itemView.findViewById(R.id.imagePlan);
         }
     }

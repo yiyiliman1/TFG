@@ -1,5 +1,7 @@
 package com.example.join;
 
+import java.util.Date;
+
 public class PlanItem {
     private String id;
     private String nombre;
@@ -8,6 +10,8 @@ public class PlanItem {
     private double longitud;
     private String descripcion;
     private String direccion;
+    private String fotoUrl;
+    private Date fechaHora;
 
     public PlanItem(String nombre, String categoria, double latitud, double longitud) {
         this.nombre = nombre;
@@ -16,8 +20,6 @@ public class PlanItem {
         this.longitud = longitud;
     }
 
-    public PlanItem() {}
-
     public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion) {
         this.nombre = nombre;
         this.categoria = categoria;
@@ -25,6 +27,17 @@ public class PlanItem {
         this.longitud = longitud;
         this.descripcion = descripcion;
         this.direccion = direccion;
+    }
+
+    public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion, String fotoUrl, Date fechaHora) {
+        this.nombre = nombre;
+        this.categoria = categoria;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.descripcion = descripcion;
+        this.direccion = direccion;
+        this.fotoUrl = fotoUrl;
+        this.fechaHora = fechaHora;
     }
 
     public String getId() {
@@ -58,5 +71,20 @@ public class PlanItem {
     public String getDireccion() {
         return direccion;
     }
-}
 
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
+    public Date getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+}

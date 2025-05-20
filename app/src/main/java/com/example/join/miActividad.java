@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -73,11 +74,9 @@ public class miActividad extends AppCompatActivity {
         db.collection("planes").get().addOnSuccessListener(queryDocumentSnapshots -> {
             listaMisPlanes.clear();
             for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-
                 String estado = doc.getString("estado");
-                com.google.firebase.Timestamp fechaHora = doc.getTimestamp("fechaHora");
+                Timestamp fechaHora = doc.getTimestamp("fechaHora");
 
-                // Si el plan ya pasó y está activo, actualízalo a finalizado
                 if (fechaHora != null && "activo".equals(estado)) {
                     if (fechaHora.toDate().before(new java.util.Date())) {
                         doc.getReference().update("estado", "finalizado");
@@ -85,7 +84,6 @@ public class miActividad extends AppCompatActivity {
                     }
                 }
 
-                // Saltar cancelados y finalizados
                 if ("cancelado".equals(estado) || "finalizado".equals(estado)) continue;
 
                 String creadorId = doc.getString("creadorId");
@@ -100,10 +98,15 @@ public class miActividad extends AppCompatActivity {
                     Double lng = doc.getDouble("longitud");
                     String descripcion = doc.getString("descripcion");
                     String direccion = doc.getString("direccion");
+                    String fotoUrl = doc.getString("fotoUrl");
 
                     if (nombre != null && categoria != null && lat != null && lng != null) {
                         PlanItem planItem = new PlanItem(nombre, categoria, lat, lng, descripcion, direccion);
                         planItem.setId(doc.getId());
+                        planItem.setFotoUrl(fotoUrl);
+                        if (fechaHora != null) {
+                            planItem.setFechaHora(fechaHora.toDate());
+                        }
                         listaMisPlanes.add(planItem);
                     }
                 }
@@ -114,6 +117,7 @@ public class miActividad extends AppCompatActivity {
                 Toast.makeText(this, "Error al cargar tus planes", Toast.LENGTH_SHORT).show()
         );
     }
+
 
 
     @Override
