@@ -20,7 +20,19 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
         <activity
+            android:name=".slide3"
+            android:exported="false" />
+        <activity
+            android:name=".slide2"
+            android:exported="false" />
+        <activity
+            android:name=".slide1"
+            android:exported="false" />
+        <activity
             android:name=".login"
+            android:exported="false" />
+        <activity
+            android:name=".ListaFirebaseActivity"
             android:exported="false" />
         <activity
             android:name=".BuscarUsuario"

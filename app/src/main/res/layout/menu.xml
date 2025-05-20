@@ -113,13 +113,13 @@
         android:layout_margin="16dp"
         android:padding="8dp"
         android:background="@color/white"
-    android:src="@drawable/default_user"
-    android:contentDescription="Centrar en mi ubicación"
-    android:elevation="6dp"
-    android:clickable="true"
-    android:focusable="true"
-    app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-    app:layout_constraintEnd_toEndOf="parent" />
+        android:src="@drawable/default_user"
+        android:contentDescription="Centrar en mi ubicación"
+        android:elevation="6dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

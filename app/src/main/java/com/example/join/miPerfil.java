@@ -21,14 +21,12 @@ public class miPerfil extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
-    private TextView textUsuario, textCorreo, textIntereses;
+    private TextView textUsuario, textCorreo;
     private EditText editBiografia, editUbicacion;
-    private Switch switchPrivado;
+    //private Switch switchPrivado;
     private Button btnEditar, btnCerrar;
     private ImageView imageViewFoto;
     private TextView textCategoria1, textCategoria2, textCategoria3;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +36,11 @@ public class miPerfil extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-
         textUsuario = findViewById(R.id.textView30);
         textCorreo = findViewById(R.id.textView31);
         editBiografia = findViewById(R.id.editTextText4);
         editUbicacion = findViewById(R.id.editTextText7);
-        //textIntereses = findViewById(R.id.textView21);
-        switchPrivado = findViewById(R.id.switch4);
+       // switchPrivado = findViewById(R.id.switch4);
         btnEditar = findViewById(R.id.button5);
         btnCerrar = findViewById(R.id.button4);
         imageViewFoto = findViewById(R.id.imageView29);
@@ -53,11 +49,10 @@ public class miPerfil extends AppCompatActivity {
         textCategoria2 = findViewById(R.id.textCategoria2);
         textCategoria3 = findViewById(R.id.textCategoria3);
 
-
         // Desactivar edición
         editBiografia.setEnabled(false);
         editUbicacion.setEnabled(false);
-        switchPrivado.setEnabled(false);
+        //switchPrivado.setEnabled(false);
 
         cargarDatosUsuario();
 
@@ -77,22 +72,56 @@ public class miPerfil extends AppCompatActivity {
         ImageView back = findViewById(R.id.imageView);
         back.setOnClickListener(v -> finish());
 
+        // Navegación inferior
         ImageView botonMenu = findViewById(R.id.imageView4);
-
-        botonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(miPerfil.this, menu.class);
-                startActivity(intent);
-            }
+        botonMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, menu.class);
+            startActivity(intent);
         });
+
         ImageView botonPerfil = findViewById(R.id.imageView10);
-        botonPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(miPerfil.this, listarPlanesCercanos.class);
-                startActivity(intent);
-            }
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        // Ir a Planes Creados
+        ImageView irPlanesCreados = findViewById(R.id.imageView12);
+        irPlanesCreados.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, ListaFirebaseActivity.class);
+            intent.putExtra("tipo", "planes_creados");
+            startActivity(intent);
+        });
+
+        ImageView botonPerfilAPerfil = findViewById(R.id.imageView8);
+        botonPerfilAPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, miPerfil.class);
+            startActivity(intent);
+        });
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
+        // Ir a Planes Unidos
+        ImageView irPlanesUnidos = findViewById(R.id.imageView13);
+        irPlanesUnidos.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, ListaFirebaseActivity.class);
+            intent.putExtra("tipo", "planes_unidos");
+            startActivity(intent);
+        });
+
+        // Ir a Lista de Amigos
+        ImageView irAmigos = findViewById(R.id.imageView77);
+        irAmigos.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, ListaFirebaseActivity.class);
+            intent.putExtra("tipo", "amigos");
+            startActivity(intent);
         });
     }
 
@@ -112,7 +141,7 @@ public class miPerfil extends AppCompatActivity {
                         textUsuario.setText(doc.getString("usuario"));
                         editBiografia.setText(doc.getString("biografia"));
                         editUbicacion.setText(doc.getString("ubicacion"));
-                        switchPrivado.setChecked(Boolean.TRUE.equals(doc.getBoolean("perfilPrivado")));
+                        //switchPrivado.setChecked(Boolean.TRUE.equals(doc.getBoolean("perfilPrivado")));
 
                         // Mostrar imagen
                         String url = doc.getString("fotoPerfil");
@@ -128,25 +157,13 @@ public class miPerfil extends AppCompatActivity {
                         if (interesesObj instanceof java.util.List) {
                             java.util.List<String> intereses = (java.util.List<String>) interesesObj;
 
-                            if (intereses.size() > 0)
-                                textCategoria1.setText(intereses.get(0));
-                            else
-                                textCategoria1.setText("");  // Limpiar si no hay
-
-                            if (intereses.size() > 1)
-                                textCategoria2.setText(intereses.get(1));
-                            else
-                                textCategoria2.setText("");
-
-                            if (intereses.size() > 2)
-                                textCategoria3.setText(intereses.get(2));
-                            else
-                                textCategoria3.setText("");
+                            textCategoria1.setText(intereses.size() > 0 ? intereses.get(0) : "");
+                            textCategoria2.setText(intereses.size() > 1 ? intereses.get(1) : "");
+                            textCategoria3.setText(intereses.size() > 2 ? intereses.get(2) : "");
                         }
                     }
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error cargando perfil", Toast.LENGTH_SHORT).show());
     }
-
 }

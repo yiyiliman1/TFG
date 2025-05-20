@@ -1,5 +1,7 @@
 package com.example.join;
 
+import java.util.Date;
+
 public class PlanItem {
     private String id;
     private String nombre;
@@ -8,6 +10,11 @@ public class PlanItem {
     private double longitud;
     private String descripcion;
     private String direccion;
+    private String fotoUrl;
+    private Date fechaHora;
+    private String estado;
+
+
 
     public PlanItem(String nombre, String categoria, double latitud, double longitud) {
         this.nombre = nombre;
@@ -16,15 +23,16 @@ public class PlanItem {
         this.longitud = longitud;
     }
 
-    public PlanItem() {}
-
     public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion) {
-        this.nombre = nombre;
-        this.categoria = categoria;
-        this.latitud = latitud;
-        this.longitud = longitud;
+        this(nombre, categoria, latitud, longitud);
         this.descripcion = descripcion;
         this.direccion = direccion;
+    }
+
+    public PlanItem(String nombre, String categoria, double latitud, double longitud, String descripcion, String direccion, String fotoUrl, Date fechaHora) {
+        this(nombre, categoria, latitud, longitud, descripcion, direccion);
+        this.fotoUrl = fotoUrl;
+        this.fechaHora = fechaHora;
     }
 
     public String getId() {
@@ -55,8 +63,39 @@ public class PlanItem {
         return descripcion;
     }
 
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getDireccion() {
         return direccion;
     }
-}
 
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
+    public Date getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(Date fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+}

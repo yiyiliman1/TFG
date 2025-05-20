@@ -38,7 +38,7 @@ public class BuscarUsuario extends AppCompatActivity {
         listaUsuarios = new ArrayList<>();
         listaChats = new ArrayList<>();
 
-        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios);
+        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios, R.layout.item_usuario_busqueda);
         chatAdapter = new ChatPrivadoAdapter(this, listaChats);
 
         recyclerUsuarios.setAdapter(usuarioAdapter);
