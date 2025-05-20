@@ -14,11 +14,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PerfilUsuario extends AppCompatActivity {
 
@@ -53,7 +49,6 @@ public class PerfilUsuario extends AppCompatActivity {
             return;
         }
 
-        // Mostrar botón solo si no es tu propio perfil
         if (!viewedUserId.equals(currentUserId)) {
             List<String> ids = new ArrayList<>();
             ids.add(currentUserId);
@@ -61,33 +56,50 @@ public class PerfilUsuario extends AppCompatActivity {
             Collections.sort(ids);
             String chatId = ids.get(0) + "_" + ids.get(1);
 
-            FirebaseFirestore.getInstance().collection("chats").document(chatId)
-                    .get()
-                    .addOnSuccessListener(doc -> {
-                        if (doc.exists()) {
-                            Boolean confirmado = doc.getBoolean("confirmado");
-                            if (Boolean.TRUE.equals(confirmado)) {
-                                btnAmistad.setVisibility(View.VISIBLE);
-                                btnAmistad.setEnabled(false);
-                                btnAmistad.setText("Ya sois amigos");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            // Primero, verificar si hay rechazo activo
+            db.collection("rechazos").document(chatId).get().addOnSuccessListener(rechazoDoc -> {
+                if (rechazoDoc.exists()) {
+                    Timestamp rechazadoHasta = rechazoDoc.getTimestamp("rechazadoHasta");
+                    if (rechazadoHasta != null && rechazadoHasta.toDate().after(new Date())) {
+                        btnAmistad.setVisibility(View.VISIBLE);
+                        btnAmistad.setEnabled(false);
+                        btnAmistad.setText("Solicitud rechazada");
+                        return;
+                    }
+                }
+
+                // Si no hay rechazo, verificar estado del chat
+                db.collection("chats").document(chatId)
+                        .get()
+                        .addOnSuccessListener(doc -> {
+                            if (doc.exists()) {
+                                Boolean confirmado = doc.getBoolean("confirmado");
+                                if (Boolean.TRUE.equals(confirmado)) {
+                                    btnAmistad.setVisibility(View.VISIBLE);
+                                    btnAmistad.setEnabled(false);
+                                    btnAmistad.setText("Ya sois amigos");
+                                } else {
+                                    btnAmistad.setVisibility(View.VISIBLE);
+                                    btnAmistad.setEnabled(false);
+                                    btnAmistad.setText("Solicitud enviada");
+                                }
                             } else {
                                 btnAmistad.setVisibility(View.VISIBLE);
-                                btnAmistad.setEnabled(false);
-                                btnAmistad.setText("Solicitud enviada");
+                                btnAmistad.setEnabled(true);
+                                btnAmistad.setText("Solicitar amistad");
+                                btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
                             }
-                        } else {
+                        })
+                        .addOnFailureListener(e -> {
                             btnAmistad.setVisibility(View.VISIBLE);
                             btnAmistad.setEnabled(true);
                             btnAmistad.setText("Solicitar amistad");
                             btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        btnAmistad.setVisibility(View.VISIBLE);
-                        btnAmistad.setEnabled(true);
-                        btnAmistad.setText("Solicitar amistad");
-                        btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
-                    });
+                        });
+
+            });
         }
 
         FirebaseFirestore.getInstance().collection("usuarios").document(viewedUserId)
@@ -132,7 +144,7 @@ public class PerfilUsuario extends AppCompatActivity {
                 Map<String, Object> chatData = new HashMap<>();
                 chatData.put("usuarios", ids);
                 chatData.put("createdAt", Timestamp.now());
-                chatData.put("confirmado", false); // se marca explícitamente como no confirmado
+                chatData.put("confirmado", false);
                 chatRef.set(chatData);
             }
 

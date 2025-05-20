@@ -10,14 +10,10 @@ import android.widget.BaseAdapter;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.*;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Locale;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ChatAdapter extends BaseAdapter {
     private Context context;
@@ -67,16 +63,27 @@ public class ChatAdapter extends BaseAdapter {
 
             TextView textMensaje = convertView.findViewById(R.id.textSolicitudMensaje);
             Button btnAceptar = convertView.findViewById(R.id.botonAceptarAmistad);
+            Button btnRechazar = convertView.findViewById(R.id.botonRechazarAmistad);
 
             textMensaje.setText("Solicitud de amistad de " + mensaje.getAutorNombre());
 
             if (chatConfirmado) {
                 btnAceptar.setVisibility(View.GONE);
+                btnRechazar.setVisibility(View.GONE);
             } else {
                 btnAceptar.setVisibility(View.VISIBLE);
+                btnRechazar.setVisibility(View.VISIBLE);
+
                 btnAceptar.setOnClickListener(v -> {
                     aceptarSolicitud(mensaje.getAutorId());
-                    btnAceptar.setVisibility(View.GONE); // Ocultarlo después de aceptar
+                    btnAceptar.setVisibility(View.GONE);
+                    btnRechazar.setVisibility(View.GONE);
+                });
+
+                btnRechazar.setOnClickListener(v -> {
+                    rechazarSolicitud(mensaje.getAutorId());
+                    btnAceptar.setVisibility(View.GONE);
+                    btnRechazar.setVisibility(View.GONE);
                 });
             }
 
@@ -141,6 +148,37 @@ public class ChatAdapter extends BaseAdapter {
 
         // Actualizar el estado local
         this.chatConfirmado = true;
-        notifyDataSetChanged(); // Refresca la lista para ocultar botón
+        notifyDataSetChanged();
+    }
+
+    private void rechazarSolicitud(String otroId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Generar chatId
+        String chatId = currentUserId.compareTo(otroId) < 0
+                ? currentUserId + "_" + otroId
+                : otroId + "_" + currentUserId;
+
+        // Fecha 7 días a futuro
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, 7);
+        Timestamp rechazadoHasta = new Timestamp(cal.getTime());
+
+        // Guardar marca de rechazo
+        db.collection("rechazos").document(chatId)
+                .set(Collections.singletonMap("rechazadoHasta", rechazadoHasta));
+
+        // Borrar mensajes del chat
+        db.collection("chats").document(chatId).collection("mensajes")
+                .get().addOnSuccessListener(query -> {
+                    WriteBatch batch = db.batch();
+                    for (DocumentSnapshot doc : query.getDocuments()) {
+                        batch.delete(doc.getReference());
+                    }
+                    batch.commit().addOnSuccessListener(v -> {
+                        // Borrar el documento del chat
+                        db.collection("chats").document(chatId).delete();
+                    });
+                });
     }
 }
