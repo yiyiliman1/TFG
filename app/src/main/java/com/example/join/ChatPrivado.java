@@ -50,6 +50,14 @@ public class ChatPrivado extends AppCompatActivity {
         chatAdapter = new ChatAdapter(this, mensajes);
         listaMensajes.setAdapter(chatAdapter);
 
+        // Cargar estado de amistad confirmada
+        db.collection("chats").document(chatId).get().addOnSuccessListener(doc -> {
+            if (doc.exists()) {
+                Boolean confirmado = doc.getBoolean("confirmado");
+                chatAdapter.setChatConfirmado(Boolean.TRUE.equals(confirmado));
+            }
+        });
+
         escucharMensajes();
 
         enviarBtn.setOnClickListener(v -> enviarMensaje());

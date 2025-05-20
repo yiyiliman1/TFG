@@ -24,6 +24,8 @@ public class ChatAdapter extends BaseAdapter {
     private List<MensajeChat> mensajes;
     private String currentUserId;
 
+    private boolean chatConfirmado = false;
+
     public ChatAdapter(Context context, List<MensajeChat> mensajes) {
         this.context = context;
         this.mensajes = mensajes;
@@ -50,13 +52,16 @@ public class ChatAdapter extends BaseAdapter {
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(timestamp.toDate());
     }
 
+    public void setChatConfirmado(boolean confirmado) {
+        this.chatConfirmado = confirmado;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         MensajeChat mensaje = mensajes.get(position);
-
         String tipo = mensaje.getTipo() != null ? mensaje.getTipo() : "";
 
-        // En caso de ser solicitud de amistad y no es tuya
+        // Solicitud de amistad recibida
         if ("solicitud_amistad".equals(tipo) && !mensaje.getAutorId().equals(currentUserId)) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_solicitud_amistad, parent, false);
 
@@ -65,12 +70,20 @@ public class ChatAdapter extends BaseAdapter {
 
             textMensaje.setText("Solicitud de amistad de " + mensaje.getAutorNombre());
 
-            btnAceptar.setOnClickListener(v -> aceptarSolicitud(mensaje.getAutorId()));
+            if (chatConfirmado) {
+                btnAceptar.setVisibility(View.GONE);
+            } else {
+                btnAceptar.setVisibility(View.VISIBLE);
+                btnAceptar.setOnClickListener(v -> {
+                    aceptarSolicitud(mensaje.getAutorId());
+                    btnAceptar.setVisibility(View.GONE); // Ocultarlo después de aceptar
+                });
+            }
 
             return convertView;
         }
 
-        //  Mensaje informativo (tipo "info")
+        // Mensaje informativo
         if ("info".equals(tipo)) {
             convertView = LayoutInflater.from(context).inflate(R.layout.item_mensaje_info, parent, false);
             TextView texto = convertView.findViewById(R.id.textMensajeInfo);
@@ -98,13 +111,23 @@ public class ChatAdapter extends BaseAdapter {
     private void aceptarSolicitud(String otroId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // Agregar cada uno a la lista de amigos del otro
         db.collection("usuarios").document(currentUserId)
                 .update("amigos", FieldValue.arrayUnion(otroId));
 
         db.collection("usuarios").document(otroId)
                 .update("amigos", FieldValue.arrayUnion(currentUserId));
 
-        // Mensaje de confirmación en el chat
+        // Construir ID de chat
+        String chatId = currentUserId.compareTo(otroId) < 0
+                ? currentUserId + "_" + otroId
+                : otroId + "_" + currentUserId;
+
+        // Marcar el chat como confirmado
+        db.collection("chats").document(chatId)
+                .update("confirmado", true);
+
+        // Enviar mensaje de confirmación al chat
         Map<String, Object> msg = new HashMap<>();
         msg.put("texto", "¡Ahora sois amigos!");
         msg.put("autorId", currentUserId);
@@ -112,11 +135,12 @@ public class ChatAdapter extends BaseAdapter {
         msg.put("timestamp", Timestamp.now());
         msg.put("tipo", "info");
 
-        String chatId = currentUserId.compareTo(otroId) < 0
-                ? currentUserId + "_" + otroId
-                : otroId + "_" + currentUserId;
-
         db.collection("chats").document(chatId)
-                .collection("mensajes").add(msg);
+                .collection("mensajes")
+                .add(msg);
+
+        // Actualizar el estado local
+        this.chatConfirmado = true;
+        notifyDataSetChanged(); // Refresca la lista para ocultar botón
     }
 }

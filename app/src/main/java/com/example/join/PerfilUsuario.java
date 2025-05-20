@@ -1,6 +1,5 @@
 package com.example.join;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,7 +44,6 @@ public class PerfilUsuario extends AppCompatActivity {
         textCategoria3 = findViewById(R.id.textCategoria3);
         btnAmistad = findViewById(R.id.btnAmistad);
 
-
         viewedUserId = getIntent().getStringExtra("usuarioId");
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -57,10 +55,40 @@ public class PerfilUsuario extends AppCompatActivity {
 
         // Mostrar botón solo si no es tu propio perfil
         if (!viewedUserId.equals(currentUserId)) {
-            btnAmistad.setVisibility(View.VISIBLE);
-            btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
-        }
+            List<String> ids = new ArrayList<>();
+            ids.add(currentUserId);
+            ids.add(viewedUserId);
+            Collections.sort(ids);
+            String chatId = ids.get(0) + "_" + ids.get(1);
 
+            FirebaseFirestore.getInstance().collection("chats").document(chatId)
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                        if (doc.exists()) {
+                            Boolean confirmado = doc.getBoolean("confirmado");
+                            if (Boolean.TRUE.equals(confirmado)) {
+                                btnAmistad.setVisibility(View.VISIBLE);
+                                btnAmistad.setEnabled(false);
+                                btnAmistad.setText("Ya sois amigos");
+                            } else {
+                                btnAmistad.setVisibility(View.VISIBLE);
+                                btnAmistad.setEnabled(false);
+                                btnAmistad.setText("Solicitud enviada");
+                            }
+                        } else {
+                            btnAmistad.setVisibility(View.VISIBLE);
+                            btnAmistad.setEnabled(true);
+                            btnAmistad.setText("Solicitar amistad");
+                            btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        btnAmistad.setVisibility(View.VISIBLE);
+                        btnAmistad.setEnabled(true);
+                        btnAmistad.setText("Solicitar amistad");
+                        btnAmistad.setOnClickListener(v -> enviarSolicitudPorChat());
+                    });
+        }
 
         FirebaseFirestore.getInstance().collection("usuarios").document(viewedUserId)
                 .get()
@@ -98,17 +126,16 @@ public class PerfilUsuario extends AppCompatActivity {
         Collections.sort(ids);
         String chatId = ids.get(0) + "_" + ids.get(1);
 
-        // Paso 1: Crear el documento del chat si no existe
         DocumentReference chatRef = db.collection("chats").document(chatId);
         chatRef.get().addOnSuccessListener(chatSnapshot -> {
             if (!chatSnapshot.exists()) {
                 Map<String, Object> chatData = new HashMap<>();
                 chatData.put("usuarios", ids);
                 chatData.put("createdAt", Timestamp.now());
+                chatData.put("confirmado", false); // se marca explícitamente como no confirmado
                 chatRef.set(chatData);
             }
 
-            // Paso 2: Obtener el nombre del autor y enviar el mensaje de solicitud
             db.collection("usuarios").document(currentUserId).get().addOnSuccessListener(userDoc -> {
                 String autorNombre = userDoc.getString("usuario");
 
@@ -117,7 +144,6 @@ public class PerfilUsuario extends AppCompatActivity {
                 mensaje.put("autorId", currentUserId);
                 mensaje.put("autorNombre", autorNombre);
                 mensaje.put("timestamp", FieldValue.serverTimestamp());
-
                 mensaje.put("tipo", "solicitud_amistad");
 
                 chatRef.collection("mensajes")
@@ -139,6 +165,4 @@ public class PerfilUsuario extends AppCompatActivity {
             Toast.makeText(this, "Error al verificar el chat", Toast.LENGTH_SHORT).show();
         });
     }
-
-
 }
