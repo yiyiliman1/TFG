@@ -26,8 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@color/white">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -36,7 +35,6 @@
                     android:layout_gravity="start"
                     android:layout_weight="2"
                     android:padding="17dp"
-                    android:onClick="irAOtraPantalla"
                     app:srcCompat="@drawable/back" />
 
                 <TextView
@@ -78,7 +76,14 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="16dp" />
 
                 <TextView
                     android:id="@+id/textView20"
@@ -152,8 +157,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:layout_marginStart="20dp"
-                        android:orientation="vertical">
+                        >
 
                         <TextView
                             android:id="@+id/textCategoria1"
@@ -198,9 +204,9 @@
                     android:id="@+id/textView32"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
+                    android:paddingStart="30dp"
                     android:paddingTop="7dp"
                     android:paddingBottom="7dp"
                     android:text="Historial"
@@ -232,11 +238,11 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
+                        android:rotation="180"
                         android:src="@drawable/back"
                         android:contentDescription="Ver planes creados"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:rotation="180"/>
+                        android:focusable="true" />
                 </LinearLayout>
 
                 <!-- Planes Unidos -->
@@ -263,10 +269,10 @@
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
                         android:src="@drawable/back"
+                        android:rotation="180"
                         android:contentDescription="Ver planes unidos"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:rotation="180"/>
+                        android:focusable="true" />
                 </LinearLayout>
 
                 <!-- Lista de Amigos -->
@@ -293,22 +299,22 @@
                         android:layout_height="24dp"
                         android:layout_margin="10dp"
                         android:src="@drawable/back"
+                        android:rotation="180"
                         android:contentDescription="Ver amigos"
                         android:clickable="true"
-                        android:focusable="true"
-                        android:rotation="180"/>
+                        android:focusable="true" />
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/button5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="70dp"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="100dp"
                     android:text="Modificar Perfil"
                     app:backgroundTint="#147001"
-                    android:textSize="16dp" />
+                    android:textSize="15dp" />
 
                 <Button
                     android:id="@+id/button4"
@@ -318,7 +324,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="70dp"
                     android:layout_marginBottom="70dp"
-                    android:text="Cerrar Sesión"
+                    android:text="CERRAR SESIÓN"
                     app:backgroundTint="#147001"
                     android:textSize="16dp" />
             </LinearLayout>
