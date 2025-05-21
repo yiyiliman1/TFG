@@ -1,6 +1,8 @@
 package com.example.join;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -109,4 +111,10 @@ public class ChatPlan extends AppCompatActivity {
                     .addOnFailureListener(e -> Toast.makeText(this, "Error al enviar mensaje", Toast.LENGTH_SHORT).show());
         });
     }
+
+    public void irAOtraPantalla(View view) {
+        finish();
+    }
+
+
 }

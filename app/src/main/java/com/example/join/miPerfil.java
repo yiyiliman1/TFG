@@ -166,4 +166,7 @@ public class miPerfil extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error cargando perfil", Toast.LENGTH_SHORT).show());
     }
+    public void irAOtraPantalla(View view) {
+        finish();
+    }
 }

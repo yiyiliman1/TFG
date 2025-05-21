@@ -113,7 +113,7 @@
         android:layout_margin="16dp"
         android:padding="8dp"
         android:background="@color/white"
-        android:src="@drawable/default_user"
+        android:src="@drawable/schlocation"
         android:contentDescription="Centrar en mi ubicación"
         android:elevation="6dp"
         android:clickable="true"

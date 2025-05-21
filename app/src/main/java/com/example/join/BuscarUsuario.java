@@ -3,6 +3,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -107,6 +108,10 @@ public class BuscarUsuario extends AppCompatActivity {
                     }
                 });
     }
+    public void irAOtraPantalla(View view) {
+        finish();
+    }
+
 
 
 }

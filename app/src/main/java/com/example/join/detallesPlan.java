@@ -51,6 +51,31 @@ public class detallesPlan extends AppCompatActivity {
         botonChat = findViewById(R.id.botonAbrirChat);
         botonCancelarPlan = findViewById(R.id.botonCancelarPlan);
 
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(detallesPlan.this, menu.class);
+            startActivity(intent);
+        });
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(detallesPlan.this, miPerfil.class);
+            startActivity(intent);
+        });
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(detallesPlan.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(detallesPlan.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
         Intent intent = getIntent();
         if (intent != null) {
             nombre = intent.getStringExtra("nombre");
@@ -287,5 +312,10 @@ public class detallesPlan extends AppCompatActivity {
                     botonSalir.setVisibility(View.VISIBLE);
                 });
     }
+
+    public void irAOtraPantalla(View view) {
+        finish();
+    }
+
 
 }

@@ -42,7 +42,9 @@
                     android:text="JOIN"
                     android:textColor="@color/white"
                     android:textSize="35dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:backgroundTint="@null"
+                    app:backgroundTint="#147001"/>
 
                 <Button
                     android:id="@+id/botonSalir"
@@ -54,8 +56,9 @@
                     android:paddingStart="40dp"
                     android:text="SALIR"
                     android:textColor="@color/white"
-                    android:textSize="30dp"
-                    android:visibility="gone"/>
+                    android:textSize="31dp"
+                    android:visibility="gone"
+                    app:backgroundTint="#147001"/>
             </FrameLayout>
 
             <LinearLayout
@@ -176,8 +179,9 @@
                 android:text="¡Conoce al Grupo antes de Quedar!"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
+                android:gravity="center"
+                android:background="@color/white"
+                android:padding="10dp"
                 android:textColor="@color/black"/>
 
             <Button
@@ -185,7 +189,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ver usuarios unidos"
-                android:layout_margin="16dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/btnverde"
+                android:backgroundTint="@null"
+                app:backgroundTint="#147001"
                 android:textColor="@android:color/white" />
 
             <LinearLayout
@@ -202,7 +209,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Abrir chat del plan"
-                android:layout_margin="16dp"
+                android:background="@drawable/btnverde"
+                android:backgroundTint="@null"
+                app:backgroundTint="#147001"
+                android:layout_margin="20dp"
                 android:textColor="@android:color/white"
                 />
 
@@ -217,6 +227,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="20dp"
+        android:onClick="irAOtraPantalla"
         app:srcCompat="@drawable/back" />
 
 

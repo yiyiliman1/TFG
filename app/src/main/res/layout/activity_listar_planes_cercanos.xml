@@ -108,6 +108,9 @@
         android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@+id/barraSuperior"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/btnverde"
+        android:backgroundTint="@null"
+        app:backgroundTint="#147001"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
