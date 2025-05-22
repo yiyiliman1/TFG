@@ -61,8 +61,8 @@ public class detallesPlan extends AppCompatActivity {
             Intent intent = new Intent(detallesPlan.this, miPerfil.class);
             startActivity(intent);
         });
-        ImageView botonChat = findViewById(R.id.imageView2);
-        botonChat.setOnClickListener(v -> {
+        ImageView botonChatBarra = findViewById(R.id.imageView2);
+        botonChatBarra.setOnClickListener(v -> {
             Intent intent = new Intent(detallesPlan.this, BuscarUsuario.class);
             startActivity(intent);
         });
