@@ -6,7 +6,7 @@
     tools:context=".login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  >
+    >
 
     <LinearLayout
         android:layout_width="0dp"
@@ -56,7 +56,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="¿Nuevo por aquí?"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                android:textColor="@color/black"/>
 
             <TextView
                 android:id="@+id/textView4"
@@ -65,7 +66,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Crea tu cuenta"
-                android:textColor="#0D4900"
+                android:textColor="#147101"
                 android:textSize="12dp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -77,6 +78,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="50dp"
             android:layout_marginEnd="50dp"
+            android:textColor="@color/black"
             android:text="Correo" />
 
         <EditText
@@ -86,6 +88,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
+            android:textColor="@color/black"
             android:background="@drawable/edittext_custom"
             android:padding="5dp" />
 
@@ -96,7 +99,8 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
-            android:text="Contraseña" />
+            android:text="Contraseña"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/editTextTextEmailAddress2"
@@ -105,8 +109,9 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="50dp"
+            android:textColor="@color/black"
             android:background="@drawable/edittext_custom"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:padding="5dp" />
 
         <CheckBox
@@ -116,6 +121,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
+            android:textColor="@color/black"
             android:text="Recuérdame" />
 
         <Button
@@ -128,6 +134,7 @@
             android:background="@drawable/btnverde"
             app:backgroundTint="#147001"
             android:backgroundTint="@null"
+            android:textColor="@color/white"
             android:text="Iniciar Sesión" />
 
     </LinearLayout>

@@ -93,6 +93,21 @@ public class miPerfil extends AppCompatActivity {
             startActivity(intent);
         });
 
+        ImageView botonPerfilAPerfil = findViewById(R.id.imageView8);
+        botonPerfilAPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, miPerfil.class);
+            startActivity(intent);
+        });
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(miPerfil.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
         // Ir a Planes Unidos
         ImageView irPlanesUnidos = findViewById(R.id.imageView13);
         irPlanesUnidos.setOnClickListener(v -> {
@@ -150,5 +165,8 @@ public class miPerfil extends AppCompatActivity {
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error cargando perfil", Toast.LENGTH_SHORT).show());
+    }
+    public void irAOtraPantalla(View view) {
+        finish();
     }
 }

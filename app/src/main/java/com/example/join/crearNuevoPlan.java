@@ -108,6 +108,31 @@ public class crearNuevoPlan extends AppCompatActivity {
                     }
                 });
 
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(crearNuevoPlan.this, menu.class);
+            startActivity(intent);
+        });
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(crearNuevoPlan.this, miPerfil.class);
+            startActivity(intent);
+        });
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(crearNuevoPlan.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(crearNuevoPlan.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
         Button usarUbicacionBtn = findViewById(R.id.button2);
         usarUbicacionBtn.setOnClickListener(v -> obtenerUbicacionUsuario());
 
@@ -388,8 +413,8 @@ public class crearNuevoPlan extends AppCompatActivity {
     }
 
     public void irAOtraPantalla(View view) {
-        Intent intent = new Intent(this, menu.class);
-        startActivity(intent);
+        finish();
     }
+
 
 }

@@ -56,8 +56,9 @@
                     android:paddingStart="40dp"
                     android:text="SALIR"
                     android:textColor="@color/white"
-                    android:textSize="30dp"
-                    android:visibility="gone"/>
+                    android:textSize="31dp"
+                    android:visibility="gone"
+                    app:backgroundTint="#147001"/>
             </FrameLayout>
 
             <LinearLayout
@@ -245,8 +246,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="14dp"
-            app:srcCompat="@drawable/location" />
+            android:padding="15dp"
+            app:srcCompat="@drawable/locationegro" />
 
         <ImageView
             android:id="@+id/imageView10"

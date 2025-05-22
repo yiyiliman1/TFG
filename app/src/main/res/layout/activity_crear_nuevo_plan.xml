@@ -22,7 +22,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="110dp"
                 android:background="#147101"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -59,10 +59,10 @@
                     android:id="@+id/textView10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="Organiza un plan y deja que otros se unan."
                     android:textColor="@color/white"
+                    android:layout_marginTop="5dp"
                     android:textSize="14dp"
                     android:textStyle="italic" />
             </LinearLayout>
@@ -93,7 +93,7 @@
                     android:background="@drawable/edittext_borde"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="#808080"
+                    android:textColor="@color/black"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
@@ -123,7 +123,7 @@
                     android:hint="Ej: Vamos a probar un nuevo restaurante de hamburguesas 🍔"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="#808080"
+                    android:textColor="@color/black"
                     android:inputType="textMultiLine"
                     android:gravity="top|start"
                     android:minLines="4"
@@ -140,6 +140,7 @@
                     android:layout_marginEnd="60dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/btnverde"
+                    android:textColor="@color/white"
                     android:backgroundTint="@null"
                     app:backgroundTint="#147001"
                     android:textSize="16dp"/>
@@ -151,7 +152,7 @@
                     android:layout_margin="16dp"
                     android:scaleType="centerCrop"
                     android:background="@color/white"
-                     />
+                    />
 
 
 
@@ -175,6 +176,7 @@
                     app:backgroundTint="#147001"
                     android:textSize="16dp"
                     android:layout_marginStart="60dp"
+                    android:textColor="@color/white"
                     android:layout_marginEnd="60dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
@@ -197,7 +199,7 @@
                     android:background="@drawable/edittext_borde"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="#808080"
+                    android:textColor="@color/black"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
@@ -212,6 +214,7 @@
                     android:layout_marginStart="60dp"
                     android:layout_marginEnd="60dp"
                     android:layout_marginBottom="10dp"
+                    android:textColor="@color/white"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/btnverde"
                     android:backgroundTint="@null"
@@ -245,7 +248,7 @@
                         android:focusable="false"
                         android:clickable="true"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:ems="19"
                         android:padding="8dp"
                         android:layout_marginStart="30dp"
@@ -275,7 +278,7 @@
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:focusable="false"
                         android:clickable="true"
                         android:padding="8dp"
@@ -318,7 +321,7 @@
                             android:background="@drawable/edittext_borde"
                             android:textSize="14sp"
                             android:textStyle="italic"
-                            android:textColor="#808080"
+                            android:textColor="@color/black"
                             android:padding="8dp"
                             android:layout_marginStart="30dp"
                             android:layout_marginTop="10dp"
@@ -351,7 +354,7 @@
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:padding="8dp"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
@@ -368,7 +371,7 @@
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:padding="8dp"
                         android:gravity="center"
                         android:layout_marginEnd="8dp"
@@ -383,7 +386,7 @@
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:padding="8dp"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
@@ -397,7 +400,7 @@
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
-                        android:textColor="#808080"
+                        android:textColor="@color/black"
                         android:padding="8dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginTop="10dp"
@@ -423,7 +426,7 @@
                     android:background="@drawable/edittext_borde"
                     android:textSize="14sp"
                     android:textStyle="italic"
-                    android:textColor="#808080"
+                    android:textColor="@color/black"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
@@ -437,6 +440,7 @@
                     android:background="@drawable/btnverde"
                     android:backgroundTint="@null"
                     app:backgroundTint="#147001"
+                    android:textColor="@color/white"
                     android:text="CREAR"
                     android:textSize="20dp"
                     android:layout_marginBottom="80dp"
@@ -463,8 +467,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="14dp"
-            app:srcCompat="@drawable/location" />
+            android:padding="15dp"
+            app:srcCompat="@drawable/locationegro" />
 
         <ImageView
             android:id="@+id/imageView10"

@@ -64,6 +64,22 @@ public class listarPlanesCercanos extends AppCompatActivity {
             startActivity(new Intent(this, miPerfil.class));
         });
 
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(listarPlanesCercanos.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(listarPlanesCercanos.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
         ImageView filtroBtn = findViewById(R.id.imageView5);
         filtroBtn.setOnClickListener(v -> mostrarDialogoFiltros());
 
@@ -236,10 +252,4 @@ public class listarPlanesCercanos extends AppCompatActivity {
             Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public void irAOtraPantalla(View view) {
-        Intent intent = new Intent(this, menu.class);
-        startActivity(intent);
-    }
-
 }

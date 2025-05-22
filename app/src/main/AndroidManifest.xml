@@ -20,6 +20,18 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
         <activity
+            android:name=".slide3"
+            android:exported="false" />
+        <activity
+            android:name=".slide2"
+            android:exported="false" />
+        <activity
+            android:name=".slide1"
+            android:exported="false" />
+        <activity
+            android:name=".login"
+            android:exported="false" />
+        <activity
             android:name=".ListaFirebaseActivity"
             android:exported="false" />
         <activity
@@ -43,7 +55,9 @@
         <activity
             android:name=".PerfilEditar"
             android:exported="false" />
-
+        <activity
+            android:name=".perfilPriv"
+            android:exported="false" />
         <activity
             android:name=".detallesPlan"
             android:exported="false" />
@@ -59,16 +73,16 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw" />
+            android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw" /> <!-- Definir loginalex como la actividad de inicio -->
         <activity
-            android:name=".login"
+            android:name=".AperturaApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- Otras actividades -->
         <activity android:name=".menu" />
         <activity
             android:name=".dniActivity"
