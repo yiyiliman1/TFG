@@ -110,7 +110,38 @@ public class PerfilEditar extends AppCompatActivity {
                 Glide.with(this).load(url).circleCrop().into(imageViewFoto);
             }
         });
+
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilEditar.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+
+        ImageView botonMenu = findViewById(R.id.imageView4);
+        botonMenu.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilEditar.this, menu.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfil = findViewById(R.id.imageView10);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilEditar.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfilAPerfil = findViewById(R.id.imageView8);
+        botonPerfilAPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilEditar.this, miPerfil.class);
+            startActivity(intent);
+        });
     }
+
+
 
     private void pedirPermisoYSeleccionarImagen() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
