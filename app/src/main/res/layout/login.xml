@@ -90,7 +90,10 @@
             android:layout_marginEnd="50dp"
             android:textColor="@color/black"
             android:background="@drawable/edittext_custom"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <TextView
             android:id="@+id/textView7"
@@ -112,7 +115,9 @@
             android:textColor="@color/black"
             android:background="@drawable/edittext_custom"
             android:inputType="textPassword"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:maxLines="1"
+            android:ellipsize="end" />
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -122,7 +127,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
             android:textColor="@color/black"
-            android:text="Recuérdame" />
+            android:text="Recuérdame"
+            android:buttonTint="#147001" />
+
 
         <Button
             android:id="@+id/button"
@@ -133,7 +140,6 @@
             android:layout_marginEnd="50dp"
             android:background="@drawable/btnverde"
             app:backgroundTint="#147001"
-            android:backgroundTint="@null"
             android:textColor="@color/white"
             android:text="Iniciar Sesión" />
 

@@ -208,4 +208,6 @@ public class PerfilUsuario extends AppCompatActivity {
             Toast.makeText(this, "Error al verificar el chat", Toast.LENGTH_SHORT).show();
         });
     }
+
+
 }

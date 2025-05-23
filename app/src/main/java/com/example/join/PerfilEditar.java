@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -308,4 +309,8 @@ public class PerfilEditar extends AppCompatActivity {
         builder.show();
     }
 
+    public void irAOtraPantalla(View view) {
+        Intent intent = new Intent(this, menu.class);
+        startActivity(intent);
+    }
 }

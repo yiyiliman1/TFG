@@ -36,6 +36,7 @@
                     android:layout_gravity="start"
                     android:layout_weight="2"
                     android:padding="13dp"
+                    android:onClick="irAOtraPantalla"
                     app:srcCompat="@drawable/back" />
 
                 <TextView
@@ -227,7 +228,8 @@
                         android:layout_height="match_parent"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView32"
@@ -253,7 +255,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView39"
@@ -282,7 +285,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView40"
@@ -312,7 +316,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="25dp"
                         android:background="@color/white"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView41"
@@ -332,7 +337,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <TextView
                             android:id="@+id/textView42"
@@ -357,7 +363,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="70dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginEnd="70dp"
                         android:layout_marginBottom="70dp"
                         android:text="GUARDAR"
