@@ -1,9 +1,11 @@
 package com.example.join;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -49,6 +51,35 @@ public class miActividad extends AppCompatActivity {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         pedirUbicacionYListar();
+
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(miActividad.this, menu.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(miActividad.this, miPerfil.class);
+            startActivity(intent);
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(miActividad.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(miActividad.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
     }
 
     private void pedirUbicacionYListar() {

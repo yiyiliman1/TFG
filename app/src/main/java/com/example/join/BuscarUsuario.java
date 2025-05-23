@@ -5,6 +5,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,6 +61,36 @@ public class BuscarUsuario extends AppCompatActivity {
         });
 
         cargarChatsPrivados();
+
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(BuscarUsuario.this, menu.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(BuscarUsuario.this, miPerfil.class);
+            startActivity(intent);
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(BuscarUsuario.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(BuscarUsuario.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
     }
 
     private void buscarUsuarios(String texto) {
@@ -108,9 +140,7 @@ public class BuscarUsuario extends AppCompatActivity {
                     }
                 });
     }
-    public void irAOtraPantalla(View view) {
-        finish();
-    }
+
 
 
 

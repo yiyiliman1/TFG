@@ -30,8 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="17dp"
-            app:srcCompat="@drawable/listas" />
+            android:padding="8dp"
+            app:srcCompat="@drawable/listaaverdeee" />
 
         <ImageView
             android:id="@+id/imageView7"
@@ -62,7 +62,7 @@
     <LinearLayout
         android:id="@+id/barraSuperior"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
             android:text="PLANES CERCANOS"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="16dp"
+            android:textSize="18dp"
             />
 
         <ImageView

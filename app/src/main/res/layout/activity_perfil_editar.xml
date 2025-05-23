@@ -419,7 +419,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="15dp"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/userverde" />
 
     </LinearLayout>
 

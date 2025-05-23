@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:gravity="center"
                 android:background="@color/white"
                 android:orientation="horizontal">
@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/black"
-                    android:textSize="17dp"
+                    android:textSize="18dp"
                     android:textStyle="bold"/>
 
             </LinearLayout>
@@ -390,7 +390,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            app:srcCompat="@drawable/user" />
+            app:srcCompat="@drawable/userverde" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

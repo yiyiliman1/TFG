@@ -113,8 +113,8 @@ public class ChatPlan extends AppCompatActivity {
     }
 
     public void irAOtraPantalla(View view) {
-        finish();
+        Intent intent = new Intent(this, menu.class);
+        startActivity(intent);
     }
-
 
 }

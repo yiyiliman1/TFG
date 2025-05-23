@@ -1,7 +1,9 @@
 package com.example.join;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -38,6 +40,8 @@ public class ListaFirebaseActivity extends AppCompatActivity {
         textSinResultados = findViewById(R.id.textSinResultados);
         textSinResultados.setVisibility(View.GONE);
 
+
+
         tipo = getIntent().getStringExtra("tipo");
         if (tipo == null || mAuth.getCurrentUser() == null) {
             finish();
@@ -61,6 +65,38 @@ public class ListaFirebaseActivity extends AppCompatActivity {
                 cargarAmigos();
                 break;
         }
+
+
+
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(ListaFirebaseActivity.this, menu.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(ListaFirebaseActivity.this, miPerfil.class);
+            startActivity(intent);
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ListaFirebaseActivity.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(ListaFirebaseActivity.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
     }
 
     private int getLayoutForTipo(String tipo) {

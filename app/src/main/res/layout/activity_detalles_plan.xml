@@ -255,8 +255,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="17dp"
-            app:srcCompat="@drawable/listas" />
+            android:padding="8dp"
+            app:srcCompat="@drawable/listaaverdeee" />
 
         <ImageView
             android:id="@+id/imageView7"

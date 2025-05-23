@@ -412,9 +412,7 @@ public class crearNuevoPlan extends AppCompatActivity {
         }
     }
 
-    public void irAOtraPantalla(View view) {
-        finish();
-    }
+
 
 
 }

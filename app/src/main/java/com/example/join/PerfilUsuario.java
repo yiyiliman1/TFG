@@ -1,5 +1,6 @@
 package com.example.join;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -127,6 +128,36 @@ public class PerfilUsuario extends AppCompatActivity {
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al cargar perfil", Toast.LENGTH_SHORT).show());
+
+        ImageView botonMapa = findViewById(R.id.imageView4);
+        botonMapa.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilUsuario.this, menu.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPerfil = findViewById(R.id.imageView8);
+        botonPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilUsuario.this, miPerfil.class);
+            startActivity(intent);
+        });
+
+        ImageView botonChat = findViewById(R.id.imageView2);
+        botonChat.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilUsuario.this, BuscarUsuario.class);
+            startActivity(intent);
+        });
+
+        ImageView botonListas = findViewById(R.id.imageView10);
+        botonListas.setOnClickListener(v -> {
+            Intent intent = new Intent(PerfilUsuario.this, listarPlanesCercanos.class);
+            startActivity(intent);
+        });
+
+        ImageView botonPlan = findViewById(R.id.imageView7);
+        botonPlan.setOnClickListener(v -> {
+            startActivity(new Intent(this, crearNuevoPlan.class));
+        });
+
     }
 
     private void enviarSolicitudPorChat() {

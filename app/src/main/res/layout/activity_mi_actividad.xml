@@ -11,22 +11,80 @@
     <TextView
         android:id="@+id/textViewTitulo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="MI ACTIVIDAD"
+        android:layout_height="60dp"
+        android:background="@color/white"
         android:gravity="center"
-        android:textStyle="bold"
-        android:textSize="18sp"
+        android:padding="15dp"
+        android:text="MI ACTIVIDAD"
         android:textColor="@color/black"
-        android:padding="20dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMisPlanes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@id/textViewTitulo"
+        tools:listitem="@layout/activity_item_plan_cercano">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="@drawable/linear_custom_background"
+        android:orientation="horizontal"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/activity_item_plan_cercano"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="15dp"
+            app:srcCompat="@drawable/locationegro" />
+
+        <ImageView
+            android:id="@+id/imageView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            app:srcCompat="@drawable/listaaverdeee" />
+
+        <ImageView
+            android:id="@+id/imageView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="1dp"
+            app:srcCompat="@drawable/masnormal" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="16dp"
+            app:srcCompat="@drawable/chat" />
+
+        <ImageView
+            android:id="@+id/imageView8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="15dp"
+            app:srcCompat="@drawable/user" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

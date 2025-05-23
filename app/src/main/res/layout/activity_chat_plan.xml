@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:background="@color/white">
 
@@ -17,7 +17,7 @@
             android:layout_width="80dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="12dp"
+            android:padding="15dp"
             android:onClick="irAOtraPantalla"
             app:srcCompat="@drawable/back" />
 
@@ -26,11 +26,11 @@
             android:layout_width="360dp"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:padding="16dp"
+            android:layout_gravity="center"
             android:text="Chat del Plan"
             android:gravity="start"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
