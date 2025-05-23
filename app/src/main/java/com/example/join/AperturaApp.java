@@ -17,57 +17,31 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class AperturaApp extends AppCompatActivity {
 
+    private static final int SPLASH_DURATION = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_apertura_app);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        // Variables correctamente declaradas
-        ImageView iconapp = findViewById(R.id.iconjoin);
-        ImageView iconname = findViewById(R.id.iconName);
 
-        // Listener para cambiar de actividad
-        iconname.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AperturaApp.this, login.class);
-                startActivity(intent);
-            }
-        });
+        ImageView iconApp = findViewById(R.id.iconjoin);
+        ImageView iconName = findViewById(R.id.iconName);
 
-        // Animación de fade-in para el icono principal
-        AlphaAnimation fadeInIconApp = new AlphaAnimation(0, 1);
-        fadeInIconApp.setDuration(2000);
-        iconapp.setVisibility(View.VISIBLE);
-        iconapp.startAnimation(fadeInIconApp);
+        AlphaAnimation fadeInApp = new AlphaAnimation(0, 1);
+        fadeInApp.setDuration(1500);
+        iconApp.setVisibility(View.VISIBLE);
+        iconApp.startAnimation(fadeInApp);
 
-        // Espera 3 segundos para mostrar el segundo icono
+        AlphaAnimation fadeInName = new AlphaAnimation(0, 1);
+        fadeInName.setDuration(1500);
+        iconName.setVisibility(View.VISIBLE);
+        iconName.startAnimation(fadeInName);
+
+
         new Handler().postDelayed(() -> {
-            AlphaAnimation fadeInIconName = new AlphaAnimation(0, 1);
-            fadeInIconName.setDuration(2000);
-            iconname.setVisibility(View.VISIBLE);
-            iconname.startAnimation(fadeInIconName);
-
-            // Espera otros 2 segundos y hace animación de rebote
-            new Handler().postDelayed(() -> {
-                ScaleAnimation scaleAnimation = new ScaleAnimation(
-                        1f, 1.2f,
-                        1f, 1.2f,
-                        Animation.RELATIVE_TO_SELF, 0.5f,
-                        Animation.RELATIVE_TO_SELF, 0.5f
-                );
-                scaleAnimation.setDuration(600);
-                scaleAnimation.setRepeatCount(Animation.INFINITE);
-                scaleAnimation.setRepeatMode(Animation.REVERSE);
-
-                iconname.startAnimation(scaleAnimation);
-            }, 2000);
-
-        }, 3000);
+            Intent intent = new Intent(AperturaApp.this, login.class);
+            startActivity(intent);
+            finish();
+        }, SPLASH_DURATION);
     }
 }
