@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 public class Plan {
     public String nombre;

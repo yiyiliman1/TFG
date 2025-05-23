@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +15,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.join.R;
+import com.example.join.plan.menu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -52,20 +54,20 @@ public class login extends AppCompatActivity {
             finish();
         }
 
-        // Enlazar las vistas
+
         correoEditText = findViewById(R.id.editTextText5);
         contrasenaEditText = findViewById(R.id.editTextTextEmailAddress2);
         loginButton = findViewById(R.id.button);
         rememberMeCheckBox = findViewById(R.id.checkBox);
         registroTextView = findViewById(R.id.textView4);
 
-        // Configurar el registro de nuevos usuarios
+
         registroTextView.setOnClickListener(v -> {
             Intent intent = new Intent(login.this, MainActivity.class);
             startActivity(intent);
         });
 
-        // Evento para el botón de login
+
         loginButton.setOnClickListener(v -> {
             String correo = correoEditText.getText().toString().trim();
             String contrasena = contrasenaEditText.getText().toString().trim();

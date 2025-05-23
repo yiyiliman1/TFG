@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.join.R;
 
 public class slide2 extends AppCompatActivity {
 

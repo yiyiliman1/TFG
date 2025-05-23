@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 import java.util.Date;
 

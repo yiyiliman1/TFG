@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.perfil;
 
 import android.Manifest;
 import android.app.Activity;
@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +25,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.plan.crearNuevoPlan;
+import com.example.join.plan.listarPlanesCercanos;
+import com.example.join.plan.menu;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;

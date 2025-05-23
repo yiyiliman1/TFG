@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.chats;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.BaseAdapter;
 
+import com.example.join.R;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
@@ -59,11 +60,11 @@ public class ChatAdapter extends BaseAdapter {
 
         // Solicitud de amistad recibida
         if ("solicitud_amistad".equals(tipo) && !mensaje.getAutorId().equals(currentUserId)) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_solicitud_amistad, parent, false);
+            convertView = LayoutInflater.from(context).inflate(com.example.join.R.layout.item_solicitud_amistad, parent, false);
 
-            TextView textMensaje = convertView.findViewById(R.id.textSolicitudMensaje);
-            Button btnAceptar = convertView.findViewById(R.id.botonAceptarAmistad);
-            Button btnRechazar = convertView.findViewById(R.id.botonRechazarAmistad);
+            TextView textMensaje = convertView.findViewById(com.example.join.R.id.textSolicitudMensaje);
+            Button btnAceptar = convertView.findViewById(com.example.join.R.id.botonAceptarAmistad);
+            Button btnRechazar = convertView.findViewById(com.example.join.R.id.botonRechazarAmistad);
 
             textMensaje.setText("Solicitud de amistad de " + mensaje.getAutorNombre());
 
@@ -92,20 +93,20 @@ public class ChatAdapter extends BaseAdapter {
 
         // Mensaje informativo
         if ("info".equals(tipo)) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_mensaje_info, parent, false);
-            TextView texto = convertView.findViewById(R.id.textMensajeInfo);
+            convertView = LayoutInflater.from(context).inflate(com.example.join.R.layout.item_mensaje_info, parent, false);
+            TextView texto = convertView.findViewById(com.example.join.R.id.textMensajeInfo);
             texto.setText(mensaje.getTexto());
             return convertView;
         }
 
         // Mensaje normal
         boolean esMio = mensaje.getAutorId().equals(currentUserId);
-        int layoutId = esMio ? R.layout.item_mensaje_derecha : R.layout.item_mensaje_izquierda;
+        int layoutId = esMio ? com.example.join.R.layout.item_mensaje_derecha : com.example.join.R.layout.item_mensaje_izquierda;
 
         convertView = LayoutInflater.from(context).inflate(layoutId, parent, false);
 
-        TextView autor = convertView.findViewById(R.id.textAutor);
-        TextView texto = convertView.findViewById(R.id.textMensaje);
+        TextView autor = convertView.findViewById(com.example.join.R.id.textAutor);
+        TextView texto = convertView.findViewById(com.example.join.R.id.textMensaje);
         TextView hora = convertView.findViewById(R.id.textHora);
 
         autor.setText(mensaje.getAutorNombre());
@@ -125,12 +126,12 @@ public class ChatAdapter extends BaseAdapter {
         db.collection("usuarios").document(otroId)
                 .update("amigos", FieldValue.arrayUnion(currentUserId));
 
-        // Construir ID de chat
+
         String chatId = currentUserId.compareTo(otroId) < 0
                 ? currentUserId + "_" + otroId
                 : otroId + "_" + currentUserId;
 
-        // Marcar el chat como confirmado
+
         db.collection("chats").document(chatId)
                 .update("confirmado", true);
 
@@ -146,7 +147,7 @@ public class ChatAdapter extends BaseAdapter {
                 .collection("mensajes")
                 .add(msg);
 
-        // Actualizar el estado local
+
         this.chatConfirmado = true;
         notifyDataSetChanged();
     }
@@ -154,7 +155,7 @@ public class ChatAdapter extends BaseAdapter {
     private void rechazarSolicitud(String otroId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Generar chatId
+
         String chatId = currentUserId.compareTo(otroId) < 0
                 ? currentUserId + "_" + otroId
                 : otroId + "_" + currentUserId;

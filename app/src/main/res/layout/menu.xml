@@ -6,7 +6,7 @@
     android:id="@+id/menu"
     xmlns:map="http://schemas.android.com/apk/res-auto"
 
-    tools:context=".menu"
+    tools:context=".plan.menu"
     android:layout_height="match_parent">
 
     <fragment

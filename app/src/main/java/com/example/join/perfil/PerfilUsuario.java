@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.perfil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.plan.crearNuevoPlan;
+import com.example.join.plan.listarPlanesCercanos;
+import com.example.join.plan.menu;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
@@ -29,17 +34,17 @@ public class PerfilUsuario extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_perfil_usuario);
+        setContentView(com.example.join.R.layout.activity_perfil_usuario);
 
-        textUsuario = findViewById(R.id.textView30);
-        textCorreo = findViewById(R.id.textView31);
-        textBiografia = findViewById(R.id.editTextText4);
-        textUbicacion = findViewById(R.id.editTextText7);
-        imageViewFoto = findViewById(R.id.imageView29);
-        textCategoria1 = findViewById(R.id.textCategoria1);
-        textCategoria2 = findViewById(R.id.textCategoria2);
-        textCategoria3 = findViewById(R.id.textCategoria3);
-        btnAmistad = findViewById(R.id.btnAmistad);
+        textUsuario = findViewById(com.example.join.R.id.textView30);
+        textCorreo = findViewById(com.example.join.R.id.textView31);
+        textBiografia = findViewById(com.example.join.R.id.editTextText4);
+        textUbicacion = findViewById(com.example.join.R.id.editTextText7);
+        imageViewFoto = findViewById(com.example.join.R.id.imageView29);
+        textCategoria1 = findViewById(com.example.join.R.id.textCategoria1);
+        textCategoria2 = findViewById(com.example.join.R.id.textCategoria2);
+        textCategoria3 = findViewById(com.example.join.R.id.textCategoria3);
+        btnAmistad = findViewById(com.example.join.R.id.btnAmistad);
 
         viewedUserId = getIntent().getStringExtra("usuarioId");
         currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -129,25 +134,25 @@ public class PerfilUsuario extends AppCompatActivity {
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error al cargar perfil", Toast.LENGTH_SHORT).show());
 
-        ImageView botonMapa = findViewById(R.id.imageView4);
+        ImageView botonMapa = findViewById(com.example.join.R.id.imageView4);
         botonMapa.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilUsuario.this, menu.class);
             startActivity(intent);
         });
 
-        ImageView botonPerfil = findViewById(R.id.imageView8);
+        ImageView botonPerfil = findViewById(com.example.join.R.id.imageView8);
         botonPerfil.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilUsuario.this, miPerfil.class);
             startActivity(intent);
         });
 
-        ImageView botonChat = findViewById(R.id.imageView2);
+        ImageView botonChat = findViewById(com.example.join.R.id.imageView2);
         botonChat.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilUsuario.this, BuscarUsuario.class);
             startActivity(intent);
         });
 
-        ImageView botonListas = findViewById(R.id.imageView10);
+        ImageView botonListas = findViewById(com.example.join.R.id.imageView10);
         botonListas.setOnClickListener(v -> {
             Intent intent = new Intent(PerfilUsuario.this, listarPlanesCercanos.class);
             startActivity(intent);

@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.perfil;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.join.plan.PlanAdapter;
+import com.example.join.plan.PlanItem;
+import com.example.join.R;
+import com.example.join.chats.UsuarioAdapter;
+import com.example.join.chats.UsuarioModelo;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.plan.listarPlanesCercanos;
+import com.example.join.plan.menu;
+import com.example.join.plan.crearNuevoPlan;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
@@ -29,15 +38,15 @@ public class ListaFirebaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lista_firebase);
+        setContentView(com.example.join.R.layout.activity_lista_firebase);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(com.example.join.R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        textTituloLista = findViewById(R.id.textTituloLista);
-        textSinResultados = findViewById(R.id.textSinResultados);
+        textTituloLista = findViewById(com.example.join.R.id.textTituloLista);
+        textSinResultados = findViewById(com.example.join.R.id.textSinResultados);
         textSinResultados.setVisibility(View.GONE);
 
 
@@ -68,31 +77,31 @@ public class ListaFirebaseActivity extends AppCompatActivity {
 
 
 
-        ImageView botonMapa = findViewById(R.id.imageView4);
+        ImageView botonMapa = findViewById(com.example.join.R.id.imageView4);
         botonMapa.setOnClickListener(v -> {
             Intent intent = new Intent(ListaFirebaseActivity.this, menu.class);
             startActivity(intent);
         });
 
-        ImageView botonPerfil = findViewById(R.id.imageView8);
+        ImageView botonPerfil = findViewById(com.example.join.R.id.imageView8);
         botonPerfil.setOnClickListener(v -> {
             Intent intent = new Intent(ListaFirebaseActivity.this, miPerfil.class);
             startActivity(intent);
         });
 
-        ImageView botonChat = findViewById(R.id.imageView2);
+        ImageView botonChat = findViewById(com.example.join.R.id.imageView2);
         botonChat.setOnClickListener(v -> {
             Intent intent = new Intent(ListaFirebaseActivity.this, BuscarUsuario.class);
             startActivity(intent);
         });
 
-        ImageView botonListas = findViewById(R.id.imageView10);
+        ImageView botonListas = findViewById(com.example.join.R.id.imageView10);
         botonListas.setOnClickListener(v -> {
             Intent intent = new Intent(ListaFirebaseActivity.this, listarPlanesCercanos.class);
             startActivity(intent);
         });
 
-        ImageView botonPlan = findViewById(R.id.imageView7);
+        ImageView botonPlan = findViewById(com.example.join.R.id.imageView7);
         botonPlan.setOnClickListener(v -> {
             startActivity(new Intent(this, crearNuevoPlan.class));
         });
@@ -103,11 +112,11 @@ public class ListaFirebaseActivity extends AppCompatActivity {
         switch (tipo) {
             case "planes_creados":
             case "planes_unidos":
-                return R.layout.item_plan_lista;
+                return com.example.join.R.layout.item_plan_lista;
             case "amigos":
-                return R.layout.item_amigo_lista;
+                return com.example.join.R.layout.item_amigo_lista;
             default:
-                return R.layout.item_plan_lista; // Fallback por si acaso
+                return com.example.join.R.layout.item_plan_lista; // Fallback por si acaso
         }
     }
 

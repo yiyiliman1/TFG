@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -21,6 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.perfil.miPerfil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.*;
@@ -33,7 +36,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 public class crearNuevoPlan extends AppCompatActivity {

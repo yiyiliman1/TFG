@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.chats;
 
 import com.google.firebase.Timestamp;
 

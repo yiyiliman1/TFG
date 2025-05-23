@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.chats;
 
 public class UsuarioModelo {
     public String id, nombre, fotoUrl;

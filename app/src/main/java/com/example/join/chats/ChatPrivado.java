@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.chats;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.Timestamp;
+import com.example.join.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 
@@ -33,14 +33,14 @@ public class ChatPrivado extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_plan); // Reutilizar este layout del plan grupal
+        setContentView(com.example.join.R.layout.activity_chat_plan);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        mensajeInput = findViewById(R.id.editTextMensaje);
-        enviarBtn = findViewById(R.id.botonEnviarMensaje);
-        listaMensajes = findViewById(R.id.listaMensajes);
+        mensajeInput = findViewById(com.example.join.R.id.editTextMensaje);
+        enviarBtn = findViewById(com.example.join.R.id.botonEnviarMensaje);
+        listaMensajes = findViewById(com.example.join.R.id.listaMensajes);
         tituloChat = findViewById(R.id.textViewTituloChat);
 
         chatId = getIntent().getStringExtra("chatId");
@@ -51,7 +51,7 @@ public class ChatPrivado extends AppCompatActivity {
 
         mensajes = new ArrayList<>();
 
-        // Cargar estado de amistad confirmada antes de configurar el chat
+
         db.collection("chats").document(chatId).get().addOnSuccessListener(doc -> {
             boolean confirmado = doc.exists() && Boolean.TRUE.equals(doc.getBoolean("confirmado"));
             puedeHablar = confirmado;

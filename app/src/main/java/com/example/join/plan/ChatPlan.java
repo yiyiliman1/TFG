@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.join.chats.MensajeChat;
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.chats.ChatAdapter;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
@@ -36,14 +40,14 @@ public class ChatPlan extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_plan);
+        setContentView(com.example.join.R.layout.activity_chat_plan);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        mensajeInput = findViewById(R.id.editTextMensaje);
-        enviarBtn = findViewById(R.id.botonEnviarMensaje);
-        listaMensajes = findViewById(R.id.listaMensajes);
+        mensajeInput = findViewById(com.example.join.R.id.editTextMensaje);
+        enviarBtn = findViewById(com.example.join.R.id.botonEnviarMensaje);
+        listaMensajes = findViewById(com.example.join.R.id.listaMensajes);
         tituloChat = findViewById(R.id.textViewTituloChat);
 
         mensajes = new ArrayList<>();

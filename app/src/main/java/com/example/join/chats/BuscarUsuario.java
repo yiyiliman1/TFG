@@ -1,9 +1,8 @@
-package com.example.join;
+package com.example.join.chats;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -11,6 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.join.R;
+import com.example.join.plan.crearNuevoPlan;
+import com.example.join.plan.listarPlanesCercanos;
+import com.example.join.plan.menu;
+import com.example.join.perfil.miPerfil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.*;
 import java.util.*;
@@ -29,11 +34,11 @@ public class BuscarUsuario extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_buscar_usuario);
+        setContentView(com.example.join.R.layout.activity_buscar_usuario);
 
-        inputBusqueda = findViewById(R.id.inputBusqueda);
-        recyclerUsuarios = findViewById(R.id.recyclerUsuarios);
-        recyclerChatsPrivados = findViewById(R.id.recyclerChatsPrivados);
+        inputBusqueda = findViewById(com.example.join.R.id.inputBusqueda);
+        recyclerUsuarios = findViewById(com.example.join.R.id.recyclerUsuarios);
+        recyclerChatsPrivados = findViewById(com.example.join.R.id.recyclerChatsPrivados);
 
         recyclerUsuarios.setLayoutManager(new LinearLayoutManager(this));
         recyclerChatsPrivados.setLayoutManager(new LinearLayoutManager(this));
@@ -41,7 +46,7 @@ public class BuscarUsuario extends AppCompatActivity {
         listaUsuarios = new ArrayList<>();
         listaChats = new ArrayList<>();
 
-        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios, R.layout.item_usuario_busqueda);
+        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios, com.example.join.R.layout.item_usuario_busqueda);
         chatAdapter = new ChatPrivadoAdapter(this, listaChats);
 
         recyclerUsuarios.setAdapter(usuarioAdapter);
@@ -62,25 +67,25 @@ public class BuscarUsuario extends AppCompatActivity {
 
         cargarChatsPrivados();
 
-        ImageView botonMapa = findViewById(R.id.imageView4);
+        ImageView botonMapa = findViewById(com.example.join.R.id.imageView4);
         botonMapa.setOnClickListener(v -> {
             Intent intent = new Intent(BuscarUsuario.this, menu.class);
             startActivity(intent);
         });
 
-        ImageView botonPerfil = findViewById(R.id.imageView8);
+        ImageView botonPerfil = findViewById(com.example.join.R.id.imageView8);
         botonPerfil.setOnClickListener(v -> {
             Intent intent = new Intent(BuscarUsuario.this, miPerfil.class);
             startActivity(intent);
         });
 
-        ImageView botonChat = findViewById(R.id.imageView2);
+        ImageView botonChat = findViewById(com.example.join.R.id.imageView2);
         botonChat.setOnClickListener(v -> {
             Intent intent = new Intent(BuscarUsuario.this, BuscarUsuario.class);
             startActivity(intent);
         });
 
-        ImageView botonListas = findViewById(R.id.imageView10);
+        ImageView botonListas = findViewById(com.example.join.R.id.imageView10);
         botonListas.setOnClickListener(v -> {
             Intent intent = new Intent(BuscarUsuario.this, listarPlanesCercanos.class);
             startActivity(intent);

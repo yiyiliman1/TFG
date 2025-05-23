@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.perfil.miPerfil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;

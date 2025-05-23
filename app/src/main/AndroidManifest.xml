@@ -20,62 +20,62 @@
         android:theme="@style/Theme.JOIN"
         tools:targetApi="31">
         <activity
-            android:name=".slide3"
+            android:name=".login.slide3"
             android:exported="false" />
         <activity
-            android:name=".slide2"
+            android:name=".login.slide2"
             android:exported="false" />
         <activity
-            android:name=".slide1"
+            android:name=".login.slide1"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".login.login"
             android:exported="false" />
         <activity
-            android:name=".ListaFirebaseActivity"
+            android:name=".perfil.ListaFirebaseActivity"
             android:exported="false" />
         <activity
-            android:name=".BuscarUsuario"
+            android:name=".chats.BuscarUsuario"
             android:exported="false" />
         <activity
-            android:name=".ChatPlan"
+            android:name=".plan.ChatPlan"
             android:exported="false" />
         <activity
-            android:name=".PerfilUsuario"
+            android:name=".perfil.PerfilUsuario"
             android:exported="false" />
         <activity
-            android:name=".miActividad"
+            android:name=".plan.miActividad"
             android:exported="false" />
         <activity
-            android:name=".miPerfil"
+            android:name=".perfil.miPerfil"
             android:exported="false" />
         <activity
-            android:name=".ChatPrivado"
+            android:name=".chats.ChatPrivado"
             android:exported="false" />
         <activity
-            android:name=".PerfilEditar"
+            android:name=".perfil.PerfilEditar"
             android:exported="false" />
         <activity
             android:name=".perfilPriv"
             android:exported="false" />
         <activity
-            android:name=".detallesPlan"
+            android:name=".plan.detallesPlan"
             android:exported="false" />
         <activity
-            android:name=".itemPlanCercano"
+            android:name=".plan.itemPlanCercano"
             android:exported="false" />
         <activity
-            android:name=".listarPlanesCercanos"
+            android:name=".plan.listarPlanesCercanos"
             android:exported="false" />
         <activity
-            android:name=".crearNuevoPlan"
+            android:name=".plan.crearNuevoPlan"
             android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAYs-3eObEiGutUhRq72l3n4BWcosHCzvw" /> <!-- Definir loginalex como la actividad de inicio -->
         <activity
-            android:name=".AperturaApp"
+            android:name=".login.AperturaApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,12 +83,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- Otras actividades -->
-        <activity android:name=".menu" />
+        <activity android:name=".plan.menu" />
         <activity
-            android:name=".dniActivity"
+            android:name=".login.dniActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".login.MainActivity"
             android:exported="false" />
     </application>
 

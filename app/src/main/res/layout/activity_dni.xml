@@ -5,7 +5,7 @@
     android:id="@+id/dni_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".dniActivity"
+    tools:context=".login.dniActivity"
     android:background="#ffffff">
 
     <LinearLayout

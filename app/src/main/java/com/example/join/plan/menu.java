@@ -1,4 +1,4 @@
-package com.example.join;
+package com.example.join.plan;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,6 +20,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.join.R;
+import com.example.join.chats.BuscarUsuario;
+import com.example.join.perfil.miPerfil;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -39,12 +42,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import android.location.Address;
-import android.location.Geocoder;
-
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 
 public class menu extends AppCompatActivity implements OnMapReadyCallback {
 
