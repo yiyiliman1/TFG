@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -171,5 +172,10 @@ public class miActividad extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void irAOtraPantalla(View view) {
+        Intent intent = new Intent(this, listarPlanesCercanos.class);
+        startActivity(intent);
     }
 }

@@ -113,7 +113,7 @@ public class ChatPlan extends AppCompatActivity {
     }
 
     public void irAOtraPantalla(View view) {
-        Intent intent = new Intent(this, menu.class);
+        Intent intent = new Intent(this, BuscarUsuario.class);
         startActivity(intent);
     }
 

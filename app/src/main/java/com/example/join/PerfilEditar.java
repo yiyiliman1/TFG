@@ -310,7 +310,7 @@ public class PerfilEditar extends AppCompatActivity {
     }
 
     public void irAOtraPantalla(View view) {
-        Intent intent = new Intent(this, menu.class);
+        Intent intent = new Intent(this, miPerfil.class);
         startActivity(intent);
     }
 }

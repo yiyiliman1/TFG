@@ -72,10 +72,11 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="200dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="17dp"
+            android:visibility="invisible"
             app:srcCompat="@drawable/back" />
 
         <TextView
