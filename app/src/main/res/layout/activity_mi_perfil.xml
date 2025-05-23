@@ -26,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:gravity="center"
+                android:background="@color/white"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -89,9 +90,11 @@
                 <TextView
                     android:id="@+id/textView20"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="15dp"
+                    android:paddingTop="4dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Sobre Mí"
                     android:textColor="@color/black"
                     android:textSize="16dp"
@@ -102,9 +105,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="15dp"
                     android:background="@drawable/edittext_borde"
                     android:gravity="top|start"
                     android:inputType="textMultiLine"
@@ -119,8 +121,11 @@
                 <TextView
                     android:id="@+id/textView36"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="4dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Ubicación"
                     android:textColor="@color/black"
                     android:textSize="16dp"
@@ -131,9 +136,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginBottom="15dp"
                     android:background="@drawable/edittext_borde"
                     android:inputType="text"
                     android:padding="8dp"
@@ -144,8 +148,11 @@
                 <TextView
                     android:id="@+id/textView37"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="4dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Intereses"
                     android:textColor="@color/black"
                     android:textSize="16dp"
@@ -160,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_marginStart="20dp"
-                        >
+                        android:layout_marginTop="10dp">
 
                         <TextView
                             android:id="@+id/textCategoria1"
@@ -315,7 +322,9 @@
                     android:layout_marginEnd="100dp"
                     android:text="Modificar Perfil"
                     app:backgroundTint="#147001"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/btnverde"/>
 
                 <Button
                     android:id="@+id/button4"
@@ -327,7 +336,10 @@
                     android:layout_marginBottom="70dp"
                     android:text="CERRAR SESIÓN"
                     app:backgroundTint="#147001"
-                    android:textSize="16dp" />
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/btnverde"
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -378,7 +390,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="15dp"
-            app:srcCompat="@drawable/userverde" />
+            app:srcCompat="@drawable/user" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

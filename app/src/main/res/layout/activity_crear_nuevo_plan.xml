@@ -75,13 +75,16 @@
                 <TextView
                     android:id="@+id/textView11"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
                     android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
                     android:text="Nombre"
                     android:textColor="@color/black"
                     android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+
+                    android:background="@color/white"/>
 
                 <EditText
                     android:id="@+id/editTextText"
@@ -96,15 +99,17 @@
                     android:textColor="@color/black"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="13dp"
                     android:layout_marginEnd="30dp" />
 
                 <TextView
                     android:id="@+id/textView12"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Descripción"
                     android:textColor="@color/black"
                     android:textSize="18dp"
@@ -115,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="13dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/edittext_borde"
@@ -159,8 +164,11 @@
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Ubicación"
                     android:textColor="@color/black"
                     android:textSize="18dp"
@@ -178,7 +186,7 @@
                     android:layout_marginStart="60dp"
                     android:textColor="@color/white"
                     android:layout_marginEnd="60dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
                     />
 
@@ -225,9 +233,13 @@
                 <TextView
                     android:id="@+id/textView14"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Fecha y Hora"
-                    android:layout_marginStart="30dp"
+
                     android:textColor="@color/black"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -235,7 +247,8 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
 
                     <EditText
                         android:id="@+id/editTextDate"
@@ -284,7 +297,6 @@
                         android:padding="8dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginEnd="10dp" />
 
                     <ImageView
@@ -297,9 +309,13 @@
                 <TextView
                     android:id="@+id/textView22"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Categoría"
-                    android:layout_marginStart="30dp"
+
                     android:textColor="@color/black"
                     android:textSize="18dp"
                     android:textStyle="bold"/>
@@ -317,15 +333,15 @@
                             android:id="@+id/textView21"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Categoria1"
+                            android:text="Categoria 1"
                             android:background="@drawable/edittext_borde"
                             android:textSize="14sp"
+                            android:gravity="center"
                             android:textStyle="italic"
                             android:textColor="@color/black"
                             android:padding="8dp"
                             android:layout_marginStart="30dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="13dp"
                             android:layout_marginEnd="30dp"/>
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -333,9 +349,12 @@
                 <TextView
                     android:id="@+id/textView28"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Participantes"
-                    android:layout_marginStart="30dp"
                     android:textColor="@color/black"
                     android:textSize="18dp"
                     android:textStyle="bold"/>
@@ -344,13 +363,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:layout_marginTop="10dp">
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/textView23"
                         android:layout_width="35dp"
                         android:layout_height="wrap_content"
-                        android:text="+"
+                        android:text="-"
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
@@ -379,10 +399,10 @@
                         android:layout_marginBottom="10dp"/>
 
                     <TextView
-                        android:id="@+id/textView23"
+                        android:id="@+id/textView25"
                         android:layout_width="35dp"
                         android:layout_height="wrap_content"
-                        android:text="-"
+                        android:text="+"
                         android:background="@drawable/edittext_borde"
                         android:textSize="14sp"
                         android:textStyle="italic"
@@ -411,9 +431,12 @@
                 <TextView
                     android:id="@+id/textView29"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:paddingTop="2dp"
+                    android:paddingStart="30dp"
+                    android:background="@color/white"
                     android:text="Privacidad"
-                    android:layout_marginStart="30dp"
                     android:textColor="@color/black"
                     android:textSize="18dp"
                     android:textStyle="bold"/>
@@ -429,7 +452,7 @@
                     android:textColor="@color/black"
                     android:padding="8dp"
                     android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginEnd="30dp"/>
 
@@ -446,7 +469,7 @@
                     android:layout_marginBottom="80dp"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="15dp"/>
 
             </LinearLayout>
         </LinearLayout>

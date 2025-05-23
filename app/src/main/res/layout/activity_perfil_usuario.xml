@@ -80,11 +80,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:paddingStart="30dp"
                 android:layout_marginTop="20dp"
                 android:text="Sobre Mí"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:background="@color/white"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -92,7 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/edittext_borde"
                 android:padding="8dp"
                 android:textColor="#000000"
@@ -103,11 +106,15 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+
                 android:layout_marginTop="20dp"
                 android:text="Ubicación"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:background="@color/white"
+                android:paddingStart="30dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -115,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/edittext_borde"
                 android:padding="8dp"
                 android:textColor="#000000"
@@ -126,11 +133,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
                 android:text="Intereses"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:background="@color/white"
+                android:paddingStart="30dp"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -179,10 +189,10 @@
                 android:layout_height="wrap_content"
                 android:text="Solicitar amistad"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/btnverde"
                 android:backgroundTint="@null"
                 app:backgroundTint="#147001"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/white" />
 
 
